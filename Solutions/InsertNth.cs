@@ -19,7 +19,7 @@ internal sealed partial class Node(int data)
         Node? previous = null;
         for (int i = 0; i < index; i++)
         {
-            previous = current ?? throw new InvalidOperationException("The object is in an invalid state.");;
+            previous = current ?? throw new InvalidOperationException("The object is in an invalid state.");
             current = current.Next;
         }
         Node newNode = new Node(data)
