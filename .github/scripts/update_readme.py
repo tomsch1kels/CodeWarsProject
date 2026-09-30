@@ -1,12 +1,14 @@
 import os
 import re
 
-# Map waar je kata-oplossingen staan
+# Haal de repo op uit de omgevingsvariabelen (bijv. "jouw-naam/codewars-csharp")
+# Valt terug op een placeholder als je het lokaal draait
+github_repo = os.environ.get("GITHUB_REPOSITORY", "GEBRUIKERSNAAM/REPO_NAAM")
+
 SOLUTIONS_DIR = "./Solutions"  # Pas aan naar jouw mapnaam
 
 def get_kata_info():
     kata_list = []
-    
     if not os.path.exists(SOLUTIONS_DIR):
         return kata_list
 
@@ -15,11 +17,8 @@ def get_kata_info():
             if file.endswith(".cs") and not file.endswith("Tests.cs"):
                 file_path = os.path.join(root, file).replace("\\", "/")
                 
-                # Probeer Kyu/Rank uit de mapnaam of bestandsnaam te halen (bijv. "6kyu_TwoSum.cs")
                 match = re.search(r"(\d)kyu", file, re.IGNORECASE)
                 rank = f"{match.group(1)} kyu" if match else "N/A"
-                
-                # Schoon de naam op voor weergave
                 clean_name = file.replace(".cs", "").replace("_", " ")
                 
                 kata_list.append({
@@ -32,10 +31,10 @@ def get_kata_info():
 def generate_readme():
     katas = get_kata_info()
     
-    # Render de status badge bovenaan
-    readme_content = """# 🥋 Codewars C# Solutions
+    # Gebruik een Python f-string zodat {github_repo} netjes wordt ingevuld
+    readme_content = f"""# 🥋 Codewars C# Solutions
 
-![Build Status](https://github.com/${{ github.repository }}/actions/workflows/dotnet.yml/badge.svg)
+![Build Status](https://github.com/{github_repo}/actions/workflows/dotnet.yml/badge.svg)
 
 Automatisch gegenereerd overzicht van opgeloste Codewars kata's.
 
@@ -43,7 +42,7 @@ Automatisch gegenereerd overzicht van opgeloste Codewars kata's.
 
 | Totaal Opgelost |
 | :---: |
-| **""" + str(len(katas)) + """** |
+| **{len(katas)}** |
 
 | Rank / Kyu | Kata Oplossing | Bronbestand |
 | :--- | :--- | :--- |
