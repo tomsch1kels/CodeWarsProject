@@ -7,7 +7,7 @@ on:
 jobs:
   resolve:
     if: github.event.label.name == 'fix-me'
-    uses: OpenHands/openhands-resolver/.github/workflows/openhands-resolver.yml@main
+    uses: All-Hands-AI/openhands-resolver/.github/workflows/openhands-resolver.yml@main
     secrets:
       LLM_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       LLM_MODEL: "gemini/gemini-2.5-flash"
