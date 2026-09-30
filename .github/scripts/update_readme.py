@@ -1,6 +1,7 @@
 import os
 import re
 import json
+import time
 from google import genai
 
 # Geheime API sleutel wordt door GitHub Actions meegegeven via GEMINI_API_KEY
@@ -9,16 +10,12 @@ client = genai.Client() if os.environ.get("GEMINI_API_KEY") else None
 github_repo = os.environ.get("GITHUB_REPOSITORY", "tomsch1kels/CodeWarsProject")
 SOLUTIONS_DIR = "./Solutions"
 TESTS_DIR = "./Tests"
+
 def analyze_complexity_with_gemini(code):
-    """Vraagt Gemini AI om de Time en Space complexity te bepalen van de C# code."""
-    api_key = os.environ.get("GEMINI_API_KEY")
-    
-    # 1. Controleer of de API Key aanwezig is
-    if not api_key:
-        print("⚠️ DEBUG: GEMINI_API_KEY omgevingsvariabele ontbreekt of is leeg!")
-        return {"time": "O(?)", "space": "O(?)"}
-    
-    print("✅ DEBUG: GEMINI_API_KEY is aanwezig.")
+    """Vraagt Gemini AI om de Time en Space complexity te bepalen met Retry & Fallback."""
+    if not client:
+        print("⚠️ DEBUG: Geen GEMINI_API_KEY gevonden.")
+        return {"time": "-", "space": "-"}
 
     prompt = f"""
     Analyseer de volgende C# oplossing voor een Codewars kata op tijds- en ruimtecomplexiteit.
@@ -31,25 +28,49 @@ def analyze_complexity_with_gemini(code):
     {{"time": "O(N)", "space": "O(1)"}}
     """
 
-    try:
-        response = client.models.generate_content(
-            model="gemini-3.8-flash",
-            contents=prompt,
-        )
-        
-        print(f"📄 DEBUG Gemini Raw Response: {response.text}")
-        
-        # Schoon eventuele markdown codeblock tags af (```json ... ```)
-        clean_json = re.sub(r"```(?:json)?\n?", "", response.text).strip().strip("```")
-        data = json.loads(clean_json)
-        return {
-            "time": data.get("time", "-"),
-            "space": data.get("space", "-")
-        }
-    except Exception as e:
-        print(f"❌ DEBUG Gemini API Foutmelding: {e}")
-        return {"time": "-", "space": "-"}
+    # Lijst van gewenste modellen in volgorde van voorkeur
+    models = ["gemini-3.8-flash", "gemini-3.7-flash", "gemini-3.6-flash"]
+    max_retries = 3      # Aantal pogingen per model
+    base_delay = 2       # Begin-wachttijd in seconden (2s, 4s, 8s)
 
+    for model_name in models:
+        for attempt in range(1, max_retries + 1):
+            try:
+                print(f"🔄 Proberen met model '{model_name}' (Poging {attempt}/{max_retries})...")
+                
+                response = client.models.generate_content(
+                    model=model_name,
+                    contents=prompt,
+                )
+                
+                # Schoon eventuele markdown codeblock tags af (```json ... ```)
+                clean_json = re.sub(r"```(?:json)?\n?", "", response.text).strip().strip("```")
+                data = json.loads(clean_json)
+                
+                print(f"✅ Succesvolle analyse via {model_name}!")
+                return {
+                    "time": data.get("time", "-"),
+                    "space": data.get("space", "-")
+                }
+
+            except Exception as e:
+                error_msg = str(e)
+                print(f"⚠️ Fout bij {model_name} (poging {attempt}): {error_msg}")
+                
+                # Check of het een tijdelijke serverfout is (503 / 429 / High Demand)
+                if "503" in error_msg or "UNAVAILABLE" in error_msg or "429" in error_msg:
+                    if attempt < max_retries:
+                        sleep_time = base_delay * (2 ** (attempt - 1))  # Exponential backoff: 2s, 4s, 8s
+                        print(f"⏳ Server overbelast. Wachten {sleep_time} seconden voor retry...")
+                        time.sleep(sleep_time)
+                        continue
+
+                # Bij een harde fout of na de laatste retry: breek de inner loop af en probeer het volgende model
+                break
+
+    print("❌ Alle modellen en retries zijn mislukt.")
+    return {"time": "-", "space": "-"}
+    
 def parse_cs_file(file_path, file_name):
     """Leest het .cs-bestand voor URL en Kyu, en vraagt Gemini om de Big O."""
     url = None
