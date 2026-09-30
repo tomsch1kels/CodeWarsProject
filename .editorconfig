@@ -1,0 +1,63 @@
+root = true
+
+[*.cs]
+
+
+# =====================================================================
+# 1. METHOD COMPLEXITY (Cyclomatic Complexity)
+# =====================================================================
+# CA1502: Avoid excessive complexity (e.g. too many nested ifs/loops)
+dotnet_diagnostic.CA1502.severity = warning
+# Threshold for complexity (Default is 25, setting to 10 forces cleaner, smaller methods)
+dotnet_code_quality.CA1502.method_cyclomatic_complexity = 10
+
+# CA1505: Avoid unmaintainable code (Maintainability Index)
+dotnet_diagnostic.CA1505.severity = warning
+
+# CA1506: Avoid excessive class coupling (too many dependencies)
+dotnet_diagnostic.CA1506.severity = warning
+
+# =====================================================================
+# 2. NAMING CONVENTIONS & LENGTHS
+# =====================================================================
+# CA1707: Identifiers should not contain underscores (e.g., Use MethodName instead of Method_Name)
+dotnet_diagnostic.CA1707.severity = warning
+
+# Enforce PascalCase for Methods
+dotnet_naming_rule.methods_must_be_pascal_case.severity = warning
+dotnet_naming_rule.methods_must_be_pascal_case.symbols = method_symbols
+dotnet_naming_rule.methods_must_be_pascal_case.style = pascal_case_style
+
+dotnet_naming_symbols.method_symbols.applicable_kinds = method
+dotnet_naming_style.pascal_case_style.capitalization = pascal_case
+
+# =====================================================================
+# 3. CODE READABILITY & CLEAN CODE
+# =====================================================================
+# CA1508: Avoid dead code / unused conditional checks
+dotnet_diagnostic.CA1508.severity = warning
+
+# IDE0060: Remove unused parameters
+dotnet_diagnostic.IDE0060.severity = warning
+
+# IDE0051: Remove unused private members
+dotnet_diagnostic.IDE0051.severity = warning
+
+# IDE0005: Remove unnecessary usings
+dotnet_diagnostic.IDE0005.severity = warning
+
+# Enforce block body vs expression body for complex methods (forces braces on multi-line methods)
+csharp_style_expression_bodied_methods = when_on_single_line:warning
+
+
+# =====================================================================
+# SUPPRESSIONS
+# =====================================================================
+# SA1633: File should have header
+dotnet_diagnostic.SA1633.severity = none
+
+# Disable mandatory XML documentation warnings globally
+dotnet_diagnostic.SA1600.severity = none
+
+# SA1601: Partial elements should be documented
+dotnet_diagnostic.SA1601.severity = none
