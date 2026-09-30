@@ -1,6 +1,6 @@
 # 🥋 Codewars C# Solutions
 
-![Build Status](https://github.com/${{ github.repository }}/actions/workflows/dotnet.yml/badge.svg)
+![Build Status](https://github.com/tomsch1kels/CodeWarsProject/actions/workflows/dotnet.yml/badge.svg)
 
 Automatisch gegenereerd overzicht van opgeloste Codewars kata's.
 
