@@ -34,7 +34,7 @@ def generate_readme():
     # Gebruik een Python f-string zodat {github_repo} netjes wordt ingevuld
     readme_content = f"""# 🥋 Codewars C# Solutions
 
-![Build Status](https://github.com/{github_repo}/actions/workflows/dotnet.yml/badge.svg)
+![Build Status](https://github.com/{github_repo}/actions/workflows/dotnet.yaml/badge.svg)
 
 Automatisch gegenereerd overzicht van opgeloste Codewars kata's.
 
