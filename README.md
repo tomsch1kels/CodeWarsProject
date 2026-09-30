@@ -12,4 +12,4 @@ Automatisch gegenereerd overzicht van opgeloste Codewars kata's met AI-gegeneree
 
 | Rank / Kyu | Kata Probleem | Time | Space | Tests | Bronbestand |
 | :--- | :--- | :---: | :---: | :---: | :--- |
-| `5 kyu` | **[Weight For Weight](https://www.codewars.com/kata/55c6126177c9441a570000cc)** | - | - | `4` | [Bekijk Code](./Solutions/WeightForWeight.cs) |
+| `5 kyu` | **[Weight For Weight](https://www.codewars.com/kata/55c6126177c9441a570000cc)** | `O(N log N)` | `O(N)` | `4` | [Bekijk Code](./Solutions/WeightForWeight.cs) |
