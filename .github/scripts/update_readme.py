@@ -1,8 +1,41 @@
 import os
 import re
 
+# Haal de repo op uit de omgevingsvariabelen (bijv. "tomsch1kels/CodeWarsProject")
 github_repo = os.environ.get("GITHUB_REPOSITORY", "tomsch1kels/CodeWarsProject")
-SOLUTIONS_DIR = "./Solutions"  # Pas aan naar jouw mapnaam
+SOLUTIONS_DIR = "./Solutions"  # Pas dit aan naar de map waarin je C# bestanden staan
+
+def parse_cs_file(file_path, file_name):
+    """Leest het .cs-bestand en haalt de URL, Kyu en schone naam op."""
+    url = None
+    rank = "N/A"
+
+    with open(file_path, "r", encoding="utf-8") as f:
+        content = f.read()
+
+        # 1. Zoek naar Codewars URL (bijv. // https://www.codewars.com/kata/...)
+        url_match = re.search(r"https?://www\.codewars\.com/kata/[a-zA-Z0-9_-]+", content)
+        if url_match:
+            url = url_match.group(0)
+
+        # 2. Zoek naar Kyu rating (bijv. // 6 kyu of // 6kyu)
+        rank_match = re.search(r"(\d)\s*kyu", content, re.IGNORECASE)
+        if rank_match:
+            rank = f"{rank_match.group(1)} kyu"
+
+    # 3. Schone naam maken van het bestand (bijv. "CreatePhoneNumber.cs" -> "Create Phone Number")
+    clean_name = file_name.replace(".cs", "")
+    # Haal eventuele "6kyu_" of "6_kyu_" prefixen uit de bestandsnaam als die er nog staan
+    clean_name = re.sub(r"^\d+\_?kyu\_?", "", clean_name, flags=re.IGNORECASE)
+    # Voeg spaties toe bij PascalCase (bijv. "CreatePhoneNumber" -> "Create Phone Number")
+    display_name = re.sub(r"([a-z0-9])([A-Z])", r"\1 \2", clean_name)
+
+    return {
+        "name": display_name,
+        "rank": rank,
+        "path": file_path,
+        "url": url
+    }
 
 def get_kata_info():
     kata_list = []
@@ -11,33 +44,13 @@ def get_kata_info():
 
     for root, dirs, files in os.walk(SOLUTIONS_DIR):
         for file in files:
+            # Sla testbestanden en temporary buildbestanden over
             if file.endswith(".cs") and not file.endswith("Tests.cs"):
                 file_path = os.path.join(root, file).replace("\\", "/")
-                
-                # Lees de inhoud van het C# bestand om de URL te zoeken
-                codewars_url = None
-                with open(file_path, "r", encoding="utf-8") as f:
-                    content = f.read()
-                    # Zoekt naar patronen zoals https://www.codewars.com/kata/...
-                    url_match = re.search(r"https?://www\.codewars\.com/kata/[a-zA-Z0-9_-]+", content)
-                    if url_match:
-                        codewars_url = url_match.group(0)
+                kata_data = parse_cs_file(file_path, file)
+                kata_list.append(kata_data)
 
-                # Kyu/Rank bepalen uit de bestandsnaam (bijv. "6kyu_TwoSum.cs")
-                rank_match = re.search(r"(\d)kyu", file, re.IGNORECASE)
-                rank = f"{rank_match.group(1)} kyu" if rank_match else "N/A"
-                
-                clean_name = file.replace(".cs", "").replace("_", " ")
-                # Strip de kyu uit de naam voor een schone titel
-                clean_name = re.sub(r"^\d+kyu\s*", "", clean_name, flags=re.IGNORECASE)
-
-                kata_list.append({
-                    "name": clean_name,
-                    "rank": rank,
-                    "path": file_path,
-                    "url": codewars_url
-                })
-                
+    # Sorteer op kyu-rank (bijv. 1 kyu bovenaan, of pas de sorteervolgorde aan)
     return sorted(kata_list, key=lambda x: x["rank"])
 
 def generate_readme():
@@ -60,7 +73,7 @@ Automatisch gegenereerd overzicht van opgeloste Codewars kata's.
 """
     
     for kata in katas:
-        # Als er een URL gevonden is, maken we een link van de naam. Anders tonen we alleen de tekst.
+        # Als er een URL is gevonden, maken we de naam klikbaar. Anders tonen we alleen de naam.
         if kata['url']:
             kata_link = f"[{kata['name']}]({kata['url']})"
         else:
