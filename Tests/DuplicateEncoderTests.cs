@@ -1,6 +1,6 @@
 
 [TestFixture]
-internal class KataTests
+internal sealed class KataTests
 {
     [Test]
     public void BasicTests()

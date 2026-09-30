@@ -8,7 +8,7 @@ using System.Text;
 
 
 
-internal class WeightForWeight
+internal static class WeightForWeight
 {
     public static string Solve(string strng)
     {

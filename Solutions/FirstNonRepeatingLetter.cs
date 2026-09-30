@@ -4,8 +4,9 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
+using System.Globalization;
 
-internal class FirstNonRepeatingLetter
+internal static class FirstNonRepeatingLetter
 {
 
     public static string Solve(string s)
@@ -26,10 +27,10 @@ internal class FirstNonRepeatingLetter
         return string.Empty;
 
         static bool LetterIsInBeginningOfString(string s, int i)
-        => i != 0 && (CharIsInBeginningOfString(s, i, s.ToLower(System.Globalization.CultureInfo.CurrentCulture)[i]) || CharIsInBeginningOfString(s, i, s.ToUpper()[i]));
+        => i != 0 && (CharIsInBeginningOfString(s, i, s.ToLower(System.Globalization.CultureInfo.CurrentCulture)[i]) || CharIsInBeginningOfString(s, i, s.ToUpper(CultureInfo.CurrentCulture)[i]));
 
         static bool LetterIsInRemainderOfString(string s, int i)
-        => CharIsInRemainderOfString(s, i, s.ToLower(System.Globalization.CultureInfo.CurrentCulture)[i]) || CharIsInRemainderOfString(s, i, s.ToUpper()[i]);
+        => CharIsInRemainderOfString(s, i, s.ToLower(System.Globalization.CultureInfo.CurrentCulture)[i]) || CharIsInRemainderOfString(s, i, s.ToUpper(CultureInfo.CurrentCulture)[i]);
 
         static bool CharIsInBeginningOfString(string s, int i, char c)
         => s[..i].Contains(c, StringComparison.CurrentCulture);

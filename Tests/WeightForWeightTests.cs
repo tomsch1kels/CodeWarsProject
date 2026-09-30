@@ -1,6 +1,6 @@
 using NUnit.Framework;
 [TestFixture]
-internal class WeightForWeightTests
+internal sealed class WeightForWeightTests
 {
     [Test]
     [TestCase("", "")]

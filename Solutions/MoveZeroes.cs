@@ -11,16 +11,16 @@ internal static class MoveZeroes
     public static int[] Solve(int[] arr)
     {
         return arr.OrderBy(i => i == 0).ToArray();
-        int[] result = new int[arr.Length];
-        int c = 0;
-        for (int i = 0; i < arr.Length; i++)
-        {
-            if (arr[i] != 0)
-            {
-                result[c] = arr[i];
-                c++;
-            }
-        }
-        return result;
+        // int[] result = new int[arr.Length];
+        // int c = 0;
+        // for (int i = 0; i < arr.Length; i++)
+        // {
+        //     if (arr[i] != 0)
+        //     {
+        //         result[c] = arr[i];
+        //         c++;
+        //     }
+        // }
+        // return result;
     }
 }

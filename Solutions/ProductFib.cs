@@ -6,7 +6,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
-internal class ProductFib
+internal static class ProductFib
 {
     public static ulong[] Solve(ulong prod)
     {

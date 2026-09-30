@@ -6,20 +6,20 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-internal partial class Node(int data)
+internal sealed partial class Node(int data)
 {
     public int Data = data;
-    public Node Next;
+    public Node? Next;
 
     public static Node InsertNth(Node head, int index, int data)
     {
         if (head == null) return new Node(data);
         ArgumentOutOfRangeException.ThrowIfNegative(index);
-        Node current = head;
-        Node previous = null;
+        Node? current = head;
+        Node? previous = null;
         for (int i = 0; i < index; i++)
         {
-            previous = current ?? throw new ArgumentOutOfRangeException();
+            previous = current ?? throw new InvalidOperationException("The object is in an invalid state.");;
             current = current.Next;
         }
         Node newNode = new Node(data)
