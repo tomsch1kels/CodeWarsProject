@@ -1,10 +1,14 @@
+// https://www.codewars.com/kata/54521e9ec8e60bc4de000d6c
+// 5 kyu
+
 using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
-public static class Kata
+
+public static class MaxSequence
 {
-    public static int MaxSequence(int[] arr)
+    public static int Solve(int[] arr)
     {
         if (arr.Length == 0) return 0;
 

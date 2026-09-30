@@ -1,11 +1,14 @@
+// https://www.codewars.com/kata/5541f58a944b85ce6d00006a
+// 5 kyu
+
 using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
-public class Kata
+public class ProductFib
 {
-    public static ulong[] productFib(ulong prod)
+    public static ulong[] Solve(ulong prod)
     {
         ulong a = 0, b = 1;
 

@@ -1,11 +1,15 @@
+// https://www.codewars.com/kata/55c45be3b2079eccff00010f
+// 6 kyu
+
+
 using NUnit.Framework;
 using System;
 using System.Linq;
 using System.Collections.Generic;
 
-public static class Kata
+public static class Order
 {
-    public static string Order(string words)
+    public static string Solve(string words)
     {
         if(words=="") return "";
 
