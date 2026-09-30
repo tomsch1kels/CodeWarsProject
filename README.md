@@ -1,6 +1,6 @@
 # 🥋 Codewars C# Solutions
 
-![Build Status](https://github.com/tomsch1kels/CodeWarsProject/actions/workflows/dotnet.yaml/badge.svg)
+[![.NET CI](https://github.com/tomsch1kels/CodeWarsProject/actions/workflows/dotnet.yml/badge.svg)](https://github.com/tomsch1kels/CodeWarsProject/actions/workflows/dotnet.yml)
 
 Automatisch gegenereerd overzicht van opgeloste Codewars kata's.
 
@@ -10,6 +10,6 @@ Automatisch gegenereerd overzicht van opgeloste Codewars kata's.
 | :---: |
 | **1** |
 
-| Rank / Kyu | Kata Oplossing | Bronbestand |
+| Rank / Kyu | Kata Probleem | Bronbestand |
 | :--- | :--- | :--- |
-| `N/A` | **WeightForWeight** | [Bekijk Code](./Solutions/WeightForWeight.cs) |
+| `N/A` | **[WeightForWeight](https://www.codewars.com/kata/55c6126177c9441a570000cc)** | [Bekijk Code](./Solutions/WeightForWeight.cs) |
