@@ -3,7 +3,6 @@
 
 internal static class DuplicateEncoder
 {
-
     public static string DuplicateEncode(string word)
     {
         word = word.ToUpperInvariant();

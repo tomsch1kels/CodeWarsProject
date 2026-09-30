@@ -1,34 +1,33 @@
 // https://www.codewars.com/kata/55cacc3039607536c6000081
 // 6 kyu
 
-using NUnit.Framework;
-using System;
-using System.Linq;
-using System.Collections.Generic;
-
-internal sealed partial class Node(int data)
+internal sealed partial class Node()
 {
-    public int Data = data;
-    public Node? Next;
+    private Node? next;
 
     public static Node InsertNth(Node head, int index, int data)
     {
-        if (head == null) return new Node(data);
+        if (head == null)
+        {
+            return new Node();
+        }
+
         ArgumentOutOfRangeException.ThrowIfNegative(index);
         Node? current = head;
         Node? previous = null;
         for (int i = 0; i < index; i++)
         {
             previous = current ?? throw new InvalidOperationException("The object is in an invalid state.");
-            current = current.Next;
+            current = current.next;
         }
-        Node newNode = new Node(data)
+
+        Node newNode = new Node()
         {
-            Next = current
+            next = current,
         };
         if (previous != null)
         {
-            previous.Next = newNode;
+            previous.next = newNode;
             return head;
         }
         else
@@ -39,11 +38,11 @@ internal sealed partial class Node(int data)
 
     internal static Node BuildOneTwoThree()
     {
-        Node head = new Node(1);
-        Node n2 = new Node(2);
-        head.Next = n2;
-        Node n3 = new Node(3);
-        n2.Next = n3;
+        Node head = new Node();
+        Node n2 = new Node();
+        head.next = n2;
+        Node n3 = new Node();
+        n2.next = n3;
         return head;
     }
 }

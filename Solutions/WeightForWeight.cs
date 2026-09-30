@@ -1,13 +1,6 @@
 // https://www.codewars.com/kata/55c6126177c9441a570000cc
 // 5 kyu
 
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
-
-
-
 internal static class WeightForWeight
 {
     public static string Solve(string strng)
@@ -26,7 +19,7 @@ internal static class WeightForWeight
 
         static double CalcWeightFromMass(string mass)
         {
-            return (double)mass.ToList().Sum(Char.GetNumericValue);
+            return (double)mass.ToList().Sum(char.GetNumericValue);
         }
 
         var sortedMasses = tupleList
@@ -35,5 +28,4 @@ internal static class WeightForWeight
 
         return string.Join(' ', sortedMasses.Select(item => item.Mass));
     }
-
 }

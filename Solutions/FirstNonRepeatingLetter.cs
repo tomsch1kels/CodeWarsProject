@@ -1,14 +1,9 @@
 // https://www.codewars.com/kata/52bc74d4ac05d0945d00054e
 // 5 kyu
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
 using System.Globalization;
 
 internal static class FirstNonRepeatingLetter
 {
-
     public static string Solve(string s)
     {
         /*

@@ -1,4 +1,7 @@
-using NUnit.Framework;
+// <copyright file="WeightForWeightTests.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 [TestFixture]
 internal sealed class WeightForWeightTests
 {

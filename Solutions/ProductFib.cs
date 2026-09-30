@@ -1,11 +1,6 @@
 // https://www.codewars.com/kata/5541f58a944b85ce6d00006a
 // 5 kyu
 
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
-
 internal static class ProductFib
 {
     public static ulong[] Solve(ulong prod)
