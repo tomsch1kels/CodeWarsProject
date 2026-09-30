@@ -1,4 +1,4 @@
-name: .NET CI
+name: .NET CI & Quality Check
 
 on:
   push:
@@ -20,6 +20,19 @@ jobs:
 
     - name: Restore dependencies
       run: dotnet restore
+
+    # 1. Controleer Code Formatting
+    - name: Check Code Formatting (dotnet format)
+      run: dotnet format --verify-no-changes --verbosity diagnostic
+
+    # 2. Build & Code Quality Analyse (Compiler & Roslyn Analyzers)
+    - name: Build & Analyze Code Quality
+      run: dotnet build --no-restore -c Release
+
+    # 3. Voer Tests uit
+    - name: Run Tests
+      run: dotnet test --no-build -c Release --verbosity normal
+
 
     - name: Build
       run: dotnet build --no-restore -c Release
