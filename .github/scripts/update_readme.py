@@ -33,7 +33,7 @@ def analyze_complexity_with_gemini(code):
 
     try:
         response = client.models.generate_content(
-            model="gemini-2.5-flash",
+            model="gemini-3.8-flash",
             contents=prompt,
         )
         
@@ -49,7 +49,7 @@ def analyze_complexity_with_gemini(code):
     except Exception as e:
         print(f"❌ DEBUG Gemini API Foutmelding: {e}")
         return {"time": "-", "space": "-"}
-        
+
 def parse_cs_file(file_path, file_name):
     """Leest het .cs-bestand voor URL en Kyu, en vraagt Gemini om de Big O."""
     url = None
