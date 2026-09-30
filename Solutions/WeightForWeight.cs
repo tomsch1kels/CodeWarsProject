@@ -1,3 +1,4 @@
+# https://www.codewars.com/kata/55c6126177c9441a570000cc
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ public class WeightForWeight
 {
 
 
-    
+
     public static string Solve(string strng)
     {
         if (!strng.Contains(' '))
