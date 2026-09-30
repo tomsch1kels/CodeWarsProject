@@ -7,9 +7,16 @@ on:
 jobs:
   resolve:
     if: github.event.label.name == 'fix-me'
-    uses: All-Hands-AI/openhands-resolver/.github/workflows/openhands-resolver.yml@main
-    secrets:
-      LLM_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-      LLM_MODEL: "gemini/gemini-2.5-flash"
-      PAT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      PAT_USERNAME: ${{ github.actor }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run OpenHands Resolver
+        uses: docker://ghcr.io/openhands/openhands-resolver:latest
+        env:
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_MODEL: "gemini/gemini-2.5-flash"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          GIT_USERNAME: ${{ github.actor }}
