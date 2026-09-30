@@ -9,11 +9,16 @@ client = genai.Client() if os.environ.get("GEMINI_API_KEY") else None
 github_repo = os.environ.get("GITHUB_REPOSITORY", "tomsch1kels/CodeWarsProject")
 SOLUTIONS_DIR = "./Solutions"
 TESTS_DIR = "./Tests"
-
 def analyze_complexity_with_gemini(code):
     """Vraagt Gemini AI om de Time en Space complexity te bepalen van de C# code."""
-    if not client:
+    api_key = os.environ.get("GEMINI_API_KEY")
+    
+    # 1. Controleer of de API Key aanwezig is
+    if not api_key:
+        print("⚠️ DEBUG: GEMINI_API_KEY omgevingsvariabele ontbreekt of is leeg!")
         return {"time": "O(?)", "space": "O(?)"}
+    
+    print("✅ DEBUG: GEMINI_API_KEY is aanwezig.")
 
     prompt = f"""
     Analyseer de volgende C# oplossing voor een Codewars kata op tijds- en ruimtecomplexiteit.
@@ -32,6 +37,8 @@ def analyze_complexity_with_gemini(code):
             contents=prompt,
         )
         
+        print(f"📄 DEBUG Gemini Raw Response: {response.text}")
+        
         # Schoon eventuele markdown codeblock tags af (```json ... ```)
         clean_json = re.sub(r"```(?:json)?\n?", "", response.text).strip().strip("```")
         data = json.loads(clean_json)
@@ -40,9 +47,9 @@ def analyze_complexity_with_gemini(code):
             "space": data.get("space", "-")
         }
     except Exception as e:
-        print(f"Gemini API fout: {e}")
+        print(f"❌ DEBUG Gemini API Foutmelding: {e}")
         return {"time": "-", "space": "-"}
-
+        
 def parse_cs_file(file_path, file_name):
     """Leest het .cs-bestand voor URL en Kyu, en vraagt Gemini om de Big O."""
     url = None
