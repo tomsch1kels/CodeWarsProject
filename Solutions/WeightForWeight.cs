@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 
 
+
 public class WeightForWeight
 {
     public static string Solve(string strng)
