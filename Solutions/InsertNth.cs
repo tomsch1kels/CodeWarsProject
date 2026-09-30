@@ -1,12 +1,10 @@
+// https://www.codewars.com/kata/55cacc3039607536c6000081
+// 6 kyu
+
 using NUnit.Framework;
 using System;
 using System.Linq;
 using System.Collections.Generic;
-
-public static class Kata
-{
-}
-
 
 public partial class Node(int data)
 {

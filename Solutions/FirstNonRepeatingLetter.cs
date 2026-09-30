@@ -1,12 +1,14 @@
+// https://www.codewars.com/kata/52bc74d4ac05d0945d00054e
+// 5 kyu
 using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
-public class Kata
+public class FirstNonRepeatingLetter
 {
 
-    public static string FirstNonRepeatingLetter(string s)
+    public static string Solve(string s)
     {
         /*
         for each c
