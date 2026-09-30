@@ -12,9 +12,9 @@ SOLUTIONS_DIR = "./Solutions"
 TESTS_DIR = "./Tests"
 
 def analyze_complexity_with_gemini(code):
-    """Vraagt Gemini AI om de Time en Space complexity te bepalen met Retry & Fallback."""
+    """Vraagt Gemini 3.5 Flash Lite om de Time en Space complexity met retries en 3 min pauze."""
     if not client:
-        print("⚠️ DEBUG: Geen GEMINI_API_KEY gevonden.")
+        print("⚠️ DEBUG: Geen GEMINI_API_KEY gevonden in de omgevingsvariabelen.")
         return {"time": "-", "space": "-"}
 
     prompt = f"""
@@ -28,49 +28,42 @@ def analyze_complexity_with_gemini(code):
     {{"time": "O(N)", "space": "O(1)"}}
     """
 
-    # Lijst van gewenste modellen in volgorde van voorkeur
-    models = ["gemini-3.8-flash", "gemini-3.7-flash", "gemini-3.6-flash"]
-    max_retries = 3      # Aantal pogingen per model
-    base_delay = 2       # Begin-wachttijd in seconden (2s, 4s, 8s)
+    model_name = "gemini-3.5-flash-lite"
+    max_retries = 3
+    retry_delay_seconds = 180  # Exact 3 minuten wachttijd per retry
 
-    for model_name in models:
-        for attempt in range(1, max_retries + 1):
-            try:
-                print(f"🔄 Proberen met model '{model_name}' (Poging {attempt}/{max_retries})...")
-                
-                response = client.models.generate_content(
-                    model=model_name,
-                    contents=prompt,
-                )
-                
-                # Schoon eventuele markdown codeblock tags af (```json ... ```)
-                clean_json = re.sub(r"```(?:json)?\n?", "", response.text).strip().strip("```")
-                data = json.loads(clean_json)
-                
-                print(f"✅ Succesvolle analyse via {model_name}!")
-                return {
-                    "time": data.get("time", "-"),
-                    "space": data.get("space", "-")
-                }
+    for attempt in range(1, max_retries + 1):
+        try:
+            print(f"🔄 Aanvraag naar {model_name} (Poging {attempt}/{max_retries})...")
+            
+            response = client.models.generate_content(
+                model=model_name,
+                contents=prompt,
+            )
+            
+            # Schoon eventuele markdown codeblock tags af (```json ... ```)
+            clean_json = re.sub(r"```(?:json)?\n?", "", response.text).strip().strip("```")
+            data = json.loads(clean_json)
+            
+            print(f"✅ Succesvolle analyse ontvangen via {model_name}!")
+            return {
+                "time": data.get("time", "-"),
+                "space": data.get("space", "-")
+            }
 
-            except Exception as e:
-                error_msg = str(e)
-                print(f"⚠️ Fout bij {model_name} (poging {attempt}): {error_msg}")
-                
-                # Check of het een tijdelijke serverfout is (503 / 429 / High Demand)
-                if "503" in error_msg or "UNAVAILABLE" in error_msg or "429" in error_msg:
-                    if attempt < max_retries:
-                        sleep_time = base_delay * (2 ** (attempt - 1))  # Exponential backoff: 2s, 4s, 8s
-                        print(f"⏳ Server overbelast. Wachten {sleep_time} seconden voor retry...")
-                        time.sleep(sleep_time)
-                        continue
+        except Exception as e:
+            error_msg = str(e)
+            print(f"⚠️ Fout bij {model_name} (poging {attempt}/{max_retries}): {error_msg}")
+            
+            if attempt < max_retries:
+                print(f"⏳ Wachten op retry... Volgende poging over 3 minuten ({retry_delay_seconds} sec)...")
+                time.sleep(retry_delay_seconds)
+            else:
+                print(f"❌ Alle {max_retries} pogingen voor {model_name} zijn mislukt.")
 
-                # Bij een harde fout of na de laatste retry: breek de inner loop af en probeer het volgende model
-                break
-
-    print("❌ Alle modellen en retries zijn mislukt.")
     return {"time": "-", "space": "-"}
-    
+
+
 def parse_cs_file(file_path, file_name):
     """Leest het .cs-bestand voor URL en Kyu, en vraagt Gemini om de Big O."""
     url = None
