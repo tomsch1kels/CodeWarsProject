@@ -1,10 +1,7 @@
 import os
 import re
 
-# Haal de repo op uit de omgevingsvariabelen (bijv. "jouw-naam/codewars-csharp")
-# Valt terug op een placeholder als je het lokaal draait
-github_repo = os.environ.get("GITHUB_REPOSITORY", "GEBRUIKERSNAAM/REPO_NAAM")
-
+github_repo = os.environ.get("GITHUB_REPOSITORY", "tomsch1kels/CodeWarsProject")
 SOLUTIONS_DIR = "./Solutions"  # Pas aan naar jouw mapnaam
 
 def get_kata_info():
@@ -17,24 +14,38 @@ def get_kata_info():
             if file.endswith(".cs") and not file.endswith("Tests.cs"):
                 file_path = os.path.join(root, file).replace("\\", "/")
                 
-                match = re.search(r"(\d)kyu", file, re.IGNORECASE)
-                rank = f"{match.group(1)} kyu" if match else "N/A"
-                clean_name = file.replace(".cs", "").replace("_", " ")
+                # Lees de inhoud van het C# bestand om de URL te zoeken
+                codewars_url = None
+                with open(file_path, "r", encoding="utf-8") as f:
+                    content = f.read()
+                    # Zoekt naar patronen zoals https://www.codewars.com/kata/...
+                    url_match = re.search(r"https?://www\.codewars\.com/kata/[a-zA-Z0-9_-]+", content)
+                    if url_match:
+                        codewars_url = url_match.group(0)
+
+                # Kyu/Rank bepalen uit de bestandsnaam (bijv. "6kyu_TwoSum.cs")
+                rank_match = re.search(r"(\d)kyu", file, re.IGNORECASE)
+                rank = f"{rank_match.group(1)} kyu" if rank_match else "N/A"
                 
+                clean_name = file.replace(".cs", "").replace("_", " ")
+                # Strip de kyu uit de naam voor een schone titel
+                clean_name = re.sub(r"^\d+kyu\s*", "", clean_name, flags=re.IGNORECASE)
+
                 kata_list.append({
                     "name": clean_name,
                     "rank": rank,
-                    "path": file_path
+                    "path": file_path,
+                    "url": codewars_url
                 })
+                
     return sorted(kata_list, key=lambda x: x["rank"])
 
 def generate_readme():
     katas = get_kata_info()
     
-    # Gebruik een Python f-string zodat {github_repo} netjes wordt ingevuld
     readme_content = f"""# 🥋 Codewars C# Solutions
 
-![Build Status](https://github.com/{github_repo}/actions/workflows/dotnet.yaml/badge.svg)
+[![.NET CI](https://github.com/{github_repo}/actions/workflows/dotnet.yml/badge.svg)](https://github.com/{github_repo}/actions/workflows/dotnet.yml)
 
 Automatisch gegenereerd overzicht van opgeloste Codewars kata's.
 
@@ -44,12 +55,18 @@ Automatisch gegenereerd overzicht van opgeloste Codewars kata's.
 | :---: |
 | **{len(katas)}** |
 
-| Rank / Kyu | Kata Oplossing | Bronbestand |
+| Rank / Kyu | Kata Probleem | Bronbestand |
 | :--- | :--- | :--- |
 """
     
     for kata in katas:
-        readme_content += f"| `{kata['rank']}` | **{kata['name']}** | [Bekijk Code]({kata['path']}) |\n"
+        # Als er een URL gevonden is, maken we een link van de naam. Anders tonen we alleen de tekst.
+        if kata['url']:
+            kata_link = f"[{kata['name']}]({kata['url']})"
+        else:
+            kata_link = kata['name']
+
+        readme_content += f"| `{kata['rank']}` | **{kata_link}** | [Bekijk Code]({kata['path']}) |\n"
 
     with open("README.md", "w", encoding="utf-8") as f:
         f.write(readme_content)
