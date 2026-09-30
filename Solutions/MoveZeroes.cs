@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-public static class MoveZeroes
+internal static class MoveZeroes
 {
     public static int[] Solve(int[] arr)
     {
@@ -15,7 +15,7 @@ public static class MoveZeroes
         int c = 0;
         for (int i = 0; i < arr.Length; i++)
         {
-            if(arr[i] != 0)
+            if (arr[i] != 0)
             {
                 result[c] = arr[i];
                 c++;

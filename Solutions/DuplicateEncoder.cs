@@ -1,7 +1,7 @@
 // https://www.codewars.com/kata/54b42f9314d9229fd6000d9c
 // 6 kyu
 
-public static class DuplicateEncoder
+internal static class DuplicateEncoder
 {
 
     public static string DuplicateEncode(string word)

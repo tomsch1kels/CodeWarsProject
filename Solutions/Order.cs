@@ -7,11 +7,11 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-public static class Order
+internal static class Order
 {
     public static string Solve(string words)
     {
-        if(words=="") return "";
+        if (string.IsNullOrEmpty(words)) return "";
 
         SortedDictionary<int, string> sDict = [];
 

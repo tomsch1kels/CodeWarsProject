@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-public partial class Node(int data)
+internal partial class Node(int data)
 {
     public int Data = data;
     public Node Next;

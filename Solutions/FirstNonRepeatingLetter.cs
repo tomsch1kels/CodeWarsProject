@@ -5,7 +5,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
-public class FirstNonRepeatingLetter
+internal class FirstNonRepeatingLetter
 {
 
     public static string Solve(string s)

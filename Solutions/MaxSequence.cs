@@ -6,7 +6,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
-public static class MaxSequence
+internal static class MaxSequence
 {
     public static int Solve(int[] arr)
     {
