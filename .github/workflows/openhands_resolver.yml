@@ -1,0 +1,15 @@
+name: Resolve Issue with OpenHands
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  resolve:
+    if: github.event.label.name == 'fix-me'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: All-Hands-AI/openhands-resolver/.github/workflows/openhands-resolver.yml@main
+        with:
+          llm_api_key: ${{ secrets.GEMINI_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
