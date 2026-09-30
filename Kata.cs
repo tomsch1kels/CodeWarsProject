@@ -6,5 +6,8 @@ using System.Text;
 public class Kata
 {
     public static string orderWeight(string strng)
+    {
+        return strng;
+    }
 
 }
