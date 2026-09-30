@@ -7,9 +7,9 @@ on:
 jobs:
   resolve:
     if: github.event.label.name == 'fix-me'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: All-Hands-AI/openhands-resolver/.github/workflows/openhands-resolver.yml@main
-        with:
-          llm_api_key: ${{ secrets.GEMINI_API_KEY }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+    uses: All-Hands-AI/openhands-resolver/.github/workflows/openhands-resolver.yml@main
+    with:
+      macro_model_name: "gemini/gemini-2.5-flash" # optional: specify your free LLM model
+    secrets:
+      llm_api_key: ${{ secrets.LLM_API_KEY }}
+      github_token: ${{ secrets.GITHUB_TOKEN }}
