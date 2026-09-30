@@ -12,4 +12,4 @@ Automatisch gegenereerd overzicht van opgeloste Codewars kata's.
 
 | Rank / Kyu | Kata Probleem | Bronbestand |
 | :--- | :--- | :--- |
-| `N/A` | **[WeightForWeight](https://www.codewars.com/kata/55c6126177c9441a570000cc)** | [Bekijk Code](./Solutions/WeightForWeight.cs) |
+| `5 kyu` | **[Weight For Weight](https://www.codewars.com/kata/55c6126177c9441a570000cc)** | [Bekijk Code](./Solutions/WeightForWeight.cs) |
