@@ -1,5 +1,5 @@
 // https://www.codewars.com/kata/55c6126177c9441a570000cc
-// 5kyu
+// 5 kyu
 
 using System;
 using System.Linq;
