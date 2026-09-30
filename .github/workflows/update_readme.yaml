@@ -1,0 +1,34 @@
+name: Generate README & Status Table
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - '**/*.cs'  # Draait alleen als er C# bestanden wijzigen
+
+  workflow_dispatch:
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Noodzakelijk om veranderingen terug te pushen naar de repo
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v5
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Generate README
+      run: python .github/scripts/update_readme.py
+
+    - name: Commit and Push changes
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add README.md
+        git diff --quiet && git diff --staged --quiet || (git commit -m "docs: 🤖 update README status table [skip ci]" && git push)
