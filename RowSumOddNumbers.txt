@@ -1,0 +1,9 @@
+using NUnit.Framework;
+using System;  
+using System.Linq;
+using System.Collections.Generic;
+
+public static class Kata
+{
+ public static long RowSumOddNumbers(long n) => (long)Math.Pow(n,3);
+}

@@ -1,0 +1,21 @@
+using NUnit.Framework;
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+public static class Kata
+{
+    public static string Order(string words)
+    {
+        if(words=="") return "";
+
+        SortedDictionary<int, string> sDict = [];
+
+        foreach (string word in words.Split())
+        {
+            sDict[word.Single(char.IsDigit)] = word;
+        }
+
+        return string.Join(" ", sDict.Values.ToArray());
+    }
+}
