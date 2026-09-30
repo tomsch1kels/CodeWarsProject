@@ -1,4 +1,6 @@
-# https://www.codewars.com/kata/55c6126177c9441a570000cc
+// https://www.codewars.com/kata/55c6126177c9441a570000cc
+// 5kyu
+
 using System;
 using System.Linq;
 using System.Collections.Generic;
