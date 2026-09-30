@@ -4,13 +4,12 @@ on:
   issues:
     types: [labeled]
 
-
 jobs:
   resolve:
     if: github.event.label.name == 'fix-me'
     uses: All-Hands-AI/openhands-resolver/.github/workflows/openhands-resolver.yml@main
-    with:
-      macro_model_name: "gemini/gemini-3.5-flash-lite" # optional: specify your free LLM model
     secrets:
-      llm_api_key: ${{ secrets.LLM_API_KEY }}
-      github_token: ${{ secrets.GITHUB_TOKEN }}
+      LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+      LLM_MODEL: "gemini/gemini-2.5-flash"
+      PAT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      PAT_USERNAME: ${{ github.actor }}
