@@ -26,15 +26,15 @@ internal class FirstNonRepeatingLetter
         return string.Empty;
 
         static bool LetterIsInBeginningOfString(string s, int i)
-        => i != 0 && (CharIsInBeginningOfString(s, i, s.ToLower()[i]) || CharIsInBeginningOfString(s, i, s.ToUpper()[i]));
+        => i != 0 && (CharIsInBeginningOfString(s, i, s.ToLower(System.Globalization.CultureInfo.CurrentCulture)[i]) || CharIsInBeginningOfString(s, i, s.ToUpper()[i]));
 
         static bool LetterIsInRemainderOfString(string s, int i)
-        => CharIsInRemainderOfString(s, i, s.ToLower()[i]) || CharIsInRemainderOfString(s, i, s.ToUpper()[i]);
+        => CharIsInRemainderOfString(s, i, s.ToLower(System.Globalization.CultureInfo.CurrentCulture)[i]) || CharIsInRemainderOfString(s, i, s.ToUpper()[i]);
 
         static bool CharIsInBeginningOfString(string s, int i, char c)
-        => s[..i].Contains(c);
+        => s[..i].Contains(c, StringComparison.CurrentCulture);
 
         static bool CharIsInRemainderOfString(string s, int i, char c)
-        => s[(i + 1)..].Contains(c);
+        => s[(i + 1)..].Contains(c, StringComparison.CurrentCulture);
     }
 }

@@ -12,7 +12,7 @@ internal class WeightForWeight
 {
     public static string Solve(string strng)
     {
-        if (!strng.Contains(' '))
+        if (!strng.Contains(' ', StringComparison.CurrentCulture))
         {
             return strng;
         }
