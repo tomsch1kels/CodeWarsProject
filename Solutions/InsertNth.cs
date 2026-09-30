@@ -5,7 +5,7 @@ internal sealed partial class Node()
 {
     private Node? next;
 
-    public static Node InsertNth(Node head, int index, int data)
+    public static Node InsertNth(Node head, int index)
     {
         if (head == null)
         {
