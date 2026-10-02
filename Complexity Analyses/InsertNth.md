@@ -4,9 +4,12 @@
 
 ---
 
-1. **Complexiteit**:
-   - **Tijdcomplexiteit**: $O(n)$ in het slechtste geval, waarbij $n$ de index is, omdat de lijst tot aan de opgegeven index moet worden doorlopen.
-   - **Ruimtecomplexiteit**: $O(1)$ aangezien er slechts een constante hoeveelheid extra geheugen wordt gealloceerd (voor de nieuwe `Node` en enkele pointers), ongeacht de lengte van de lijst.
+1. **Complexiteit**: 
+   - Tijdcomplexiteit: $O(n)$ in de worst-case, waarbij $n$ de index is (omdat we tot de $n$-de positie moeten itereren).
+   - Ruimtecomplexiteit: $O(1)$ (er wordt constant extra geheugen gebruikt voor de nieuwe node en enkele pointers).
 
-2. **Optimalisatiemogelijkheid**:
-   De huidige oplossing is qua tijd- en ruimtecomplexiteit al optimaal voor een gekoppelde lijst ($O(n)$ tijd, $O(1)$ ruimte). Wel kan de code iets idiomaticer en robuuster worden gemaakt door `current == null` expliciet af te vangen binnen de loop (in plaats van een `InvalidOperationException`) om zo out-of-bounds indices duidelijker af te handelen.
+2. **Efficiëntst?**: 
+   - Ja, de tijdscomplexiteit $O(n)$ is optimaal voor een gelinkte lijst, omdat we de elementen fysiek moeten doorlopen om bij de juiste index te komen.
+
+3. **Optimalisatiemogelijkheid**: 
+   - De huidige oplossing is qua algoritme al optimaal. Wel kan de code iets vereenvoudigd worden door `ArgumentOutOfRangeException` direct aan het begin te gebruiken en de null-controles te stroomlijnen. Een recursieve benadering is mogelijk, maar minder efficiënt qua geheugen ($O(n)$ stackruimte) dan deze iteratieve aanpak.

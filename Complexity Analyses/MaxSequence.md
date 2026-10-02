@@ -4,9 +4,12 @@
 
 ---
 
-## 1. Complexiteit
-* **Tijdskomplexiteit**: $\mathcal{O}(n^3)$ door de drie geneste lussen die alle mogelijke subarrays en hun sommen berekenen.
-* **Ruimtecomplexiteit**: $\mathcal{O}(1)$ aangezien er alleen constante extra geheugenruimte wordt gebruikt voor variabelen.
+1. **Complexiteit**: 
+   - Tijd: $\mathcal{O}(n^3)$
+   - Ruimte: $\mathcal{O}(1)$
 
-## 2. Optimalisatiemogelijkheid
-De huidige oplossing is te traag voor grote arrays. Dit kan aanzienlijk efficiënter door gebruik te maken van **Kadane's Algorithm** (Maximum Subarray Problem). Hierbij wordt de array in een enkele pass doorlopen, waarbij de maximale som tot het huidige element dynamisch wordt bijgehouden. Dit reduceert de tijdskomplexiteit naar $\mathcal{O}(n)$ en de ruimtecomplexiteit blijft $\mathcal{O}(1)$.
+2. **Efficiëntst?**: 
+   - Nee. De optimale tijdscomplexiteit voor dit probleem is $\mathcal{O}(n)$.
+
+3. **Optimalisatiemogelijkheid**: 
+   - De huidige implementatie berekent sommen van subarrays redundant opnieuw met drie geneste lussen. Dit kan worden opgelost met Kadane's algoritme, waarbij de reeks in één enkele iteratie ($\mathcal{O}(n)$ tijd) wordt doorlopen door telkens de maximum som tot het huidige punt bij te houden en te resetten indien deze negatief wordt.

@@ -5,8 +5,11 @@
 ---
 
 1. **Complexiteit**:
-   - **Tijdcomplexeid**: $\mathcal{O}(1)$ (omdat de wiskundige machtsverheffing in constante tijd wordt uitgevoerd).
-   - **Ruimtecomplexiteit**: $\mathcal{O}(1)$ (er worden geen extra datastructuren of variabelen gealloceerd).
+   - Tijdcomplexiteit: $\mathcal{O}(1)$
+   - Ruimtecomplexiteit: $\mathcal{O}(1)$
 
-2. **Optimalisatiemogelijkheid**:
-   - De huidige oplossing is al optimaal qua complexiteit. Een micro-optimalisatie om `Math.Pow` (dat `double` gebruikt) te vermijden, is het direct vermenigvuldigen: `n * n * n`. Dit voorkomt mogelijke afrondingsfouten en is marginaal sneller.
+2. **Efficiëntst?**:
+   - Ja, dit is de meest optimale Big O tijdscomplexiteit die mogelijk is.
+
+3. **Optimalisatiemogelijkheid**:
+   - De huidige oplossing is al optimaal. Echter, in plaats van `Math.Pow(n, 3)` (wat `double` als input accepteert en een `double` retourneert) zou je puur vermenigvuldiging kunnen gebruiken om afrondingsfouten en overhead te voorkomen: `n * n * n`. Voor `long` is dit echter te verwaarlozen.

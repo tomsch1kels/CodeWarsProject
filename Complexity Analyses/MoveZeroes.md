@@ -5,25 +5,11 @@
 ---
 
 ### 1. Complexiteit
-* **Tijdcomplexiteit**: $\mathcal{O}(n \log n)$, veroorzaakt door het intern sorteren (`OrderBy`) van de array.
-* **Ruimtecomplexiteit**: $\mathcal{O}(n)$, omdat LINQ en de collection expression (`[.. ...]`) een nieuwe array in het geheugen alloceren.
+* **Tijdcomplexiteit**: $\mathcal{O}(N \log N)$ door het gebruik van `OrderBy`, waarbij $N$ het aantal elementen in de array is.
+* **Ruimtecomplexiteit**: $\mathcal{O}(N)$ voor het opslaan van de geordende array en het nieuwe resultaat.
 
-### 2. Optimalisatiemogelijkheid
-Ja, dit kan efficiënter. De huidige oplossing gebruikt een vergelijkingssortering, wat niet nodig is voor een partitioneringstaak als deze. 
+### 2. Efficiëntst?
+**Nee**. De optimale tijdscomplexiteit voor dit probleem is $\mathcal{O}(N)$.
 
-Door een **in-place** twee-pointer aanpak te gebruiken met een enkele iteratie (`$\mathcal{O}(n)$` tijd en `$\mathcal{O}(1)$` extra ruimte buiten het resultaat), kunnen alle non-zero elementen naar voren worden geschoven en de rest met nullen worden opgevuld:
-
-```csharp
-public static int[] Solve(int[] arr)
-{
-    int[] result = new int[arr.Length];
-    int index = 0;
-    
-    foreach (var num in arr)
-    {
-        if (num != 0) result[index++] = num;
-    }
-    
-    return result;
-}
-```
+### 3. Optimalisatiemogelijkheid
+De huidige oplossing is traag door de sortering. Dit kan efficiënter in $\mathcal{O}(N)$ tijd en $\mathcal{O}(N)$ extra ruimte door gebruik te maken van een enkele iteratie: verzamel alle niet-nul elementen in een nieuwe array (of lijst) en vul de resterende plekken aan met nullen, of verschuif elementen in-place van links naar rechts.

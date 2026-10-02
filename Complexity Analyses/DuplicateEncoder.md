@@ -4,9 +4,12 @@
 
 ---
 
-1. **Complexiteit**:
-   - **Tijdcomplexiteit**: $\mathcal{O}(N)$ - Het woord wordt driemaal doorlopen (eenmalig voor `ToUpperInvariant`, eenmalig voor de frequentietelling via LINQ/.NET methoden, en eenmalig voor de transformatie naar het uiteindelijke resultaat), waarbij $N$ de lengte van het woord is.
-   - **Ruimtecomplexiteit**: $\mathcal{O}(N)$ - De `Dictionary` slaat maximaal $N$ unieke karakters op, en de diverse LINQ-operatoren alloceren extra geheugen voor tussentijdse collecties.
+1. **Complexiteit**: 
+   - Tijd: $\mathcal{O}(n)$
+   - Ruimte: $\mathcal{O}(n)$
 
-2. **Optimalisatiemogelijkheid**:
-   De huidige oplossing kan efficiënter door het overmatig gebruik van LINQ (`ToList()`, `ForEach`, `Select`) en het muteren van strings/collecties te vermijden. Dit kan worden opgelost door direct een `Span<char>` of `StringBuilder` te gebruiken in combinatie met een `Dictionary<char, int>` (of een vaste array van 256 integers als de tekenset beperkt is tot ASCII). Hierdoor wordt onnodige heap-allocatie voorkomen en kan de transformatie in één geheugenallocatie voor de return-string worden voltooid.
+2. **Efficiëntst?**: 
+   - **Ja**, de tijdscomplexiteit van $\mathcal{O}(n)$ is optimaal omdat elk karakter minstens één keer gelezen moet worden om te bepalen of het uniek is.
+
+3. **Optimalisatiemogelijkheid**: 
+   Hoewel de Big O-complexiteit optimaal is, kan de *prestatie* (runtime en geheugen) worden verbeterd door LINQ-overhead (`ToList()`, `ForEach()`, `Select()`) te vermijden. Dit kan door een traditionele `for`-lus te gebruiken in combinatie met een `Span<char>` of `StringBuilder` om allocaties te minimaliseren en enumeratie te halveren (één pass voor de frequentietabel, één pass voor het bouwen van het resultaat).

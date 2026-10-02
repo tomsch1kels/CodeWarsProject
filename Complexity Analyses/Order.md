@@ -4,11 +4,13 @@
 
 ---
 
-### 1. Complexiteit
-* **Tijdcomplexiteit**: $\mathcal{O}(N \cdot M \log K)$, waarbij $N$ het aantal woorden is, $M$ de gemiddelde lengte van een woord, en $K$ het aantal unieke woorden in de invoer. De $\log K$ factor komt door het gebruik van de `SortedDictionary`.
-* **Ruimtecomplexiteit**: $\mathcal{O}(N)$, omdat er geheugen wordt gealloceerd voor de array van `words`, de `SortedDictionary` en de resulterende string.
+1. **Complexiteit**
+   - **Tijdscomplexiteit**: $\mathcal{O}(N \cdot M \log K)$ waar $N$ het aantal woorden is, $M$ de gemiddelde woordlengte en $K$ het aantal unieke woorden (vanwege het gebruik van een `SortedDictionary`).
+   - **Ruimtecomplexiteit**: $\mathcal{O}(N \cdot M)$ voor het opslaan van de woorden in de dictionary en de resulterende array.
 
-### 2. Optimalisatiemogelijkheid
-Ja, dit kan efficiënter door een `KeyValuePair<int, string>[]` of een simpele `string[]` te gebruiken in combinatie met LINQ `OrderBy` of `Array.Sort()`. 
+2. **Efficientst?**
+   - **Nee**. Hoewel de optimale tijdscomplexiteit voor sorteerproblemen op $\mathcal{O}(N)$ ligt (omdat de posities $1$ t/m $N$ bekend en begrensd zijn), voegt `SortedDictionary` een $\log K$-factor toe door te sorteren in een binaire zoekboom.
 
-De `SortedDictionary` voegt overhead toe vanwege de interne boomstructuur (`Red-Black tree`). Door direct te sorteren op het cijfer via LINQ (`words.Split().OrderBy(w => w.First(char.IsDigit))`), vermijd je de overhead van de dictionary en wordt de tijdcomplexiteit gereduceerd tot $\mathcal{O}(N \cdot M \log N)$, wat sneller en idiot-proof is voor deze use-case.
+3. **Optimalisatiemogelijkheid**
+   - Omdat de sleutels opeenvolgende gehele getallen zijn van $1$ tot $N$, is sorteren via een `SortedDictionary` overbodig. 
+   - Een efficiëntere aanpak is het parsen van de woorden naar een array van vaste grootte (`string[] result = new string[words.Length]`), waarbij elk woord direct op index `cijfer - 1` wordt geplaatst. Dit verlaagt de tijdscomplexiteit naar de optimale $\mathcal{O}(N \cdot M)$ en vermindert geheugenallocatie.
