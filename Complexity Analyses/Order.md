@@ -4,12 +4,12 @@
 
 ---
 
-1. **Complexiteit**:
-   - **Tijd**: $O(N \log K)$ waar $N$ het aantal woorden is en $K$ het aantal elementen in de `SortedDictionary`. Door het gebruik van `SortedDictionary` en LINQ (`Single(char.IsDigit)`) is dit niet optimaal voor de tijd.
-   - **Ruimte**: $O(N)$ voor de opslag in de dictionary en de array.
+1. **Complexiteit**: 
+   - Tijd: $\mathcal{O}(N \cdot M \log K)$ waar $N$ het aantal woorden is, $M$ de gemiddelde woordlengte en $K$ het aantal unieke woorden (vanwege de `SortedDictionary`).
+   - Ruimte: $\mathcal{O}(N)$ voor de opslag in de woordenlijst en de resultaatstring.
 
-2. **Efficiëntst?**:
-   - **Nee**. Hoewel $O(N)$ theoretisch mogelijk is door direct een array van vaste grootte te vullen, is de huidige implementatie trager door overhead van `SortedDictionary` (RBT-structuur), LINQ en boxing/unboxing bij `char.IsDigit`.
+2. **Efficiëntst?**: 
+   Nee. Hoewel $\mathcal{O}(N \log N)$ theoretisch optimaal is voor vergelijkingsgebaseerd sorteren, kan het sorteren hier in $\mathcal{O}(N)$ doordat de posities (1 t/m $N$) direct als array-index kunnen dienen (Counting Sort).
 
-3. **Optimalisatiemogelijkheid**:
-   De code kan efficiënter door een simpele `string[]` of `Span<string>` te gebruiken van vaste grootte (gebaseerd op het aantal woorden). Omdat de cijfers altijd van 1 tot $N$ lopen, kun je het cijfer direct als array-index gebruiken (minus 1), wat de tijdscomplexiteit verlaagt naar $O(N)$ zonder sorteer-overhead.
+3. **Optimalisatiemogelijkheid**: 
+   Vervang de `SortedDictionary` door een vastberande `string[]` op basis van de lengte van de input. Door elk woord direct op de juiste index (cijfer - 1) in de array te plaatsen, elimineer je de overhead van de `SortedDictionary` en het logaritmisch sorteren. Dit brengt de tijdscomplexiteit naar de optimale $\mathcal{O}(N \cdot M)$ en vermindert gehecanoew.

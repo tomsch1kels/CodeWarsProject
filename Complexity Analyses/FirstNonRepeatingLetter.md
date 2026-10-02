@@ -5,11 +5,11 @@
 ---
 
 1. **Complexiteit**: 
-   - Tijdslimiet: $\mathcal{O}(N^2)$ in het slechtste geval (door herhaalde string slicing en `Contains` checks per karakter).
-   - Ruimtecomplexiteit: $\mathcal{O}(N)$ (vanwege het creëren van substrings en lower/upper case conversies).
+   - Tijd: $\mathcal{O}(n^2)$ in het slechtste geval, vanwege het herhaaldelijk doorzoeken van substrings met `Contains` voor elk karakter.
+   - Ruimte: $\mathcal{O}(n)$ vanwege het alloceren van substrings (met `s[..i]` en `s[(i + 1)..]`) en string-transformaties.
 
-2. **Efficientst?**: 
-   Nee. Het probleem kan in $\mathcal{O}(N)$ tijd en $\mathcal{O}(N)$ ruimte worden opgelost.
+2. **Efficiëntst?**: 
+   Nee.
 
 3. **Optimalisatiemogelijkheid**: 
-   De huidige oplossing herberekent frequenties door de string herhaaldelijk te doorzoeken. Dit kan drastisch worden versneld door een `Dictionary<char, int>` (of een vaste array van grootte 256/Unicode) te gebruiken om de frequentie van elke letter (ongevoelig voor hoofdletters) in één enkele pass van $\mathcal{O}(N)$ te tellen. In een tweede pass van $\mathcal{O}(N)$ kan dan het eerste teken met frequentie 1 worden geretourneerd, waarbij de oorspronkelijke casing behouden blijft.
+   De tijdscomplexiteit kan worden verbeterd naar $\mathcal{O}(n)$ door een frequentietabel (bijv. een `Dictionary<char, int>` of een array voor ASCII/Unicode) te gebruiken. Eerst tel je de frequentie van alle hoofdletterongevoelige karakters in één pass ($\mathcal{O}(n)$). In een tweede pass door de originele string retourneer je het eerste karakter waarvan de frequentie (gebaseerd op de lowercase/uppercase equivalenten) gelijk is aan 1. Dit voorkomt dure substring-operaties en herhalende zoekopdrachten.

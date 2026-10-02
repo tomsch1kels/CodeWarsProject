@@ -5,11 +5,11 @@
 ---
 
 1. **Complexiteit**: 
-   - Tijdcomplexiteit: $\mathcal{O}(\log(\text{prod}))$ (omdat Fibonacci-getallen exponentieel groeien).
+   - Tijdcomplexiteit: $\mathcal{O}(\log(\text{prod}))$ (omdat de Fibonacci-getallen exponentieel groeien).
    - Ruimtecomplexiteit: $\mathcal{O}(1)$.
 
-2. **Efficientst?**: 
-   Ja. De tijdscomplexiteit is optimaal omdat we de Fibonacci-reeks moeten genereren en controleren tot we het product bereiken of overschrijden. Er is geen snellere algebraïsche O-notatie mogelijk zonder over te schakelen op benaderingsformules (zoals Binet's formule), wat in C# met `ulong` precisieproblemen kan veroorzaken.
+2. **Efficiëntst?**: 
+   - Ja. Een lineaire of sub-lineaire doorloop van de Fibonacci-reeks is theoretisch het optimaalst voor dit probleem, aangezien de reeks opeenvolgend gegenereerd moet worden om het product te controleren.
 
 3. **Optimalisatiemogelijkheid**: 
-   De huidige implementatie is algoritmisch optimaal voor `ulong`-waarden. Kleine micro-optimalisaties (zoals het vermijden van dubbele vermenigvuldiging `a * b` in de `if`-voorwaarde) zijn mogelijk door het resultaat in een lokale variabele op te slaan, maar dit verandert de Big O-complexiteit niet.
+   - De huidige implementatie is qua Big O al optimaal en zeer efficiënt. Een kleine micro-optimalisatie is het hergebruiken van de berekende vermenigvuldiging (`ulong product = a * b;`) zodat deze niet dubbel wordt berekend in de `if`-voorwaarde. Verder is er geen fundamentele versnelling mogelijk zonder geavanceerde wiskundige benaderingen (zoals Binet's formule), die bij `ulong` echter leiden tot afrondingsfouten.

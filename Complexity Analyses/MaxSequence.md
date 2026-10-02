@@ -4,12 +4,12 @@
 
 ---
 
-### 1. Complexiteit
-- **Tijdcomplexiteit:** $\mathcal{O}(n^3)$ door de drie geneste lussen.
-- **Ruimtecomplexiteit:** $\mathcal{O}(1)$ aangezien er alleen constant extra geheugen wordt gebruikt.
+1. **Complexiteit**: 
+   - Tijd: $\mathcal{O}(n^3)$
+   - Ruimte: $\mathcal{O}(1)$
 
-### 2. Efficiëntst?
-Nee.
+2. **Efficiëntst?**: 
+   Nee, de huidige implementatie heeft geen optimale tijdscomplexiteit.
 
-### 3. Optimalisatiemogelijkheid
-De huidige oplossing herberekent subgroepen onnodig vaak. Dit kan worden opgelost met het **Kadane's Algoritme**, waarmee het probleem in één enkele pass door de array kan worden opgelost. Dit verlaagt de tijdcomplexiteit naar $\mathcal{O}(n)$ met behoud van een $\mathcal{O}(1)$ ruimtecomplexiteit.
+3. **Optimalisatiemogelijkheid**: 
+   Het probleem (Maximum Subarray Sum) kan optimaal worden opgelost in $\mathcal{O}(n)$ tijd door gebruik te maken van Kadane's Algoritme. Hierbij wordt de array in één enkele iteratie doorlopen, waarbij steeds de maximum som tot het huidige element wordt bijgehouden (`Math.Max(currentSum + x, x)`), waardoor overbodige geneste lussen voor deelverzamelingen overbodig zijn.

@@ -9,7 +9,9 @@
    - Ruimte: $\mathcal{O}(n)$
 
 2. **Efficiëntst?**: 
-   - Ja, de tijdscomplexiteit is optimaal ($\mathcal{O}(n)$) omdat elke karakter minstens één keer gelezen moet worden.
+   Ja. De tijdscomplexiteit van $\mathcal{O}(n)$ is optimaal omdat elk karakter minstens één keer gelezen moet worden om te bepalen of het uniek is.
 
 3. **Optimalisatiemogelijkheid**: 
-   - De huidige implementatie maakt onnodige allocaties door herhaaldelijk `.ToList()` aan te roepen en LINQ te gebruiken. Dit kan geoptimaliseerd worden door LINQ te vermijden, een `Span<char>` of `StringBuilder` te gebruiken, en de frequentietabel vooraf te dimensioneren (bijv. een vaste `int[255]` array aangezien het om ASCII/Unicode karakters gaat in plaats van een `Dictionary`).
+   De huidige code is functioneel correct en optimaal qua Big O, maar bevat onnodige prestatieverlies door LINQ-allocaties (`.ToList()`). Dit kan worden geoptimaliseerd door:
+   - Een `ReadOnlySpan<char>` of simpelweg een `foreach`-lus te gebruiken i.p.v. `.ToList()`.
+   - Een `Span<char>` te gebruiken voor het bouwen van het resultaat om heap-allocaties van de string-concatenatie te vermijden.

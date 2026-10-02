@@ -4,12 +4,10 @@
 
 ---
 
-1. **Complexiteit**
-   * **Tijdcomplexiteit:** $\mathcal{O}(1)$
-   * **Ruimtecomplexiteit:** $\mathcal{O}(1)$
+1. **Complexiteit**: 
+   - Tijdcomplexiteit: $\mathcal{O}(1)$
+   - Ruimtecomplexiteit: $\mathcal{O}(1)$
 
-2. **Efficientst?**
-   * **Ja**, deze implementatie heeft de optimaal mogelijke Big O tijdscomplexiteit ($\mathcal{O}(1)$).
+2. **Efficiëntst?**: Ja. De oplossing maakt gebruik van een wiskundige eigenschap (de som van oneven getallen in rij $n$ is gelijk aan $n^3$) waardoor geen iteratie nodig is.
 
-3. **Optimalisatiemogelijkheid**
-   * De huidige oplossing maakt gebruik van `Math.Pow`, die `double` gebruikt en daardoor een conversie (`(long)`) vereist. Dit kan micro-geoptimaliseerd worden door pure vermenigvuldiging te gebruiken om afrondingsfouten en overhead te vermijden: `n * n * n`.
+3. **Optimalisatiemogelijkheid**: De huidige oplossing is al optimaal qua Big O. Wel kan `Math.Pow` (dat `double` retourneert en een cast vereist) worden vervangen door een directe integer-vermenigvuldiging (`n * n * n`) om kleine afrondingsrisico's en overhead te vermijden, al is het effect op dit niveau verwaarloosbaar.

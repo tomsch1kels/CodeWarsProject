@@ -4,12 +4,12 @@
 
 ---
 
-1. **Complexiteit**
-   * **Tijdskomplexiteit:** $\mathcal{O}(n)$, waarbij $n$ de index is waar het nieuwe knooppunt moet worden ingevoegd (omdat de lijst tot aan de index moet worden doorlopen).
-   * **Ruimtekomplexiteit:** $\mathcal{O}(1)$, aangezien er slechts een constant aantal extra variabelen en één nieuw knooppunt wordt gealloceerd.
+1. **Complexiteit**: 
+   - Tijdcomplexiteit: $\mathcal{O}(n)$ (waarbij $n$ de index is waar ingevoegd moet worden).
+   - Ruimtecomplexiteit: $\mathcal{O}(1)$ (er wordt exact één nieuwe node gealloceerd, ongeacht de grootte).
 
-2. **Efficiëntst?**
-   * **Ja**, de implementatie heeft de optimale Big O tijdscomplexiteit ($\mathcal{O}(n)$) en ruimtekomplexiteit ($\mathcal{O}(1)$) die mogelijk is voor een gelinkte lijst, omdat men minimaal de eerste $n$ elementen moet passeren om de invoegpositie te bereiken.
+2. **Efficiëntst?**: 
+   - Ja, de tijdscomplexiteit ($\mathcal{O}(n)$) is optimaal omdat een gekoppelde lijst (linked list) nu eenmaal sequentieel doorlopen moet worden tot de gewenste index.
 
-3. **Optimalisatiemogelijkheid**
-   * De huidige oplossing is qua algoritme al optimaal. Kleine code-vereenvoudigingen zijn mogelijk (zoals het direct initialiseren van `previous` in de loop of het vermijden van redundante null-checks), maar dit verandert de asymptotische efficiëntie niet.
+3. **Optimalisatiemogelijkheid**: 
+   - De huidige implementatie is algoritmisch optimaal. Qua codekwaliteit kan het iets compacter door de `previous` pointer te elimineren door direct op `current.next` te itereren, of door C# 12 primary constructors consistenter toe te passen. Dit levert echter geen verandering op in Big O-prestaties.
