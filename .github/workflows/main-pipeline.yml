@@ -1,0 +1,99 @@
+name: CI/CD & Portfolio Automation Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  # =======================================================
+  # STAP 1: .NET CI (Build, Formatting, Roslyn & Tests)
+  # =======================================================
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore Dependencies
+        run: dotnet restore
+
+      - name: Check Code Formatting (dotnet format)
+        run: dotnet format --verify-no-changes --verbosity diagnostic
+
+      - name: Build & Analyze Code Quality
+        run: dotnet build --no-restore -c Release
+
+      - name: Run Tests
+        run: dotnet test --no-build -c Release --verbosity normal
+
+  # =======================================================
+  # STAP 2: AI Complexity Analysis (Gemini)
+  # Draait ALLEEN als STAP 1 volledig geslaagd is!
+  # =======================================================
+  ai-complexity-analysis:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: pip install google-genai
+
+      - name: Run Gemini Complexity Analysis
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python .github/scripts/generate_complexity_reports.py
+
+      - name: Commit and Push Complexity Reports
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add "Complexity Analyses/"
+          git diff --quiet && git diff --staged --quiet || (git commit -m "docs: 🤖 add AI complexity analysis report [skip ci]" && git push)
+
+  # =======================================================
+  # STAP 3: Update README & Status Table
+  # Draait ALLEEN als STAP 1 en STAP 2 geslaagd zijn!
+  # =======================================================
+  update-readme:
+    needs: [build-and-test, ai-complexity-analysis]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository (met nieuwste CA rapporten)
+        uses: actions/checkout@v4
+        with:
+          ref: main # Haalt de nieuwste commit op inclusief de door Stap 2 gepushte .md bestanden
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Generate README with CA Links
+        run: python .github/scripts/update_readme.py
+
+      - name: Commit and Push README Changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add README.md
+          git diff --quiet && git diff --staged --quiet || (git commit -m "docs: 🤖 update README status table [skip ci]" && git push)
