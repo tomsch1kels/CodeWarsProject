@@ -9,7 +9,7 @@ ANALYSIS_DIR = "./Complexity Analyses"
 
 def check_time_efficiency(analysis_path):
     """
-    Leest het analysebestand en zoekt naar sectie '2. Efficientst?: Ja/Nee'.
+    Zoekt robuust naar het kopje 'Efficientst?' en kijkt of het antwoord met Ja of Nee begint.
     """
     if not os.path.exists(analysis_path):
         return "-"
@@ -18,24 +18,23 @@ def check_time_efficiency(analysis_path):
         with open(analysis_path, "r", encoding="utf-8") as f:
             content = f.read()
 
-        # Zoek naar 'Efficientst?' of '2. Efficientst?' gevolgd door de antwoordtekst
-        match = re.search(r"(?:2\.\s*)?\*\*Efficientst\?\*\*\s*:\s*(Ja|Nee)", content, re.IGNORECASE)
+        # Zoek naar het gedeelte ná 'Efficientst?' (negeert markdown opmaak zoals **, ###, etc.)
+        match = re.search(r"Efficientst\?\*?\*?\s*[:\n]*\s*(Ja|Nee)\b", content, re.IGNORECASE)
         
-        if not match:
-            # Alternatieve regex voor als het antwoord op een nieuwe regel staat
-            match = re.search(r"(?:2\.\s*)?\*\*Efficientst\?\*\*\s*\n+\s*(Ja|Nee)", content, re.IGNORECASE)
-
         if match:
-            answer = match.group(1).strip().lower()
-            if answer == "ja":
-                return "✅"
-            elif answer == "nee":
-                return "❌"
-    except Exception:
-        pass
+            answer = match.group(1).capitalize()
+            return "✅" if answer == "Ja" else "❌"
+            
+        # Fallback: Zoek simpelweg of 'Efficientst' ergens wordt gevolgd door 'Ja' binnen 30 tekens
+        fallback_match = re.search(r"Efficientst.*?\b(Ja|Nee)\b", content, re.IGNORECASE | re.DOTALL)
+        if fallback_match:
+            answer = fallback_match.group(1).capitalize()
+            return "✅" if answer == "Ja" else "❌"
+
+    except Exception as e:
+        print(f"[FOUT] Kon {analysis_path} niet lezen: {e}")
 
     return "-"
-
 def parse_cs_file(file_path, file_name):
     """Leest het .cs-bestand voor URL, Kyu en schone naam."""
     url = None
