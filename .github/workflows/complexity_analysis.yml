@@ -1,0 +1,50 @@
+name: AI Complexity Analysis
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'Solutions/**/*.cs'  # Triggert ALLEEN als een C#-bestand in Solutions veranderd/toegevoegd is
+  workflow_dispatch:
+
+jobs:
+  analyze-complexity:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Haalt git history op om gewijzigde bestanden te detecteren
+
+    - name: Get Changed C# Files
+      id: changed-files
+      uses: tj-actions/changed-files@v44
+      with:
+        files: |
+          Solutions/**/*.cs
+
+    - name: Set up Python
+      if: steps.changed-files.outputs.any_changed == 'true'
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install Dependencies
+      if: steps.changed-files.outputs.any_changed == 'true'
+      run: pip install google-genai
+
+    - name: Run Gemini Complexity Analysis
+      if: steps.changed-files.outputs.any_changed == 'true'
+      env:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+      run: python .github/scripts/generate_complexity_reports.py
+
+    - name: Commit and Push Analysis Reports
+      if: steps.changed-files.outputs.any_changed == 'true'
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git add "Complexity Analyses/"
+        git diff --staged --quiet || (git commit -m "docs: add AI complexity analysis report" && git push)
