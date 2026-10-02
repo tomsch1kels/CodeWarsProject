@@ -5,6 +5,11 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 
+# Garandeert dat er max 1 pipeline tegelijk draait op de main branch
+concurrency:
+  group: main-pipeline-${{ github.ref }}
+  cancel-in-progress: false  # Optie A: Wacht netjes tot de vorige pipeline klaar is
+
 jobs:
   # =======================================================
   # STAP 1: .NET CI (Build, Formatting, Roslyn & Tests)
