@@ -1,16 +1,44 @@
 import os
 import re
+import urllib.request
+import json
 
 github_repo = os.environ.get("GITHUB_REPOSITORY", "tomsch1kels/CodeWarsProject")
+CODEWARS_USERNAME = "flhjwer672423"
 
 SOLUTIONS_DIR = "./Solutions"
 TESTS_DIR = "./Tests"
 ANALYSIS_DIR = "./Complexity Analyses"
+
+def get_codewars_profile(username):
+    """Haalt live gegevens op van het Codewars profiel via de API."""
+    url = f"https://www.codewars.com/api/v1/users/{username}"
+    try:
+        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req) as response:
+            if response.status == 200:
+                data = json.loads(response.read().decode())
+                overall = data.get("ranks", {}).get("overall", {})
+                
+                # Voortgang binnen de huidige rank berekenen
+                # Codewars API geeft score/percentile of rank details
+                rank_name = overall.get("name", "N/A")
+                score = data.get("honor", 0)
+                
+                return {
+                    "username": data.get("username", username),
+                    "rank": rank_name,
+                    "honor": score,
+                    "leaderboard_position": data.get("leaderboardPosition", "N/A"),
+                    "total_completed": data.get("codeChallenges", {}).get("totalCompleted", 0)
+                }
+    except Exception as e:
+        print(f"[WAARSCHUWING] Kon Codewars profiel niet ophalen: {e}")
+    
+    return None
+
 def check_time_efficiency(analysis_path):
-    """
-    Zoekt robuust naar het kopje 'Efficientst?' of 'Efficiëntst?'
-    en kijkt of het antwoord met Ja of Nee begint.
-    """
+    """Zoekt robuust naar het kopje 'Efficientst?' of 'Efficiëntst?'."""
     if not os.path.exists(analysis_path):
         return "-"
     
@@ -18,8 +46,6 @@ def check_time_efficiency(analysis_path):
         with open(analysis_path, "r", encoding="utf-8") as f:
             content = f.read()
 
-        # Matcht 'Efficientst?' EN 'Efficiëntst?' (met of zonder trema)
-        # Matcht ook variabelen in markdown opmaak (zoals **, ###, etc.)
         pattern = r"Efficië?ntst\?\*?\*?\s*[:\n]*\s*(Ja|Nee)\b"
         match = re.search(pattern, content, re.IGNORECASE)
         
@@ -27,7 +53,6 @@ def check_time_efficiency(analysis_path):
             answer = match.group(1).capitalize()
             return "✅" if answer == "Ja" else "❌"
             
-        # Fallback: Zoek simpelweg of 'Efficiëntst' ergens wordt gevolgd door 'Ja' of 'Nee'
         fallback_pattern = r"Efficië?ntst.*?\b(Ja|Nee)\b"
         fallback_match = re.search(fallback_pattern, content, re.IGNORECASE | re.DOTALL)
         if fallback_match:
@@ -39,47 +64,17 @@ def check_time_efficiency(analysis_path):
 
     return "-"
 
-    """
-    Zoekt robuust naar het kopje 'Efficientst?' en kijkt of het antwoord met Ja of Nee begint.
-    """
-    if not os.path.exists(analysis_path):
-        return "-"
-    
-    try:
-        with open(analysis_path, "r", encoding="utf-8") as f:
-            content = f.read()
-
-        # Zoek naar het gedeelte ná 'Efficientst?' (negeert markdown opmaak zoals **, ###, etc.)
-        match = re.search(r"Efficientst\?\*?\*?\s*[:\n]*\s*(Ja|Nee)\b", content, re.IGNORECASE)
-        
-        if match:
-            answer = match.group(1).capitalize()
-            return "✅" if answer == "Ja" else "❌"
-            
-        # Fallback: Zoek simpelweg of 'Efficientst' ergens wordt gevolgd door 'Ja' binnen 30 tekens
-        fallback_match = re.search(r"Efficientst.*?\b(Ja|Nee)\b", content, re.IGNORECASE | re.DOTALL)
-        if fallback_match:
-            answer = fallback_match.group(1).capitalize()
-            return "✅" if answer == "Ja" else "❌"
-
-    except Exception as e:
-        print(f"[FOUT] Kon {analysis_path} niet lezen: {e}")
-
-    return "-"
 def parse_cs_file(file_path, file_name):
-    """Leest het .cs-bestand voor URL, Kyu en schone naam."""
     url = None
     rank = "N/A"
 
     with open(file_path, "r", encoding="utf-8") as f:
         content = f.read()
 
-        # 1. URL ophalen uit commentaar
         url_match = re.search(r"https?://www\.codewars\.com/kata/[a-zA-Z0-9_-]+", content)
         if url_match:
             url = url_match.group(0)
 
-        # 2. Kyu rating ophalen uit commentaar
         rank_match = re.search(r"(\d)\s*kyu", content, re.IGNORECASE)
         if rank_match:
             rank = f"{rank_match.group(1)} kyu"
@@ -88,7 +83,6 @@ def parse_cs_file(file_path, file_name):
     clean_name = re.sub(r"^\d+\_?kyu\_?", "", raw_name, flags=re.IGNORECASE)
     display_name = re.sub(r"([a-z0-9])([A-Z])", r"\1 \2", clean_name)
 
-    # 3. Controleer analysebestand en tijdsefficiëntie
     analysis_file = f"{raw_name}.md"
     full_analysis_path = os.path.join(ANALYSIS_DIR, analysis_file)
     
@@ -111,7 +105,6 @@ def parse_cs_file(file_path, file_name):
     }
 
 def count_tests_for_kata(search_dir, raw_name):
-    """Zoekt in search_dir naar {raw_name}Tests.cs en telt [TestCase] / [Test] attributen."""
     test_count = 0
     test_file_pattern = f"{raw_name}Tests.cs".lower()
 
@@ -121,14 +114,9 @@ def count_tests_for_kata(search_dir, raw_name):
                 test_path = os.path.join(root, file)
                 with open(test_path, "r", encoding="utf-8") as f:
                     content = f.read()
-
                     test_cases = re.findall(r"\[\s*TestCase\b", content)
                     standalone_tests = re.findall(r"\[\s*(Test|Fact|TestMethod)\b", content)
-
-                    if test_cases:
-                        test_count = len(test_cases)
-                    else:
-                        test_count = len(standalone_tests)
+                    test_count = len(test_cases) if test_cases else len(standalone_tests)
                 break
     return test_count
 
@@ -152,20 +140,46 @@ def get_kata_info():
 def generate_readme():
     katas = get_kata_info()
     total_tests = sum(k["tests_count"] for k in katas)
+    profile = get_codewars_profile(CODEWARS_USERNAME)
     
+    # Gebruikersprofiel sectie
+    if profile:
+        profile_section = f"""
+## 👤 Codewars Profiel Status
+
+| Profiel | Rank | Honor | Leaderboard | Totaal Opgelost op Codewars |
+| :--- | :---: | :---: | :---: | :---: |
+| **[{profile['username']}](https://www.codewars.com/users/{CODEWARS_USERNAME})** | `{profile['rank']}` | `{profile['honor']}` | `#{profile['leaderboard_position']}` | `{profile['total_completed']}` |
+
+<br/>
+
+<div align="center">
+  <a href="https://www.codewars.com/users/{CODEWARS_USERNAME}">
+    <img src="https://www.codewars.com/users/{CODEWARS_USERNAME}/badges/large" alt="Codewars Profile Badge" />
+  </a>
+</div>
+"""
+    else:
+        profile_section = f"""
+## 👤 Codewars Profiel
+[![Codewars Badge](https://www.codewars.com/users/{CODEWARS_USERNAME}/badges/large)](https://www.codewars.com/users/{CODEWARS_USERNAME})
+"""
+
     readme_content = f"""# 🥋 Codewars C# Solutions
 
 [![.NET CI](https://github.com/{github_repo}/actions/workflows/dotnet.yml/badge.svg)](https://github.com/{github_repo}/actions/workflows/dotnet.yml)
 
 Automatisch gegenereerd overzicht van opgeloste Codewars kata's met geïntegreerde complexiteitsanalyses.
 
-## 📊 Opgeloste Kata's
+{profile_section}
 
-| Totaal Opgelost | Totaal Tests |
+## 📊 Repository Statistieken
+
+| Totaal Opgelost in Repo | Totaal Tests |
 | :---: | :---: |
 | **{len(katas)}** | **{total_tests}** |
 
-| Rank / Kyu | Kata Probleem | Tests | Efficiënt | Analyse | Bronbestand |
+| Rank / Kyu | Kata Probleem | Tests | Efficiëntst? | Analyse | Bronbestand |
 | :--- | :--- | :---: | :---: | :---: | :--- |
 """
     
