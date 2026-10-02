@@ -24,11 +24,11 @@ def analyze_code_with_gemini(code, filename):
     {code}
     ```
 
-    Schrijf een gestructureerde Markdown analyse met de volgende onderdelen (in het Nederlands):
-    1. **Overzicht & Samenvatting**: Korte uitleg van de gekozen aanpak.
-    2. **Tijdscomplexiteit (Time Complexity)**: Exacte Big Onotatie met onderbouwing.
-    3. **Ruimtecomplexiteit (Space Complexity)**: Exacte Big O notatie met onderbouwing.
-    4. **Optimalisatie & Code Quality**: Zijn er knelpunten, geheugenlekken of leesbaarheidstips?
+    Schrijf een korte beknopte gestructureerde Markdown analyse met de volgende onderdelen (in het Nederlands):
+    
+    1. **Tijdscomplexiteit (Time Complexity)**: Exacte Big O notatie en alleen dit.
+    2. **Ruimtecomplexiteit (Space Complexity)**: Exacte Big O notatie en alleen dit.
+    3. **Optimalisatie**: Hoe zou dit efficienter kunnen?
 
     Geef direct de Markdown inhoud terug zonder extra omhullende tekst.
     """
