@@ -4,9 +4,9 @@
 
 ---
 
-1. **Complexiteit**:
-   * **Tijdcomplexiteit**: $\mathcal{O}(N \cdot L \log N)$, waarbij $N$ het aantal gewichten is en $L$ de maximale lengte van een gewicht (vanwege het parsen van cijfers en het alfabetisch sorteren van strings na de primaire numerieke sort).
-   * **Ruimtecomplexiteit**: $\mathcal{O}(N \cdot L)$ voor het opslaan van de gesplitste strings en de tuple-lijst.
+1. **Complexiteit**: 
+   - **Tijd**: $O(N \cdot M \log N)$, waarbij $N$ het aantal gewichten is en $M$ de maximale lengte van een getalsignatuur (vanwege het splitsen, sommeren per getal en het sorteren van de tuples).
+   - **Ruimte**: $O(N \cdot M)$ voor het opslaan van de string-arrays, lijsten en tuples in geheugen.
 
-2. **Optimalisatiemogelijkheid**:
-   De huidige oplossing kan efficiënter door overbodigeallocaties en conversies te elimineren. `.Split(' ')` i.c.m. `.ToList()` creëert veel objecten op de heap. Dit kan vermeden worden door `AsSpan()` en een `ReadOnlySpan<char>` te gebruiken voor het parsen van de cijfers (zonder `mass.ToList()`) en LINQ te vervangen door een in-place array sortering met een custom `IComparer<T>`, wat de geheugenallocatie reduceert tot $\mathcal{O}(1)$ extra overhead en de snelheid aanzienlijk vergroot.
+2. **Optimalisatiemogelijkheid**: 
+   De huidige code kan efficiënter door overbodige allocaties te verwijderen. Het gebruik van `.ToList()` op `mass` en `strng.Split(' ').ToList()` creëert onnodige heap-allocaties. Dit is op te lossen door `ReadOnlySpan<char>` te gebruiken voor het parsen en sommeren, en te sorteren op basis van een custom `IComparer<(long Weight, string Mass)>` of rechtstreeks via LINQ op de originele array zonder tussentijdse `List`-instanties.

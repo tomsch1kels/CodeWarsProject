@@ -4,9 +4,9 @@
 
 ---
 
-1. **Complexiteit**: 
-   - **Tijd**: $O(1)$ (omdat de array altijd uit exact 5 elementen bestaat).
-   - **Ruimte**: $O(1)$ (geen extra geheugentoewijzing nodig).
+### 1. Complexiteit
+* **Tijdcomplexiteit:** $\mathcal{O}(1)$ — De input array heeft altijd een vaste lengte van 5 dobbelstenen, waardoor de uitvoeringstijd constant blijft.
+* **Ruimtecomplexiteit:** $\mathcal{O}(1)$ — Er wordt geen extra geheugen gealloceerd dat schaalt met de input.
 
-2. **Optimalisatiemogelijkheid**: 
-   De huidige stub retourneert altijd `0`. Om het probleem te oplossen kan een frequentie-array of hashtable (grootte 1 t/m 6) worden gebruikt om het aantal ogen te tellen in $O(1)$ tijd, waarna de score volgens de kata-regels in een vaste serie `if`-statements of een `switch`-expressie wordt berekend. Verdere optimalisatie is niet nodig gezien de vaste invoergrootte.
+### 2. Optimalisatiemogelijkheid
+De huidige placeholder-implementatie retourneert altijd `0`. Om het kata correct op te lossen is optimalisatie niet direct nodig vanwege de vaste, kleine dataset van 5 elementen. De meest efficiënte aanpak is het tellen van de frequenties van elk get डैश (bijv. via een lookup-array van grootte 7 of LINQ `GroupBy`) en direct de puntentabel toepassen in $\mathcal{O}(1)$ tijd.

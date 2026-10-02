@@ -4,10 +4,26 @@
 
 ---
 
-1. **Complexiteit**:
-   - **Tijdcomplexiteit**: $\mathcal{O}(n \log n)$ als gevolg van het interne sorteringsalgoritme (`OrderBy`), waarbij $n$ het aantal elementen in de array is.
-   - **Ruimtecomplexiteit**: $\mathcal{O}(n)$ voor het creëren van de tussentijdse sequenties en de uiteindelijke nieuwe array via de collection expression `[.. ...]`.
+### 1. Complexiteit
+* **Tijdcomplexiteit**: $\mathcal{O}(n \log n)$, veroorzaakt door het intern sorteren (`OrderBy`) van de array.
+* **Ruimtecomplexiteit**: $\mathcal{O}(n)$, omdat LINQ en de collection expression (`[.. ...]`) een nieuwe array in het geheugen alloceren.
 
-2. **Optimalisatiemogelijkheid**:
-   - Ja, dit kan efficiënter. De huidige aanpak gebruikt een vergelijkingssortering die trager is dan nodig en bovendien de oorspronkelijke volgorde van non-zero elementen niet garandeert (omdat `OrderBy` niet stabiel is in C# voor gelijke sleutels). 
-   - Dit kan worden opgelost in **$\mathcal{O}(n)$ tijd** en **$\mathcal{O}(n)$ ruimte** door een enkelvoudige iteratie: vul een nieuwe array (of `List<int>`) achtereenvolgens met alle non-zero elementen, en vul de resterende plekken aan met nullen. Nog optimaler kan in-place met twee pointers.
+### 2. Optimalisatiemogelijkheid
+Ja, dit kan efficiënter. De huidige oplossing gebruikt een vergelijkingssortering, wat niet nodig is voor een partitioneringstaak als deze. 
+
+Door een **in-place** twee-pointer aanpak te gebruiken met een enkele iteratie (`$\mathcal{O}(n)$` tijd en `$\mathcal{O}(1)$` extra ruimte buiten het resultaat), kunnen alle non-zero elementen naar voren worden geschoven en de rest met nullen worden opgevuld:
+
+```csharp
+public static int[] Solve(int[] arr)
+{
+    int[] result = new int[arr.Length];
+    int index = 0;
+    
+    foreach (var num in arr)
+    {
+        if (num != 0) result[index++] = num;
+    }
+    
+    return result;
+}
+```

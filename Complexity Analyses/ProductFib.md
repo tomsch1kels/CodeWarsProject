@@ -5,9 +5,8 @@
 ---
 
 1. **Complexiteit**:
-   - **Tijdcomplexiteit**: $\mathcal{O}(\log(\text{prod}))$ in termen van de waarde van $\text{prod}$ (aangezien de Fibonacci-getallen exponentieel groeien).
-   - **Ruimtecomplexiteit**: $\mathcal{O}(1)$ (constante geheugenruimte).
+   - **Tijdcomplexiteit**: $O(\log \text{prod})$ in termen van de waarde van de invoer (aangezien de Fibonacci-getallen exponentieel groeien).
+   - **Ruimtecomplexiteit**: $O(1)$ (er wordt een constante hoeveelheid geheugen gebruikt).
 
 2. **Optimalisatiemogelijkheid**:
-   - De huidige implementatie is al optimaal qua tijd ($(\mathcal{O}(\log n))$) en ruimte ($\mathcal{O}(1)$) voor dit specifieke bereik van Fibonacci-getallen. 
-   - Een kleine micro-optimalisatie is het hergebruiken van de vermenigvuldiging `a * b` om dubbele berekeningen te voorkomen, hoewel moderne JIT-compilers dit vaak zelf al optimaliseren. Verder is de code idiomatisch en efficiënt.
+   De huidige oplossing is al optimaal voor dit probleem wat betreft tijd- en ruimtecomplexiteit ($O(\log n)$ iteraties en $O(1)$ geheugen). Een mogelijke micro-optimalisatie is het hergebruiken van de vermenigvuldiging `a * b` om dubbele berekeningen te voorkomen, al zal dit de Big O-complexiteit niet verlagen.

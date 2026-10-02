@@ -4,17 +4,9 @@
 
 ---
 
-### 1. Complexiteit
-* **Tijdcomplexiteit:** $\mathcal{O}(1)$ - De berekening maakt gebruik van een directe wiskundige formule die in constante tijd wordt uitgevoerd, onafhankelijk van de invoer $n$.
-* **Ruimtecomplexiteit (Space):** $\mathcal{O}(1)$ - Er wordt geen extra geheugen gealloceerd; de operatie werkt volledig in-place.
+1. **Complexiteit**:
+   - **Tijdcomplexeid**: $\mathcal{O}(1)$ (omdat de wiskundige machtsverheffing in constante tijd wordt uitgevoerd).
+   - **Ruimtecomplexiteit**: $\mathcal{O}(1)$ (er worden geen extra datastructuren of variabelen gealloceerd).
 
-### 2. Optimalisatiemogelijkheid
-De huidige oplossing is **optimaal** en kan nauwelijks efficiënter. 
-
-Hoewel `Math.Pow(n, 3)` correct werkt, retourneert deze methode een `double`. Dit vereist een `long`-cast en kan op microscopisch niveau trager zijn dan directe vermenigvuldiging. Voor absolute perfectie zou je dit kunnen herschrijven naar:
-
-```csharp
-public static long Solve(long n) => n * n * n;
-``` 
-
-Dit vermijdt drijvende-komma-berekeningen (floating-point operations) volledig, hoewel de JIT-compiler dit in de praktijk vaak al optimaliseert.
+2. **Optimalisatiemogelijkheid**:
+   - De huidige oplossing is al optimaal qua complexiteit. Een micro-optimalisatie om `Math.Pow` (dat `double` gebruikt) te vermijden, is het direct vermenigvuldigen: `n * n * n`. Dit voorkomt mogelijke afrondingsfouten en is marginaal sneller.

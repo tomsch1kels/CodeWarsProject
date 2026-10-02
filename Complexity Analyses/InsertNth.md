@@ -4,11 +4,9 @@
 
 ---
 
-### 1. Complexiteit
-* **Tijdskomplexiteit**: $\mathcal{O}(n)$, waarbij $n$ de index is waar de node wordt ingevoegd. In het slechtste geval moet de lijst tot index $𝑛$ worden doorlopen.
-* **Ruimtecomplexiteit**: $\mathcal{O}(1)$. Er wordt constant extra geheugen allocated voor de nieuwe node en enkele pointers, ongeacht de lengte van de lijst.
+1. **Complexiteit**:
+   - **Tijdcomplexiteit**: $O(n)$ in het slechtste geval, waarbij $n$ de index is, omdat de lijst tot aan de opgegeven index moet worden doorlopen.
+   - **Ruimtecomplexiteit**: $O(1)$ aangezien er slechts een constante hoeveelheid extra geheugen wordt gealloceerd (voor de nieuwe `Node` en enkele pointers), ongeacht de lengte van de lijst.
 
-### 2. Optimalisatiemogelijkheid
-De huidige implementatie is qua Big O al optimaal voor een gekoppelde lijst ($\mathcal{O}(n)$ tijd, $\mathcal{O}(1)$ ruimte). Wel kan de code iets robuuster en idiomaticser geschreven worden:
-* **Null-afhandeling**: De `head == null` check aan het begin is redundant als de constructor geen null-waarden toestaat, maar in C# kan een record of struct soms handiger zijn. 
-* **Expressiviteit**: De loop kan iets compacter door direct op null te controleren in plaats van een `InvalidOperationException` te werpen, aangezien een "index out of range" beter past bij de semantiek van deze methode (bijv. door `ArgumentOutOfRangeException` te gooien als `current` null wordt tijdens het itereren).
+2. **Optimalisatiemogelijkheid**:
+   De huidige oplossing is qua tijd- en ruimtecomplexiteit al optimaal voor een gekoppelde lijst ($O(n)$ tijd, $O(1)$ ruimte). Wel kan de code iets idiomaticer en robuuster worden gemaakt door `current == null` expliciet af te vangen binnen de loop (in plaats van een `InvalidOperationException`) om zo out-of-bounds indices duidelijker af te handelen.

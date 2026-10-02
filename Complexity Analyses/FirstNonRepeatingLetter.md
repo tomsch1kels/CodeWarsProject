@@ -4,9 +4,13 @@
 
 ---
 
-1. **Complexiteit**:
-   - **Tijdcomplexiteit**: $O(n^2)$ in het slechtste geval (waarbij $n$ de lengte van de string is), omdat voor elk karakter de resterende subStrings opnieuw worden doorzocht.
-   - **Ruimtecomplexiteit**: $O(n)$ vanwege het alloceren van subStrings (ranges) en het converteren naar lower/upper case.
+### 1. Complexiteit
+* **Tijdcomplexiteit:** $\mathcal{O}(n^2)$ in het slechtste geval (waarbij $n$ de lengte is van de string), omdat voor elk karakter de resterende subStrings worden doorzocht met `Contains`.
+* **Ruimtecomplexiteit:** $\mathcal{O}(n)$ vanwege het alloceren van substrings (`s[..i]` en `s[(i + 1)..]`) en stringconversies bij elke iteratie.
 
-2. **Optimalisatiemogelijkheid**:
-   De huidige oplossing kan aanzienlijk efficiënter door een frequentietabel (bijv. een `Dictionary<char, int>` of een array voor ASCII) te gebruiken. Door de string tweemaal te doorlopen—eenmalig om alle karakters te tellen (case-insensitive) en een tweede keer om het eerste karakter met frequentie 1 te vinden—wordt de tijdcomplexiteit gereduceerd tot **$O(n)$** en de ruimtecomplexiteit tot **$O(1)$** (of $O(k$ met $k$ als alfabetgrootte). Dit voorkomt dure substring-allocaties in een loop.
+### 2. Optimalisatiemogelijkheid
+Ja, dit kan aanzienlijk efficiënter. De huidige aanpak herhaalt veel zoekacties. Door gebruik te maken van een `Dictionary<char, int>` (of een frequentietabel voor ASCII) kan de string in **$\mathcal{O}(n)$ tijd** en **$\mathcal{O}(n)$ ruimte** worden opgelost:
+1. Loop eenmalig door de hoofdletterongevoelige string om de frequentie van elk karakter te tellen.
+2. Loop een tweede keer door de *originele* string om het eerste karakter te vinden waarvan de frequentie gelijk is aan 1. 
+
+Hierdoor vermijd je dure substring-operaties binnen een nested loop.

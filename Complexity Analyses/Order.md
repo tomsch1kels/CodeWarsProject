@@ -5,15 +5,10 @@
 ---
 
 ### 1. Complexiteit
-* **Tijdcomplexiteit:** $\mathcal{O}(N \cdot M \log N)$, waarbij $N$ het aantal woorden is en $M$ de gemiddelde lengte van een woord. De $\log N$-factor komt door het invoegen in de `SortedDictionary`, en het zoeken naar het cijfer via `word.Single(char.IsDigit)` kost $\mathcal{O}(M)$ per woord.
-* **Ruimtecomplexiteit:** $\mathcal{O}(N \cdot M)$ voor het opslaan van de woorden in de `SortedDictionary` en het resultaat van `string.Split()`.
+* **Tijdcomplexiteit**: $\mathcal{O}(N \cdot M \log K)$, waarbij $N$ het aantal woorden is, $M$ de gemiddelde lengte van een woord, en $K$ het aantal unieke woorden in de invoer. De $\log K$ factor komt door het gebruik van de `SortedDictionary`.
+* **Ruimtecomplexiteit**: $\mathcal{O}(N)$, omdat er geheugen wordt gealloceerd voor de array van `words`, de `SortedDictionary` en de resulterende string.
 
 ### 2. Optimalisatiemogelijkheid
-Ja, dit kan efficiënter. De huidige oplossing gebruikt een `SortedDictionary` wat overhead genereert door boomstructuren en boksen van integers. Omdat de cijfers altijd van 1 tot $N$ lopen, is een vaste `string[]` of `Span<string>` op basis van indexering $\mathcal{O}(N \cdot M)$ in tijd (lineair) en vermijdt het allocaties. 
+Ja, dit kan efficiënter door een `KeyValuePair<int, string>[]` of een simpele `string[]` te gebruiken in combinatie met LINQ `OrderBy` of `Array.Sort()`. 
 
-Een LINQ-alternatief zonder `SortedDictionary`:
-```csharp
-return string.Join(" ", words.Split()
-    .OrderBy(w => w.First(char.IsDigit)));
-```
-Hoewel `OrderBy` nog steeds $\mathcal{O}(N \log N)$ kost, is het vaak sneller door betere cache-lokaliteit en minder overhead dan `SortedDictionary`.
+De `SortedDictionary` voegt overhead toe vanwege de interne boomstructuur (`Red-Black tree`). Door direct te sorteren op het cijfer via LINQ (`words.Split().OrderBy(w => w.First(char.IsDigit))`), vermijd je de overhead van de dictionary en wordt de tijdcomplexiteit gereduceerd tot $\mathcal{O}(N \cdot M \log N)$, wat sneller en idiot-proof is voor deze use-case.
