@@ -11,7 +11,6 @@ internal static class WeightForWeight
         }
 
         List<(double Weight, string Mass)> tupleList = [];
-
         foreach (var mass in strng.Split(' ').ToList())
         {
             tupleList.Add((Weight: CalcWeightFromMass(mass), Mass: mass));

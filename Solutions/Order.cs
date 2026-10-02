@@ -11,7 +11,6 @@ internal static class Order
         }
 
         SortedDictionary<int, string> sDict = [];
-
         foreach (string word in words.Split())
         {
             sDict[word.Single(char.IsDigit)] = word;

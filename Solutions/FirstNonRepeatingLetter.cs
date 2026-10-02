@@ -6,11 +6,6 @@ internal static class FirstNonRepeatingLetter
 {
     public static string Solve(string s)
     {
-        /*
-        for each c
-            if not c occurs elsewhere in string in lowercase or uppercase
-                return c
-        */
         for (int i = 0; i < s.Length; i++)
         {
             if (!LetterIsInRemainderOfString(s, i) && !LetterIsInBeginningOfString(s, i))

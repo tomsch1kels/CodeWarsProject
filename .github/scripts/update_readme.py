@@ -1,71 +1,14 @@
 import os
 import re
-import json
-import time
-from google import genai
-
-# Geheime API sleutel wordt door GitHub Actions meegegeven via GEMINI_API_KEY
-client = genai.Client() if os.environ.get("GEMINI_API_KEY") else None
 
 github_repo = os.environ.get("GITHUB_REPOSITORY", "tomsch1kels/CodeWarsProject")
+
 SOLUTIONS_DIR = "./Solutions"
 TESTS_DIR = "./Tests"
-
-def analyze_complexity_with_gemini(code):
-    """Vraagt Gemini 3.5 Flash Lite om de Time en Space complexity met retries en 3 min pauze."""
-    if not client:
-        print("⚠️ DEBUG: Geen GEMINI_API_KEY gevonden in de omgevingsvariabelen.")
-        return {"time": "-", "space": "-"}
-
-    prompt = f"""
-    Analyseer de volgende C# oplossing voor een Codewars kata op tijds- en ruimtecomplexiteit.
-
-    ```csharp
-    {code}
-    ```
-
-    Geef UITSLUITEND een geldig JSON object terug in het volgende formaat zonder extra tekst of markdown formatting:
-    {{"time": "O(N)", "space": "O(1)"}}
-    """
-
-    model_name = "gemini-3.5-flash-lite"
-    max_retries = 3
-    retry_delay_seconds = 180  # Exact 3 minuten wachttijd per retry
-
-    for attempt in range(1, max_retries + 1):
-        try:
-            print(f"🔄 Aanvraag naar {model_name} (Poging {attempt}/{max_retries})...")
-            
-            response = client.models.generate_content(
-                model=model_name,
-                contents=prompt,
-            )
-            
-            # Schoon eventuele markdown codeblock tags af (```json ... ```)
-            clean_json = re.sub(r"```(?:json)?\n?", "", response.text).strip().strip("```")
-            data = json.loads(clean_json)
-            
-            print(f"✅ Succesvolle analyse ontvangen via {model_name}!")
-            return {
-                "time": data.get("time", "-"),
-                "space": data.get("space", "-")
-            }
-
-        except Exception as e:
-            error_msg = str(e)
-            print(f"⚠️ Fout bij {model_name} (poging {attempt}/{max_retries}): {error_msg}")
-            
-            if attempt < max_retries:
-                print(f"⏳ Wachten op retry... Volgende poging over 3 minuten ({retry_delay_seconds} sec)...")
-                time.sleep(retry_delay_seconds)
-            else:
-                print(f"❌ Alle {max_retries} pogingen voor {model_name} zijn mislukt.")
-
-    return {"time": "-", "space": "-"}
-
+ANALYSIS_DIR = "./Complexity Analyses"
 
 def parse_cs_file(file_path, file_name):
-    """Leest het .cs-bestand voor URL en Kyu, en vraagt Gemini om de Big O."""
+    """Leest het .cs-bestand voor URL, Kyu en schone naam."""
     url = None
     rank = "N/A"
 
@@ -82,21 +25,28 @@ def parse_cs_file(file_path, file_name):
         if rank_match:
             rank = f"{rank_match.group(1)} kyu"
 
-    # 3. Vraag Gemini AI om Big O analyse van de code
-    complexity = analyze_complexity_with_gemini(content)
-
-    clean_name = file_name.replace(".cs", "")
-    clean_name = re.sub(r"^\d+\_?kyu\_?", "", clean_name, flags=re.IGNORECASE)
+    raw_name = file_name.replace(".cs", "")
+    clean_name = re.sub(r"^\d+\_?kyu\_?", "", raw_name, flags=re.IGNORECASE)
     display_name = re.sub(r"([a-z0-9])([A-Z])", r"\1 \2", clean_name)
 
+    # 3. Controleer of er een corresponderend analysebestand bestaat in /Complexity Analyses/
+    analysis_file = f"{raw_name}.md"
+    analysis_path = os.path.join(ANALYSIS_DIR, analysis_file).replace("\\", "/")
+    
+    if os.path.exists(os.path.join(ANALYSIS_DIR, analysis_file)):
+        # Encodeer eventuele spaties voor geldige Markdown URLs
+        encoded_path = f"Complexity%20Analyses/{analysis_file}"
+        analysis_link = f"[📊 Bekijk Analyse]({encoded_path})"
+    else:
+        analysis_link = "-"
+
     return {
-        "raw_name": file_name.replace(".cs", ""),
+        "raw_name": raw_name,
         "name": display_name,
         "rank": rank,
         "path": file_path,
         "url": url,
-        "time": f"`{complexity['time']}`" if complexity['time'] != "-" else "-",
-        "space": f"`{complexity['space']}`" if complexity['space'] != "-" else "-"
+        "analysis_link": analysis_link
     }
 
 def count_tests_for_kata(search_dir, raw_name):
@@ -146,7 +96,7 @@ def generate_readme():
 
 [![.NET CI](https://github.com/{github_repo}/actions/workflows/dotnet.yml/badge.svg)](https://github.com/{github_repo}/actions/workflows/dotnet.yml)
 
-Automatisch gegenereerd overzicht van opgeloste Codewars kata's met AI-gegenereerde Big O complexiteitsanalyse.
+Automatisch gegenereerd overzicht van opgeloste Codewars kata's met geïntegreerde complexiteitsanalyses.
 
 ## 📊 Opgeloste Kata's
 
@@ -154,15 +104,15 @@ Automatisch gegenereerd overzicht van opgeloste Codewars kata's met AI-gegeneree
 | :---: | :---: |
 | **{len(katas)}** | **{total_tests}** |
 
-| Rank / Kyu | Kata Probleem | Time | Space | Tests | Bronbestand |
-| :--- | :--- | :---: | :---: | :---: | :--- |
+| Rank / Kyu | Kata Probleem | Tests | Analyse | Bronbestand |
+| :--- | :--- | :---: | :---: | :--- |
 """
     
     for kata in katas:
         kata_link = f"[{kata['name']}]({kata['url']})" if kata['url'] else kata['name']
         test_badge = f"`{kata['tests_count']}`" if kata['tests_count'] > 0 else "-"
 
-        readme_content += f"| `{kata['rank']}` | **{kata_link}** | {kata['time']} | {kata['space']} | {test_badge} | [Bekijk Code]({kata['path']}) |\n"
+        readme_content += f"| `{kata['rank']}` | **{kata_link}** | {test_badge} | {kata['analysis_link']} | [Bekijk Code]({kata['path']}) |\n"
 
     with open("README.md", "w", encoding="utf-8") as f:
         f.write(readme_content)

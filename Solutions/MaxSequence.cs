@@ -11,7 +11,6 @@ internal static class MaxSequence
         }
 
         int result = 0;
-
         for (int subsetLength = 1; subsetLength <= arr.Length; subsetLength++)
         {
             for (int startIndex = 0; startIndex <= arr.Length - subsetLength; startIndex++)

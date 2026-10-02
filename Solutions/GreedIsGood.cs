@@ -6,6 +6,7 @@ internal static class GreedIsGood
     public static int Solve(int[] dice)
     {
         _ = dice;
+
         return 0;
     }
 }

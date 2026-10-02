@@ -3,5 +3,5 @@
 
 internal static class MoveZeroes
 {
-    public static int[] Solve(int[] arr) => arr.OrderBy(i => i == 0).ToArray();
+    public static int[] Solve(int[] arr) => [.. arr.OrderBy(i => i == 0)];
 }

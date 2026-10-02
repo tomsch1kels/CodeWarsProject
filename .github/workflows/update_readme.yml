@@ -5,6 +5,7 @@ on:
     branches: [ "main" ]
     paths:
       - '**/*.cs'  # Draait alleen als er C# bestanden wijzigen
+      - 'Complexity Analyses/*.md'  # Draait ook als er een nieuw analyserapport is toegevoegd
 
   workflow_dispatch:
 
@@ -15,25 +16,20 @@ jobs:
       contents: write  # Noodzakelijk om veranderingen terug te pushen naar de repo
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v5
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
 
-    - name: Install dependencies
-      run: pip install google-genai
+      - name: Generate README with CA Links
+        run: python .github/scripts/update_readme.py
 
-    - name: Generate README with Gemini AI Analysis
-      env:
-        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-      run: python .github/scripts/update_readme.py
-      
-    - name: Commit and Push changes
-      run: |
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        git add README.md
-        git diff --quiet && git diff --staged --quiet || (git commit -m "docs: 🤖 update README status table [skip ci]" && git push)
+      - name: Commit and Push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add README.md
+          git diff --quiet && git diff --staged --quiet || (git commit -m "docs: 🤖 update README status table [skip ci]" && git push)

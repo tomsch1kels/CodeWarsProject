@@ -12,6 +12,7 @@ internal static class ProductFib
             if (a * b == prod || a * b > prod)
             {
                 ulong success = (a * b == prod) ? 1UL : 0;
+
                 return [a, b, success];
             }
 
