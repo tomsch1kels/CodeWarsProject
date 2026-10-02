@@ -4,12 +4,12 @@
 
 ---
 
-1. **Complexiteit**: 
-   - Tijd: $\mathcal{O}(n^3)$
-   - Ruimte: $\mathcal{O}(1)$
+### 1. Complexiteit
+- **Tijdcomplexiteit:** $\mathcal{O}(n^3)$ door de drie geneste lussen.
+- **Ruimtecomplexiteit:** $\mathcal{O}(1)$ aangezien er alleen constant extra geheugen wordt gebruikt.
 
-2. **Efficiëntst?**: 
-   - Nee. De optimale tijdscomplexiteit voor dit probleem is $\mathcal{O}(n)$.
+### 2. Efficiëntst?
+Nee.
 
-3. **Optimalisatiemogelijkheid**: 
-   - De huidige implementatie berekent sommen van subarrays redundant opnieuw met drie geneste lussen. Dit kan worden opgelost met Kadane's algoritme, waarbij de reeks in één enkele iteratie ($\mathcal{O}(n)$ tijd) wordt doorlopen door telkens de maximum som tot het huidige punt bij te houden en te resetten indien deze negatief wordt.
+### 3. Optimalisatiemogelijkheid
+De huidige oplossing herberekent subgroepen onnodig vaak. Dit kan worden opgelost met het **Kadane's Algoritme**, waarmee het probleem in één enkele pass door de array kan worden opgelost. Dit verlaagt de tijdcomplexiteit naar $\mathcal{O}(n)$ met behoud van een $\mathcal{O}(1)$ ruimtecomplexiteit.

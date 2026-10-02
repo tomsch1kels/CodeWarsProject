@@ -4,12 +4,12 @@
 
 ---
 
-1. **Complexiteit**: 
-   - Tijdslimiet/Tijdcomplexiteit: $O(1)$ (omdat de inputlengte altijd vast is op 5 dobbelstenen).
-   - Ruimtecomplexiteit: $O(1)$.
+1. **Complexiteit**
+   - Tijdcomplexiteit: $\mathcal{O}(1)$ (aangezien de array-grootte altijd vast is op 5 elementen).
+   - Ruimtecomplexiteit: $\mathcal{O}(1)$ (geen extra geheugenallocatie nodig).
 
-2. **Efficiëntst?**: 
-   - **Nee**, hoewel de huidige placeholder $O(1)$ is, levert het geen correct resultaat op. Een correcte implementatie vereist het tellen van de frequenties van de dobbelstenen.
+2. **Efficiëntst?**
+   - **Nee**, hoewel de huidige placeholder $\mathcal{O}(1)$ is door de constante invoergrootte, is de werkelijke logica nog niet geïmplementeerd. Voor een optimale oplossing moet de invoer geteld en geëvalueerd worden.
 
-3. **Optimalisatiemogelijkheid**: 
-   - De meest efficiënte aanpak is het gebruiken van een vaste lookup-tabel of een array van grootte 7 om de frequentie van elk getal (1 t/m 6) te tellen in een enkele iteratie ($O(N)$ waarbij $N=5$, dus effectief $O(1)$). Vervolgens kan de score direct worden berekend op basis van de spelregels (bijv. `count[1] / 3` voor drievouden en `count[1] % 3` voor overige enzen).
+3. **Optimalisatiemogelijkheid**
+   - Tel de voorkomens van elk dobbelsteennummer (1 t/m 6), bijvoorbeeld met een `int[7]` array of een frequentietabel. Pas vervolgens de spelregels toe: drielingen leveren de basispunten op (111 = 1000, 666 = 600, etc.) en overgebleven enen (100 p.st.) en vijven (50 p.st.) tellen individueel mee. Dit kan in $\mathcal{O}(N)$ tijd (waarbij $N = 5$) en $\mathcal{O}(1)$ extra ruimte worden opgelost.

@@ -4,12 +4,12 @@
 
 ---
 
-1. **Complexiteit**: 
-   - Tijdcomplexiteit: $O(n)$ in de worst-case, waarbij $n$ de index is (omdat we tot de $n$-de positie moeten itereren).
-   - Ruimtecomplexiteit: $O(1)$ (er wordt constant extra geheugen gebruikt voor de nieuwe node en enkele pointers).
+1. **Complexiteit**
+   * **Tijdskomplexiteit:** $\mathcal{O}(n)$, waarbij $n$ de index is waar het nieuwe knooppunt moet worden ingevoegd (omdat de lijst tot aan de index moet worden doorlopen).
+   * **Ruimtekomplexiteit:** $\mathcal{O}(1)$, aangezien er slechts een constant aantal extra variabelen en één nieuw knooppunt wordt gealloceerd.
 
-2. **Efficiëntst?**: 
-   - Ja, de tijdscomplexiteit $O(n)$ is optimaal voor een gelinkte lijst, omdat we de elementen fysiek moeten doorlopen om bij de juiste index te komen.
+2. **Efficiëntst?**
+   * **Ja**, de implementatie heeft de optimale Big O tijdscomplexiteit ($\mathcal{O}(n)$) en ruimtekomplexiteit ($\mathcal{O}(1)$) die mogelijk is voor een gelinkte lijst, omdat men minimaal de eerste $n$ elementen moet passeren om de invoegpositie te bereiken.
 
-3. **Optimalisatiemogelijkheid**: 
-   - De huidige oplossing is qua algoritme al optimaal. Wel kan de code iets vereenvoudigd worden door `ArgumentOutOfRangeException` direct aan het begin te gebruiken en de null-controles te stroomlijnen. Een recursieve benadering is mogelijk, maar minder efficiënt qua geheugen ($O(n)$ stackruimte) dan deze iteratieve aanpak.
+3. **Optimalisatiemogelijkheid**
+   * De huidige oplossing is qua algoritme al optimaal. Kleine code-vereenvoudigingen zijn mogelijk (zoals het direct initialiseren van `previous` in de loop of het vermijden van redundante null-checks), maar dit verandert de asymptotische efficiëntie niet.

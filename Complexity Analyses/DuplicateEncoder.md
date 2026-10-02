@@ -9,7 +9,7 @@
    - Ruimte: $\mathcal{O}(n)$
 
 2. **Efficiëntst?**: 
-   - **Ja**, de tijdscomplexiteit van $\mathcal{O}(n)$ is optimaal omdat elk karakter minstens één keer gelezen moet worden om te bepalen of het uniek is.
+   - Ja, de tijdscomplexiteit is optimaal ($\mathcal{O}(n)$) omdat elke karakter minstens één keer gelezen moet worden.
 
 3. **Optimalisatiemogelijkheid**: 
-   Hoewel de Big O-complexiteit optimaal is, kan de *prestatie* (runtime en geheugen) worden verbeterd door LINQ-overhead (`ToList()`, `ForEach()`, `Select()`) te vermijden. Dit kan door een traditionele `for`-lus te gebruiken in combinatie met een `Span<char>` of `StringBuilder` om allocaties te minimaliseren en enumeratie te halveren (één pass voor de frequentietabel, één pass voor het bouwen van het resultaat).
+   - De huidige implementatie maakt onnodige allocaties door herhaaldelijk `.ToList()` aan te roepen en LINQ te gebruiken. Dit kan geoptimaliseerd worden door LINQ te vermijden, een `Span<char>` of `StringBuilder` te gebruiken, en de frequentietabel vooraf te dimensioneren (bijv. een vaste `int[255]` array aangezien het om ASCII/Unicode karakters gaat in plaats van een `Dictionary`).

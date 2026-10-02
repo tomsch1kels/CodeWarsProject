@@ -4,13 +4,12 @@
 
 ---
 
-1. **Complexiteit**
-   - **Tijdscomplexiteit**: $\mathcal{O}(N \cdot M \log K)$ waar $N$ het aantal woorden is, $M$ de gemiddelde woordlengte en $K$ het aantal unieke woorden (vanwege het gebruik van een `SortedDictionary`).
-   - **Ruimtecomplexiteit**: $\mathcal{O}(N \cdot M)$ voor het opslaan van de woorden in de dictionary en de resulterende array.
+1. **Complexiteit**:
+   - **Tijd**: $O(N \log K)$ waar $N$ het aantal woorden is en $K$ het aantal elementen in de `SortedDictionary`. Door het gebruik van `SortedDictionary` en LINQ (`Single(char.IsDigit)`) is dit niet optimaal voor de tijd.
+   - **Ruimte**: $O(N)$ voor de opslag in de dictionary en de array.
 
-2. **Efficientst?**
-   - **Nee**. Hoewel de optimale tijdscomplexiteit voor sorteerproblemen op $\mathcal{O}(N)$ ligt (omdat de posities $1$ t/m $N$ bekend en begrensd zijn), voegt `SortedDictionary` een $\log K$-factor toe door te sorteren in een binaire zoekboom.
+2. **Efficiëntst?**:
+   - **Nee**. Hoewel $O(N)$ theoretisch mogelijk is door direct een array van vaste grootte te vullen, is de huidige implementatie trager door overhead van `SortedDictionary` (RBT-structuur), LINQ en boxing/unboxing bij `char.IsDigit`.
 
-3. **Optimalisatiemogelijkheid**
-   - Omdat de sleutels opeenvolgende gehele getallen zijn van $1$ tot $N$, is sorteren via een `SortedDictionary` overbodig. 
-   - Een efficiëntere aanpak is het parsen van de woorden naar een array van vaste grootte (`string[] result = new string[words.Length]`), waarbij elk woord direct op index `cijfer - 1` wordt geplaatst. Dit verlaagt de tijdscomplexiteit naar de optimale $\mathcal{O}(N \cdot M)$ en vermindert geheugenallocatie.
+3. **Optimalisatiemogelijkheid**:
+   De code kan efficiënter door een simpele `string[]` of `Span<string>` te gebruiken van vaste grootte (gebaseerd op het aantal woorden). Omdat de cijfers altijd van 1 tot $N$ lopen, kun je het cijfer direct als array-index gebruiken (minus 1), wat de tijdscomplexiteit verlaagt naar $O(N)$ zonder sorteer-overhead.
