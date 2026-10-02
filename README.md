@@ -18,7 +18,7 @@ Automatisch gegenereerd overzicht van opgeloste Codewars kata's met geïntegreer
 | `5 kyu` | **[Greed Is Good](https://www.codewars.com/kata/5270d0d18625160ada0000e4)** | `3` | - | [Bekijk Code](./Solutions/GreedIsGood.cs) |
 | `5 kyu` | **[Weight For Weight](https://www.codewars.com/kata/55c6126177c9441a570000cc)** | `4` | - | [Bekijk Code](./Solutions/WeightForWeight.cs) |
 | `5 kyu` | **[First Non Repeating Letter](https://www.codewars.com/kata/52bc74d4ac05d0945d00054e)** | `1` | - | [Bekijk Code](./Solutions/FirstNonRepeatingLetter.cs) |
-| `6 kyu` | **[Insert Nth](https://www.codewars.com/kata/55cacc3039607536c6000081)** | `7` | - | [Bekijk Code](./Solutions/InsertNth.cs) |
+| `6 kyu` | **[Insert Nth](https://www.codewars.com/kata/55cacc3039607536c6000081)** | `7` | [📊 Bekijk Analyse](Complexity%20Analyses/InsertNth.md) | [Bekijk Code](./Solutions/InsertNth.cs) |
 | `6 kyu` | **[Order](https://www.codewars.com/kata/55c45be3b2079eccff00010f)** | `1` | - | [Bekijk Code](./Solutions/Order.cs) |
 | `6 kyu` | **[Duplicate Encoder](https://www.codewars.com/kata/54b42f9314d9229fd6000d9c)** | `1` | [📊 Bekijk Analyse](Complexity%20Analyses/DuplicateEncoder.md) | [Bekijk Code](./Solutions/DuplicateEncoder.cs) |
 | `7 kyu` | **[Row Sum Odd Numbers](https://www.codewars.com/kata/55fd2d567d94ac3bc9000064)** | `1` | - | [Bekijk Code](./Solutions/RowSumOddNumbers.cs) |
