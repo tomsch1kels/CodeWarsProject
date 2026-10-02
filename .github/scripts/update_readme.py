@@ -7,6 +7,35 @@ SOLUTIONS_DIR = "./Solutions"
 TESTS_DIR = "./Tests"
 ANALYSIS_DIR = "./Complexity Analyses"
 
+def check_time_efficiency(analysis_path):
+    """
+    Leest het analysebestand en zoekt naar sectie '2. Efficientst?: Ja/Nee'.
+    """
+    if not os.path.exists(analysis_path):
+        return "-"
+    
+    try:
+        with open(analysis_path, "r", encoding="utf-8") as f:
+            content = f.read()
+
+        # Zoek naar 'Efficientst?' of '2. Efficientst?' gevolgd door de antwoordtekst
+        match = re.search(r"(?:2\.\s*)?\*\*Efficientst\?\*\*\s*:\s*(Ja|Nee)", content, re.IGNORECASE)
+        
+        if not match:
+            # Alternatieve regex voor als het antwoord op een nieuwe regel staat
+            match = re.search(r"(?:2\.\s*)?\*\*Efficientst\?\*\*\s*\n+\s*(Ja|Nee)", content, re.IGNORECASE)
+
+        if match:
+            answer = match.group(1).strip().lower()
+            if answer == "ja":
+                return "✅"
+            elif answer == "nee":
+                return "❌"
+    except Exception:
+        pass
+
+    return "-"
+
 def parse_cs_file(file_path, file_name):
     """Leest het .cs-bestand voor URL, Kyu en schone naam."""
     url = None
@@ -29,16 +58,17 @@ def parse_cs_file(file_path, file_name):
     clean_name = re.sub(r"^\d+\_?kyu\_?", "", raw_name, flags=re.IGNORECASE)
     display_name = re.sub(r"([a-z0-9])([A-Z])", r"\1 \2", clean_name)
 
-    # 3. Controleer of er een corresponderend analysebestand bestaat in /Complexity Analyses/
+    # 3. Controleer analysebestand en tijdsefficiëntie
     analysis_file = f"{raw_name}.md"
-    analysis_path = os.path.join(ANALYSIS_DIR, analysis_file).replace("\\", "/")
+    full_analysis_path = os.path.join(ANALYSIS_DIR, analysis_file)
     
-    if os.path.exists(os.path.join(ANALYSIS_DIR, analysis_file)):
-        # Encodeer eventuele spaties voor geldige Markdown URLs
+    if os.path.exists(full_analysis_path):
         encoded_path = f"Complexity%20Analyses/{analysis_file}"
         analysis_link = f"[📊 Bekijk Analyse]({encoded_path})"
+        efficient_badge = check_time_efficiency(full_analysis_path)
     else:
         analysis_link = "-"
+        efficient_badge = "-"
 
     return {
         "raw_name": raw_name,
@@ -46,7 +76,8 @@ def parse_cs_file(file_path, file_name):
         "rank": rank,
         "path": file_path,
         "url": url,
-        "analysis_link": analysis_link
+        "analysis_link": analysis_link,
+        "efficient": efficient_badge
     }
 
 def count_tests_for_kata(search_dir, raw_name):
@@ -104,15 +135,15 @@ Automatisch gegenereerd overzicht van opgeloste Codewars kata's met geïntegreer
 | :---: | :---: |
 | **{len(katas)}** | **{total_tests}** |
 
-| Rank / Kyu | Kata Probleem | Tests | Analyse | Bronbestand |
-| :--- | :--- | :---: | :---: | :--- |
+| Rank / Kyu | Kata Probleem | Tests | Efficiënt | Analyse | Bronbestand |
+| :--- | :--- | :---: | :---: | :---: | :--- |
 """
     
     for kata in katas:
         kata_link = f"[{kata['name']}]({kata['url']})" if kata['url'] else kata['name']
         test_badge = f"`{kata['tests_count']}`" if kata['tests_count'] > 0 else "-"
 
-        readme_content += f"| `{kata['rank']}` | **{kata_link}** | {test_badge} | {kata['analysis_link']} | [Bekijk Code]({kata['path']}) |\n"
+        readme_content += f"| `{kata['rank']}` | **{kata_link}** | {test_badge} | {kata['efficient']} | {kata['analysis_link']} | [Bekijk Code]({kata['path']}) |\n"
 
     with open("README.md", "w", encoding="utf-8") as f:
         f.write(readme_content)
