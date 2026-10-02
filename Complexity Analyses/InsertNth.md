@@ -4,12 +4,12 @@
 
 ---
 
-1. **Complexiteit**: 
-   - Tijdcomplexiteit: $\mathcal{O}(n)$ (waarbij $n$ de index is waar ingevoegd moet worden).
-   - Ruimtecomplexiteit: $\mathcal{O}(1)$ (er wordt exact één nieuwe node gealloceerd, ongeacht de grootte).
+1. **Complexiteit**:
+   - **Tijdskomplexiteit**: $\mathcal{O}(N)$, waarbij $N$ de index is waar het nieuwe element wordt ingevoegd, omdat de lus $index$ keer doorloopt.
+   - **Ruimtekomplexiteit**: $\mathcal{O}(1)$, er wordt constant extra geheugen gebruikt (alleen de nieuwe node).
 
-2. **Efficiëntst?**: 
-   - Ja, de tijdscomplexiteit ($\mathcal{O}(n)$) is optimaal omdat een gekoppelde lijst (linked list) nu eenmaal sequentieel doorlopen moet worden tot de gewenste index.
+2. **Efficiëntst?**:
+   - **Ja**, de algoritmische tijdscomplexiteit is optimaal ($\mathcal{O}(N)$), aangezien je een gelinkte lijst nu eenmaal sequentieel moet doorlopen tot de gevraagde index.
 
-3. **Optimalisatiemogelijkheid**: 
-   - De huidige implementatie is algoritmisch optimaal. Qua codekwaliteit kan het iets compacter door de `previous` pointer te elimineren door direct op `current.next` te itereren, of door C# 12 primary constructors consistenter toe te passen. Dit levert echter geen verandering op in Big O-prestaties.
+3. **Optimalisatiemogelijkheid**:
+   - De code kan iets cleaner en idiomatischer door de `previous`-pointer weg te laten. Omdat je `current` iteratief verplaatst, kun je ook direct op `current.next` werken of de `for`-lus herschrijven om direct op het niveau van `current` te muteren, al verandert dit de Big-O niet. Het gebruik van moderne C#-features zoals pattern matching kan de leesbaarheid verder vergroten.

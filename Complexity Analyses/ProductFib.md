@@ -5,11 +5,11 @@
 ---
 
 1. **Complexiteit**: 
-   - Tijdcomplexiteit: $\mathcal{O}(\log(\text{prod}))$ (omdat de Fibonacci-getallen exponentieel groeien).
-   - Ruimtecomplexiteit: $\mathcal{O}(1)$.
+   - Tijdcomplexiteit: $O(\log \text{prod})$ (het aantal stappen groeit logaritmisch met de grootte van de invoer, omdat Fibonacci-getallen exponentieel groeien).
+   - Ruimtecomplexiteit: $O(1)$ (er wordt constante extra geheugenruimte gebruikt).
 
 2. **Efficiëntst?**: 
-   - Ja. Een lineaire of sub-lineaire doorloop van de Fibonacci-reeks is theoretisch het optimaalst voor dit probleem, aangezien de reeks opeenvolgend gegenereerd moet worden om het product te controleren.
+   - Ja.
 
 3. **Optimalisatiemogelijkheid**: 
-   - De huidige implementatie is qua Big O al optimaal en zeer efficiënt. Een kleine micro-optimalisatie is het hergebruiken van de berekende vermenigvuldiging (`ulong product = a * b;`) zodat deze niet dubbel wordt berekend in de `if`-voorwaarde. Verder is er geen fundamentele versnelling mogelijk zonder geavanceerde wiskundige benaderingen (zoals Binet's formule), die bij `ulong` echter leiden tot afrondingsfouten.
+   - De huidige oplossing is al optimaal qua Big O-complexiteit en algoritmisch ontwerp. Een kleine micro-optimalisatie in C# zou kunnen zijn om herhaalde berekeningen van `a * b` te vermijden door het product direct in de loop op te slaan, al zal de JIT-compiler dit waarschijnlijk al optimaliseren.

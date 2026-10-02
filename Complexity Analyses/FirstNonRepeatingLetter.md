@@ -5,11 +5,11 @@
 ---
 
 1. **Complexiteit**: 
-   - Tijd: $\mathcal{O}(n^2)$ in het slechtste geval, vanwege het herhaaldelijk doorzoeken van substrings met `Contains` voor elk karakter.
-   - Ruimte: $\mathcal{O}(n)$ vanwege het alloceren van substrings (met `s[..i]` en `s[(i + 1)..]`) en string-transformaties.
+   - **Tijd**: $\mathcal{O}(N^2)$ in het slechtste geval, omdat voor elk karakter in de string substrings worden gekopieerd en doorzocht (`s[..i]` en `s[(i + 1)..]`).
+   - **Ruimte**: $\mathcal{O}(N)$ vanwege het alloceren van substrings en lower/upper case conversies.
 
 2. **Efficiëntst?**: 
-   Nee.
+   - **Nee**. De optimale tijdscomplexiteit voor dit probleem is $\mathcal{O}(N)$.
 
 3. **Optimalisatiemogelijkheid**: 
-   De tijdscomplexiteit kan worden verbeterd naar $\mathcal{O}(n)$ door een frequentietabel (bijv. een `Dictionary<char, int>` of een array voor ASCII/Unicode) te gebruiken. Eerst tel je de frequentie van alle hoofdletterongevoelige karakters in één pass ($\mathcal{O}(n)$). In een tweede pass door de originele string retourneer je het eerste karakter waarvan de frequentie (gebaseerd op de lowercase/uppercase equivalenten) gelijk is aan 1. Dit voorkomt dure substring-operaties en herhalende zoekopdrachten.
+   - De huidige oplossing kan efficiënter door een frequentietabel (bijv. een `Dictionary<char, int>` of een array voor ASCII/Unicode) te gebruiken. Door in **één enkele pass** ($\mathcal{O}(N)$) alle karakters te tellen (waarbij je hoofdletterongevoeligheid normaliseert), en vervolgens in een tweede korte pass het eerste karakter met frequentie 1 terug te vinden, reduceer je de tijd tot lineaire complexiteit $\mathcal{O}(N)$ en minimaliseer je geheugenallocaties.

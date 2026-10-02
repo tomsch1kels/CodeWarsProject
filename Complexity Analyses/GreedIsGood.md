@@ -4,12 +4,13 @@
 
 ---
 
-### 1. Complexiteit
-* **Tijdcomplexiteit:** $\mathcal{O}(1)$ (omdat de invoerarray `dice` altijd uit een vaste grootte van 5 elementen bestaat).
-* **Ruimtecomplexiteit:** $\mathcal{O}(1)$.
+1. **Complexiteit**: 
+   - Tijdslimiet: $\mathcal{O}(1)$ (aangezien de array-grootte vast staat op 5 elementen).
+   - Ruimtecomplexiteit: $\mathcal{O}(1)$.
 
-### 2. Efficiëntst?
-* **Ja**, de huidige theoretische tijdscomplexiteit is $\mathcal{O}(1)$, wat optimaal is.
+2. **Efficiëntst?**: 
+   - Nee. (Hoewel de huidige placeholder $\mathcal{O}(1)$ is, berekent deze nog geen score). Om het werkelijke probleem op te lossen, is de optimale tijdslimiet $\mathcal{O}(N)$ met $N$ als aantal dobbelstenen (of $\mathcal{O}(1)$ omdat $N=5$ vast is).
 
-### 3. Optimalisatiemogelijkheid
-De huidige implementatie is echter een stub die altijd `0` retourneert en moet nog worden geïmplementeerd. Om het daadwerkelijk uit te voeren binnen $\mathcal{O}(1)$ kun je de dobbelstenen tellen (bijv. via een array van grootte 7 of `GroupBy`) en de regels van het spel toepassen met een `switch`-expressie of `if`-statements.
+3. **Optimalisatiemogelijkheid**: 
+   - Tel de frequentie van elk getal (1 t/m 6) met een array van grootte 6 of een `Dictionary`.
+   - Bereken de score door eerst te controleren op drielingen (bijv. drie even getallen leveren $100 \times \text{waarde}$ op, en drie enen leveren $1000$ op) en tel daarna de resterende losse enen ($100$ p.st.) en vijven ($50$ p.st.) erbij op.
