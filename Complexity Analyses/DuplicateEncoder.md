@@ -4,14 +4,8 @@
 
 ---
 
-1. **Tijdscomplexiteit (Time Complexity)**: 
-   $O(N)$
-
-2. **Ruimtecomplexiteit (Space Complexity)**: 
-   $O(N)$
-
+1. **Tijdscomplexiteit (Time Complexity)**: $O(N)$
+2. **Ruimtecomplexiteit (Space Complexity)**: $O(N)$
 3. **Optimalisatie**: 
-   De huidige implementatie doet te veel onnodige iteraties en allocaties door herhaaldelijk `.ToList()` en LINQ te gebruiken. Dit kan efficiënter en sneller door:
-   - Een `Dictionary` te vullen met een simpele `foreach`-lus in plaats van LINQ's `ForEach`.
-   - Een `Span<char>` of `StringBuilder` te gebruiken voor de uiteindelijke string-constructie om geheugenallocaties op de heap te minimaliseren.
-   - Eventueel de frequenties direct in een vaste array van `int[256]` (of `int[65536]` voor alle Unicode BMP karakters) bij te houden in plaats van een `Dictionary`, wat de lookup-overhead volledig elimineert.
+   - Vermijd LINQ-allocaties (`ToList()`) en herhaalde enumeraties door een traditionele `for`-loop of `foreach`-loop te gebruiken in combinatie met een `Span<char>` of `StringBuilder`.
+   - Voor de frequentietelling is een `Dictionary<char, int>` goed, maar aangezien het alfabet vaak beperkt is (of ASCII), kan een vaste `int[256]` array of `Span` op de stack nog sneller werken en extra heap-allocaties voorkomen.
