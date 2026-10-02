@@ -14,7 +14,7 @@ internal sealed partial class Node()
 
         ArgumentOutOfRangeException.ThrowIfNegative(index);
         Node? current = head;
-        
+
         Node? previous = null;
         for (int i = 0; i < index; i++)
         {

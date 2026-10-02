@@ -6,7 +6,7 @@ internal static class DuplicateEncoder
     public static string DuplicateEncode(string word)
     {
         word = word.ToUpperInvariant();
-        
+
         Dictionary<char, int> occurences = [];
 
         word.ToList().ForEach(
