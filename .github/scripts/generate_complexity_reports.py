@@ -29,7 +29,7 @@ def analyze_code_with_gemini(code, filename):
 
     Schrijf een heel korte Markdown analyse met de volgende onderdelen (in het Nederlands):
     1. **Complexiteit**: Exacte Big O-notatie voor tijd en ruimte.
-    2. **Efficientst?**: Geef met ja/nee aan of de implementatie de optimale Big O tijdscomplexiteit heeft die mogelijk is.
+    2. **Efficiëntst?**: Geef met ja/nee aan of de implementatie de optimale Big O tijdscomplexiteit heeft die mogelijk is.
     Beschrijf als huidige oplossing efficienter kan en hoe. : 3. **Optimalisatiemogelijkheid**: Beschrijf hoe de huidige oplossing efficienter kan. 
     Geef UITSLUITEND de Markdown inhoud terug zonder extra omhullende tekst.
     """

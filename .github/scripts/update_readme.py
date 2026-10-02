@@ -6,8 +6,39 @@ github_repo = os.environ.get("GITHUB_REPOSITORY", "tomsch1kels/CodeWarsProject")
 SOLUTIONS_DIR = "./Solutions"
 TESTS_DIR = "./Tests"
 ANALYSIS_DIR = "./Complexity Analyses"
-
 def check_time_efficiency(analysis_path):
+    """
+    Zoekt robuust naar het kopje 'Efficientst?' of 'Efficiëntst?'
+    en kijkt of het antwoord met Ja of Nee begint.
+    """
+    if not os.path.exists(analysis_path):
+        return "-"
+    
+    try:
+        with open(analysis_path, "r", encoding="utf-8") as f:
+            content = f.read()
+
+        # Matcht 'Efficientst?' EN 'Efficiëntst?' (met of zonder trema)
+        # Matcht ook variabelen in markdown opmaak (zoals **, ###, etc.)
+        pattern = r"Efficië?ntst\?\*?\*?\s*[:\n]*\s*(Ja|Nee)\b"
+        match = re.search(pattern, content, re.IGNORECASE)
+        
+        if match:
+            answer = match.group(1).capitalize()
+            return "✅" if answer == "Ja" else "❌"
+            
+        # Fallback: Zoek simpelweg of 'Efficiëntst' ergens wordt gevolgd door 'Ja' of 'Nee'
+        fallback_pattern = r"Efficië?ntst.*?\b(Ja|Nee)\b"
+        fallback_match = re.search(fallback_pattern, content, re.IGNORECASE | re.DOTALL)
+        if fallback_match:
+            answer = fallback_match.group(1).capitalize()
+            return "✅" if answer == "Ja" else "❌"
+
+    except Exception as e:
+        print(f"[FOUT] Kon {analysis_path} niet lezen: {e}")
+
+    return "-"
+
     """
     Zoekt robuust naar het kopje 'Efficientst?' en kijkt of het antwoord met Ja of Nee begint.
     """
