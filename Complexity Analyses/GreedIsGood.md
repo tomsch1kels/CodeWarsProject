@@ -5,12 +5,12 @@
 ---
 
 1. **Complexiteit**: 
-   - Tijdslimiet: $\mathcal{O}(1)$ (aangezien de array-grootte vast staat op 5 elementen).
+   - Tijdcomplexiteit: $\mathcal{O}(1)$ (omdat de inputlengte altijd vast is op 5 dobbelstenen).
    - Ruimtecomplexiteit: $\mathcal{O}(1)$.
 
 2. **Efficiëntst?**: 
-   - Nee. (Hoewel de huidige placeholder $\mathcal{O}(1)$ is, berekent deze nog geen score). Om het werkelijke probleem op te lossen, is de optimale tijdslimiet $\mathcal{O}(N)$ met $N$ als aantal dobbelstenen (of $\mathcal{O}(1)$ omdat $N=5$ vast is).
+   - Nee. Hoewel de huidige placeholder $\mathcal{O}(1)$ is vanwege de vaste inputgrootte, berekent deze nog geen resultaat. Om de werkelijke logica te implementeren is een frequentietelling vereist.
 
 3. **Optimalisatiemogelijkheid**: 
-   - Tel de frequentie van elk getal (1 t/m 6) met een array van grootte 6 of een `Dictionary`.
-   - Bereken de score door eerst te controleren op drielingen (bijv. drie even getallen leveren $100 \times \text{waarde}$ op, en drie enen leveren $1000$ op) en tel daarna de resterende losse enen ($100$ p.st.) en vijven ($50$ p.st.) erbij op.
+   - Tel de voorkomens van elk getal (1 t/m 6) met behulp van een vaste array van grootte 7 of `LINQ (GroupBy)`. 
+   - Pas vervolgens de spelregels toe via een `switch`-expressie of array-lookups om de totaalscore in $\mathcal{O}(1)$ tijd en ruimte te berekenen zonder overbodige allocaties.

@@ -7,12 +7,10 @@
 1. **Complexiteit**: 
    - Tijd: $\mathcal{O}(n)$
    - Ruimte: $\mathcal{O}(n)$
-   *(waarbij $n$ de lengte van de invoerstring is)*
+   *(waarbij $n$ de lengte van de string is)*
 
-2. **Efficiëntst?**: Ja. Een lineaire tijdscomplexiteit $\mathcal{O}(n)$ is optimaal omdat elk karakter minstens één keer gelezen moet worden om te bepalen of het uniek is.
+2. **Efficiëntst?**: 
+   Ja. $\mathcal{O}(n)$ is de optimale tijdscomplexiteit omdat elk karakter minstens één keer gelezen moet worden om te bepalen of het uniek is.
 
 3. **Optimalisatiemogelijkheid**: 
-   De huidige implementatie gebruikt overbodige LINQ-allocaties (`.ToList()`, `.ForEach()`, `.Select()`). Dit kan efficiënter en geheugenvriendelijker door:
-   - Een `Dictionary` te vullen met een traditionele `foreach`-lus over de string.
-   - Het resultaat te bouwen via een `Span<char>` of `StringBuilder` i.p.v. `string.Concat` met LINQ.
-   - Alternatief: een `int[256]` array als lookup-tabel gebruiken in plaats van een `Dictionary` om overhead te vermijden (indien de tekenset beperkt is).
+   De huidige implementatie kan worden versneld en geoptimaliseerd voor minder geheugengebruik (allocaties) door overbodige LINQ-operatoren (`.ToList()`, `.ForEach()`, `.Select()`) te vermijden. Dit kan met een `Span<char>` of een eenvoudige `for`-lus i.c.m. een `Span<char>` of `StringBuilder`, en door vooraf te tellen in een vaste array (aangenomen dat de invoer binnen de ASCII/Unicode-set valt) in plaats van een `Dictionary<char, int>`.

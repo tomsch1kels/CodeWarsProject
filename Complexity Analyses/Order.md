@@ -4,12 +4,30 @@
 
 ---
 
-1. **Complexiteit**: 
-   - **Tijd**: $\mathcal{O}(N \cdot M \log K)$ waar $N$ het aantal woorden is, $M$ de gemiddelde woordlengte en $K$ het aantal unieke woorden (vanwege de `SortedDictionary` en `char.IsDigit` per woord).
-   - **Ruimte**: $\mathcal{O}(N)$ voor de opslag in de woordenboek en array.
+### 1. Complexiteit
+* **Tijdcomplexiteit:** $\mathcal{O}(N \cdot M \log N)$, waarbij $N$ het aantal woorden is en $M$ de gemiddelde lengte van een woord. Dit komt door het parsen van elk woord en het invoegen in de `SortedDictionary`.
+* **Ruimtecomplexiteit:** $\mathcal{O}(N \cdot M)$, voor het opslaan van de woorden in de array en de `SortedDictionary`.
 
-2. **Efficiëntst?**: 
-   - **Nee**. Hoewel $\mathcal{O}(N \log N)$ acceptabel is, kan het in $\mathcal{O}(N)$ tijd door een vaste array of een `Span<string>` te gebruiken op basis van de bekende index (1 t/m 9).
+### 2. Efficiëntst?
+Nee. Hoewel de tijdscomplexiteit acceptabel is, gebruikt de huidige oplossing een `SortedDictionary` wat overhead genereert door de binaire boomstructuur en boxing (door `char.IsDigit` te casten naar een `int`).
 
-3. **Optimalisatiemogelijkheid**: 
-   Vervang de `SortedDictionary` door een vaste array van grootte $N$ (`string[] result = new string[length]`). Omdat de cijfers altijd van 1 tot $N$ lopen, kun je het cijfer direct als array-index gebruiken (na aftrek van 1). Dit verwijdert de overhead van het sorteren en reduceert de tijdscomplexiteit naar strikt lineaire tijd $\mathcal{O}(N \cdot M)$.
+### 3. Optimalisatiemogelijkheid
+Het kan efficiënter door een standaard array van vaste grootte te gebruiken in plaats van een `SortedDictionary`, aangezien de indices bekend zijn (1 tot $N$). Hierdoor vermijd je de $\mathcal{O}(\log N)$ overhead per element en kan het in $\mathcal{O}(N \cdot M)$ tijd worden opgelost:
+
+```csharp
+public static string Solve(string words)
+{
+    if (string.IsNullOrEmpty(words)) return string.Empty;
+
+    string[] split = words.Split();
+    string[] result = new string[split.Length];
+
+    foreach (string word in split)
+    {
+        int index = word.First(char.IsDigit) - '1';
+        result[index] = word;
+    }
+
+    return string.Join(" ", result);
+}
+```

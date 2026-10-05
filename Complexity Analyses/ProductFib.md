@@ -5,11 +5,11 @@
 ---
 
 1. **Complexiteit**: 
-   - Tijdcomplexiteit: $O(\log \text{prod})$ (het aantal stappen groeit logaritmisch met de grootte van de invoer, omdat Fibonacci-getallen exponentieel groeien).
-   - Ruimtecomplexiteit: $O(1)$ (er wordt constante extra geheugenruimte gebruikt).
+   - Tijdcomplexiteit: $\mathcal{O}(\log(\text{prod}))$ (omdat de Fibonacci-getallen exponentieel groeien).
+   - Ruimtecomplexiteit: $\mathcal{O}(1)$.
 
 2. **Efficiëntst?**: 
-   - Ja.
+   Ja. Dit is de optimale Big O tijdscomplexiteit voor dit probleem, omdat we de reeks sequentiell moeten doorlopen tot het product is bereikt of overschreden.
 
 3. **Optimalisatiemogelijkheid**: 
-   - De huidige oplossing is al optimaal qua Big O-complexiteit en algoritmisch ontwerp. Een kleine micro-optimalisatie in C# zou kunnen zijn om herhaalde berekeningen van `a * b` te vermijden door het product direct in de loop op te slaan, al zal de JIT-compiler dit waarschijnlijk al optimaliseren.
+   Algoritmisch kan het niet efficiënter qua Big O. Wel kan de code micro-geoptimaliseerd worden door herhaalde vermenigvuldiging te minimaliseren, of door over te stappen op Binet's formule om direct naar de juiste index te springen (hoewel dit precisieproblemen kan geven met `ulong`). De huidige implementatie is echter al uitstekend leesbaar en idiomatisch voor C#.

@@ -4,12 +4,12 @@
 
 ---
 
-1. **Complexiteit**:
-   - **Tijdskomplexiteit**: $\mathcal{O}(N)$, waarbij $N$ de index is waar het nieuwe element wordt ingevoegd, omdat de lus $index$ keer doorloopt.
-   - **Ruimtekomplexiteit**: $\mathcal{O}(1)$, er wordt constant extra geheugen gebruikt (alleen de nieuwe node).
+### 1. Complexiteit
+* **Tijdcomplexiteit:** $\mathcal{O}(n)$, waarbij $n$ de index is waar de node moet worden ingevoegd. In het slechtste geval moet de lijst tot index $ اکرم $ worden doorlopen.
+* **Ruimtecomplexiteit:** $\mathcal{O}(1)$, aangezien er slechts één nieuwe node wordt gealloceerd en er een constant aantal pointers wordt gebruikt (geen extra datastructuren).
 
-2. **Efficiëntst?**:
-   - **Ja**, de algoritmische tijdscomplexiteit is optimaal ($\mathcal{O}(N)$), aangezien je een gelinkte lijst nu eenmaal sequentieel moet doorlopen tot de gevraagde index.
+### 2. Efficiëntst?
+**Ja**, de implementatie heeft de optimale Big O tijdscomplexiteit ($\mathcal{O}(n)$) en ruimtecomplexiteit ($\mathcal{O}(1)$) die theoretisch mogelijk is voor een gekoppelde lijst (linked list) op willekeurige indexen.
 
-3. **Optimalisatiemogelijkheid**:
-   - De code kan iets cleaner en idiomatischer door de `previous`-pointer weg te laten. Omdat je `current` iteratief verplaatst, kun je ook direct op `current.next` werken of de `for`-lus herschrijven om direct op het niveau van `current` te muteren, al verandert dit de Big-O niet. Het gebruik van moderne C#-features zoals pattern matching kan de leesbaarheid verder vergroten.
+### 3. Optimalisatiemogelijkheid
+De huidige oplossing is algoritmisch optimaal, maar de code kan worden gestroomlijnd en versneld door onnodige null-checks te vermijden. De `current ?? throw...` check binnen de lus is overbodig als de index buiten de geldige bereik van de lijst valt (in veel Codewars-katas wordt aangenomen dat de index geldig is of wordt een `ArgumentOutOfRangeException` verwacht). Daarnaast kan de code compacter door direct op de `head` te werken en de `previous`-pointer te elimineren door de lijst recursief of met een enkele pointer te benaderen.

@@ -4,12 +4,12 @@
 
 ---
 
-1. **Complexiteit**: 
-   - **Tijd**: $\mathcal{O}(N^2)$ in het slechtste geval, omdat voor elk karakter in de string substrings worden gekopieerd en doorzocht (`s[..i]` en `s[(i + 1)..]`).
-   - **Ruimte**: $\mathcal{O}(N)$ vanwege het alloceren van substrings en lower/upper case conversies.
+1. **Complexiteit**
+   * **Tijdcomplexiteit:** $\mathcal{O}(n^2)$ in het slechtste geval, omdat voor elk karakter de `[..i]` en `[(i + 1)..]` subarrays worden gekopieerd en doorzocht.
+   * **Ruimtecomplexiteit:** $\mathcal{O}(n)$ vanwege het alloceren van substrings bij het slicen.
 
-2. **Efficiëntst?**: 
-   - **Nee**. De optimale tijdscomplexiteit voor dit probleem is $\mathcal{O}(N)$.
+2. **Efficiëntst?**
+   * **Nee**, de optimale tijdscomplexiteit is $\mathcal{O}(n)$.
 
-3. **Optimalisatiemogelijkheid**: 
-   - De huidige oplossing kan efficiënter door een frequentietabel (bijv. een `Dictionary<char, int>` of een array voor ASCII/Unicode) te gebruiken. Door in **één enkele pass** ($\mathcal{O}(N)$) alle karakters te tellen (waarbij je hoofdletterongevoeligheid normaliseert), en vervolgens in een tweede korte pass het eerste karakter met frequentie 1 terug te vinden, reduceer je de tijd tot lineaire complexiteit $\mathcal{O}(N)$ en minimaliseer je geheugenallocaties.
+3. **Optimalisatiemogelijkheid**
+   De huidige oplossing kan efficiënter door een frequentietabel (bijv. een `Dictionary<char, int>` of een vaste array voor ASCII/Unicode) te gebruiken. Door de string eerst eenmalig te doorlopen en de hoofdlettergevoelige of -ongevoelige voorkomens van elk karakter te tellen in $\mathcal{O}(n)$ tijd, kun je in een tweede $\mathcal{O}(n)$ pass direct het eerste karakter vinden met telling 1. Dit brengt de totale tijd terug naar $\mathcal{O}(n)$ en elimineert onnodige string-allocaties.
