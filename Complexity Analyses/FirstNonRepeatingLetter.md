@@ -4,12 +4,12 @@
 
 ---
 
-1. **Complexiteit**
-   * **Tijdcomplexiteit:** $\mathcal{O}(n^2)$ in het slechtste geval, omdat voor elk karakter de `[..i]` en `[(i + 1)..]` subarrays worden gekopieerd en doorzocht.
-   * **Ruimtecomplexiteit:** $\mathcal{O}(n)$ vanwege het alloceren van substrings bij het slicen.
+1. **Complexiteit**: 
+   - Tijd: $\mathcal{O}(n^2)$ in het slechtste geval, vanwege herhaalde substring-allocaties en doorzoekingen via `Contains` binnen de nested lussen en helpers.
+   - Ruimte: $\mathcal{O}(n)$ vanwege de string slicing (`s[..i]` en `s[(i + 1)..]`) en het genereren van lowercase/uppercase varianten.
 
-2. **Efficiëntst?**
-   * **Nee**, de optimale tijdscomplexiteit is $\mathcal{O}(n)$.
+2. **Efficiëntst?**: 
+   - Nee.
 
-3. **Optimalisatiemogelijkheid**
-   De huidige oplossing kan efficiënter door een frequentietabel (bijv. een `Dictionary<char, int>` of een vaste array voor ASCII/Unicode) te gebruiken. Door de string eerst eenmalig te doorlopen en de hoofdlettergevoelige of -ongevoelige voorkomens van elk karakter te tellen in $\mathcal{O}(n)$ tijd, kun je in een tweede $\mathcal{O}(n)$ pass direct het eerste karakter vinden met telling 1. Dit brengt de totale tijd terug naar $\mathcal{O}(n)$ en elimineert onnodige string-allocaties.
+3. **Optimalisatiemogelijkheid**: 
+   - De tijdscomplexiteit kan worden teruggebracht naar $\mathcal{O}(n)$ door een frequentietabel (bijv. een `Dictionary<char, int>`) te gebruiken. Door de string eerst eenmalig te doorlopen en de hoofdlettergevoelige frequenties van elk karakter op te slaan (rekening houdend met case-insensitive matching), kan in een tweede, korte iteratie direct het eerste karakter met frequentie 1 worden geretourneerd zonder overbodige substrings of nested lussen.

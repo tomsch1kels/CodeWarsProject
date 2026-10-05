@@ -4,10 +4,12 @@
 
 ---
 
-1. **Complexiteit**: 
+1. **Complexiteit**:
    - Tijdcomplexiteit: $\mathcal{O}(1)$
    - Ruimtecomplexiteit: $\mathcal{O}(1)$
 
-2. **Efficiëntst?**: Ja. De oplossing maakt gebruik van de wiskundige eigenschap dat de som van de $n$-de rij van oneven getallen gelijk is aan $n^3$, wat de theoretisch maximaal haalbare efficiëntie is ($\mathcal{O}(1)$).
+2. **Efficiëntst?**:
+   - Ja, dit is de meest optimale tijdscomplexiteit die mogelijk is.
 
-3. **Optimalisatiemogelijkheid**: De huidige oplossing is al optimaal. Wel zou `Math.Pow(n, 3)` geschreven kunnen worden als `n * n * n` om eventuele overhead van de `Math.Pow` methode (die met `double` werkt) te vermijden, al is het effect op dit niveau te verwaarlozen.
+3. **Optimalisatiemogelijkheid**:
+   - De huidige oplossing maakt gebruik van `Math.Pow`, wat `double` als argumenten accepteert en retourneert, gevolgd door een `long`-cast. Dit kan micro-geoptimaliseerd worden door simpele vermenigvuldiging te gebruiken om afrondingsfouten en overhead te vermijden: `n * n * n`.

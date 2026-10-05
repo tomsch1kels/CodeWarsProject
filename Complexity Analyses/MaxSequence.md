@@ -9,7 +9,7 @@
    - Ruimte: $\mathcal{O}(1)$
 
 2. **Efficiëntst?**: 
-   Nee, de huidige oplossing heeft een kubische tijdscomplexiteit, terwijl dit probleem optimaal opgelost kan worden in lineaire tijd.
+   Nee, de huidige implementatie is niet optimaal.
 
 3. **Optimalisatiemogelijkheid**: 
-   De oplossing kan aanzienlijk efficiënter door gebruik te maken van **Kadane's Algorithm**. Door door de array te itereren en voor elk element de maximale som van de subarray die op dat punt eindigt bij te houden, wordt de tijdscomplexiteit verlaagd naar $\mathcal{O}(n)$.
+   De oplossing kan worden geoptimaliseerd naar een $\mathcal{O}(n)$ tijdscomplexiteit met behulp van **Kadane's Algoritme**. Hierbij wordt de array in één enkele pass doorlopen door op elk punt de maximale som van de subarray tot dan toe bij te houden.

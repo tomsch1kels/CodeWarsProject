@@ -5,11 +5,13 @@
 ---
 
 1. **Complexiteit**: 
-   - Tijd: $\mathcal{O}(N \cdot L \log N)$ waarbij $N$ het aantal gewichten is en $L$ de maximale lengte (aantal cijfers) van een gewicht.
-   - Ruimte: $\mathcal{O}(N \cdot L)$ voor het opslaan van de objecten en de gescheiden strings.
+   - Tijd: $\mathcal{O}(N \cdot L \log N)$ (waarbij $N$ het aantal getallen is en $L$ de maximale lengte van een getal, vanwege het sorteren en stringvergelijkingen).
+   - Ruimte: $\mathcal{O}(N \cdot L)$ voor het opslaan van de tuples en de gesplitste strings.
 
 2. **Efficiëntst?**: 
-   Nee.
+   - Nee. Hoewel de asymptotische tijdscomplexiteit voor vergelijkingssorteren optimaal is ($N \log N$), doet de huidige implementatie veel overbodige allocaties en herhaalde berekeningen.
 
 3. **Optimalisatiemogelijkheid**: 
-   De huidige code maakt onnodig gebruik van LINQ-allocaties (`ToList()`, `Select()`) en karakterconversies (`mass.ToList().Sum(...)`). Dit kan optimaler door direct over de string te itereren zonder geheugenallocaties per getal en door `Array.Sort` te gebruiken met een custom `Comparison<T>` of `IComparer<T>`, waardoor de tijdscomplexiteit voor het sorteren verbetert naar $\mathcal{O}(N \log N \cdot L)$ en de garbage collection druk aanzienlijk afneemt.
+   - De oplossing kan efficiënter door LINQ-allocaties (zoals `.ToList()` en `char.GetNumericValue`) te vermijden. 
+   - Door direct te itereren over de string met `Span<T>` of `Memory<T>`, of door de gewichtsberekening inline uit te voeren tijdens het parsen, elimineer je heap-allocaties. 
+   - Sla de berekende gewichten op in een eenvoudige struct om boxing te voorkomen, en gebruik een custom `IComparer<(long Weight, string Mass)>` om stringvergelijkingen te optimaliseren.

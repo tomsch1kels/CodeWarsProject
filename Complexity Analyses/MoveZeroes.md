@@ -4,12 +4,24 @@
 
 ---
 
-1. **Complexiteit**
-   - Tijd: $\mathcal{O}(n \log n)$ door het gebruik van LINQ's `OrderBy`.
-   - Ruimte: $\mathcal{O}(n)$ voor het opslaan van de nieuwe array en de tussentijdse resultaten van de sorteerbewerking.
+1. **Complexiteit**: 
+   - Tijd: $\mathcal{O}(n \log n)$ door het gebruik van LINQ `OrderBy`.
+   - Ruimte: $\mathcal{O}(n)$ voor het creëren van de nieuwe array en de interne sorteerstructuren.
 
-2. **Efficiëntst?**
-   - **Nee**. De optimale tijdscomplexiteit voor dit probleem is $\mathcal{O}(n)$, omdat de elementen in één enkele doorgang herschikt kunnen worden zonder te sorteren.
+2. **Efficiëntst?**: 
+   - **Nee**. Sorteren is overkill omdat we alleen de relatieve volgorde van niet-nul elementen hoeven te behouden en alle nullen naar achteren moeten verplaatsen.
 
-3. **Optimalisatiemogelijkheid**
-   - De huidige oplossing gebruikt een vergelijkingssorteeralgoritme (`OrderBy`), wat onnodig traag is. Dit kan optimaler door een array van dezelfde lengte te maken, in één iteratie alle niet-nul elementen op volgorde naar links te kopiëren, en de resterende plekken automatisch te laten vullen met nullen ($\mathcal{O}(n)$ tijd en $\mathcal{O}(n)$ ruimte). Nog efficiënter kan in $\mathcal{O}(n)$ tijd en $\mathcal{O}(1)$ extra ruimte door de elementen in-place te verschuiven met een dubbele pointer-strategie.
+3. **Optimalisatiemogelijkheid**: 
+   Dit kan in $\mathcal{O}(n)$ tijd en $\mathcal{O}(n)$ ruimte met een enkelvoudige pass (Two-Pointer of een voorwaardelijke array-vulling):
+   ```csharp
+   public static int[] Solve(int[] arr)
+   {
+       int[] result = new int[arr.Length];
+       int index = 0;
+       foreach (int i in arr)
+       {
+           if (i != 0) result[index++] = i;
+       }
+       return result; // Resterende elementen zijn automatisch 0 in C#
+   }
+   ```

@@ -5,12 +5,11 @@
 ---
 
 1. **Complexiteit**: 
-   - Tijdcomplexiteit: $\mathcal{O}(1)$ (omdat de inputlengte altijd vast is op 5 dobbelstenen).
-   - Ruimtecomplexiteit: $\mathcal{O}(1)$.
+   - Tijd: $\mathcal{O}(N)$ waarbij $N$ het aantal dobbelstenen is (in deze kata vast $N = 5$).
+   - Ruimte: $\mathcal{O}(N)$ vanwege het aanmaken van nieuwe lijsten/arrays bij het verwijderen van de triplet.
 
 2. **Efficiëntst?**: 
-   - Nee. Hoewel de huidige placeholder $\mathcal{O}(1)$ is vanwege de vaste inputgrootte, berekent deze nog geen resultaat. Om de werkelijke logica te implementeren is een frequentietelling vereist.
+   - **Nee**, hoewel de tijdscomplexiteit $\mathcal{O}(1)$ is (vanwege een vaste invoer van 5 dobbelstenen), maakt de huidige implementatie onnodige allocaties door arrays te converteren naar `List<int>` en weer terug. Dit kan volledigallocatievrij.
 
 3. **Optimalisatiemogelijkheid**: 
-   - Tel de voorkomens van elk getal (1 t/m 6) met behulp van een vaste array van grootte 7 of `LINQ (GroupBy)`. 
-   - Pas vervolgens de spelregels toe via een `switch`-expressie of array-lookups om de totaalscore in $\mathcal{O}(1)$ tijd en ruimte te berekenen zonder overbodige allocaties.
+   De code kan sneller en geheugen-efficiënter door *geen* arrays te hernoemen of te manipuleren, maar simpelweg één keer de frequenties van alle dobbelstenen te tellen in een array van grootte 7. Vervolgens kun je per getal direct de score berekenen (`aantal / 3 * tripletScore + aantal % 3 * singleScore`). Dit reduceert de logica tot een enkele iteratie zonder geheugenallocaties.
