@@ -5,11 +5,11 @@
 ---
 
 1. **Complexiteit**: 
-   - Tijd: $O(N \cdot M \log K)$ waar $N$ het aantal woorden is, $M$ de gemiddelde woordlengte (voor `Single(char.IsDigit)` en `Split`), en $K$ het aantal unieke woorden (vanwege de `SortedDictionary`).
-   - Ruimte: $O(N)$ voor de opslag in de `SortedDictionary` en de resulterende array.
+   - **Tijd**: $O(N \cdot M \log K)$ waar $N$ het aantal woorden is, $M$ de gemiddelde lengte van een woord, en $K$ het aantal unieke woorden (vanwege het gebruik van `SortedDictionary`).
+   - **Ruimte**: $O(N)$ voor het opslaan van de woorden in de `SortedDictionary` en de resulterende array.
 
 2. **Efficiëntst?**: 
-   Nee. Hoewel de tijdscomplexiteit $O(N \log N)$ benadert (wat optimaal is voor algemeen sorteren), kan het efficiënter door gebruik te maken van een vaste array in plaats van een `SortedDictionary`, aangezien de indices vooraf bekend zijn (1 t/m $N$).
+   - **Nee**. Hoewel $O(N \log N)$ acceptabel is, kan het theoretisch in **$O(N)$** tijd.
 
 3. **Optimalisatiemogelijkheid**: 
-   Vervang de `SortedDictionary` door een standaard `string[]` ter grootte van het aantal woorden. Door over de woorden te itereren, het cijfer te extraheren en deze direct op index `(cijfer - 1)` in de array te plaatsen, elimineer je de overhead van de boomstructuur van de `SortedDictionary` en bereik je een ware $O(N \cdot M)$ tijdscomplexiteit.
+   - De huidige `SortedDictionary` gebruikt een binaire zoekboom met overhead. Dit kan efficiënter door de woorden direct in een vaste array van grootte $N$ te plaatsen op basis van het gevonden cijfer (index $1$ t/m $9$). Dit vermijdt de $log K$ overhead van de boomstructuur en brengt de tijdscomplexiteit naar een strikte $O(N)$ zonder sorteren.

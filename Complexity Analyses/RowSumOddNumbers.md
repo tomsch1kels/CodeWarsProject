@@ -4,12 +4,12 @@
 
 ---
 
-1. **Complexiteit**:
-   - Tijdcomplexiteit: $\mathcal{O}(1)$
-   - Ruimtecomplexiteit: $\mathcal{O}(1)$
+1. **Complexiteit**: 
+   - Tijdcomplexiteit: $\mathcal{O}(1)$ (constante tijd, dankzij de wiskundige formule $n^3$).
+   - Ruimtecomplexiteit: $\mathcal{O}(1)$ (geen extra geheugenallocatie).
 
-2. **Efficiëntst?**:
-   - Ja, dit is de meest optimale tijdscomplexiteit die mogelijk is.
+2. **Efficiëntst?**: 
+   - Ja, dit is de meest optimale tijdscomplexiteit die mogelijk is voor dit probleem.
 
-3. **Optimalisatiemogelijkheid**:
-   - De huidige oplossing maakt gebruik van `Math.Pow`, wat `double` als argumenten accepteert en retourneert, gevolgd door een `long`-cast. Dit kan micro-geoptimaliseerd worden door simpele vermenigvuldiging te gebruiken om afrondingsfouten en overhead te vermijden: `n * n * n`.
+3. **Optimalisatiemogelijkheid**: 
+   - De huidige oplossing is al optimaal qua Big O. Wel kan `Math.Pow(n, 3)` (die met `double` werkt) vervangen worden door een directe vermenigvuldiging `n * n * n` om afrondingsfouten bij zeer grote getallen te voorkomen en een minieme performancewinst te behalen.

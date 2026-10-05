@@ -4,24 +4,12 @@
 
 ---
 
-1. **Complexiteit**: 
-   - Tijd: $\mathcal{O}(n \log n)$ door het gebruik van LINQ `OrderBy`.
-   - Ruimte: $\mathcal{O}(n)$ voor het creëren van de nieuwe array en de interne sorteerstructuren.
+1. **Complexiteit**
+   - Tijd: $\mathcal{O}(n \log n)$ door het gebruik van LINQ's `OrderBy`.
+   - Ruimte: $\mathcal{O}(n)$ voor het opslaan van de nieuwe array en de tussentijdse resultaten van de sortering.
 
-2. **Efficiëntst?**: 
-   - **Nee**. Sorteren is overkill omdat we alleen de relatieve volgorde van niet-nul elementen hoeven te behouden en alle nullen naar achteren moeten verplaatsen.
+2. **Efficiëntst?**
+   - Nee. De optimale tijdscomplexiteit voor dit probleem is $\mathcal{O}(n)$.
 
-3. **Optimalisatiemogelijkheid**: 
-   Dit kan in $\mathcal{O}(n)$ tijd en $\mathcal{O}(n)$ ruimte met een enkelvoudige pass (Two-Pointer of een voorwaardelijke array-vulling):
-   ```csharp
-   public static int[] Solve(int[] arr)
-   {
-       int[] result = new int[arr.Length];
-       int index = 0;
-       foreach (int i in arr)
-       {
-           if (i != 0) result[index++] = i;
-       }
-       return result; // Resterende elementen zijn automatisch 0 in C#
-   }
-   ```
+3. **Optimalisatiemogelijkheid**
+   - De huidige `OrderBy`-aanpak sorteert de array, wat onnodige overhead veroorzaakt. Dit kan efficiënter in één enkele pass ($\mathcal{O}(n)$ tijd en $\mathcal{O}(n)$ ruimte) door gebruik te maken van een nieuwe array (of `Span<T>`) waarbij alle niet-nul elementen op volgorde worden gekopieerd, waarna de resterende plekken automatisch op nul worden gelaten.
