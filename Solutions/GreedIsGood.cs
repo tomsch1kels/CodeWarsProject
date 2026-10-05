@@ -68,11 +68,12 @@ internal static class GreedIsGood
 
             foreach (int die in dice)
             {
-                result += die switch {
+                result += die switch
+                {
                     1 => 100,
                     5 => 50,
                     _ => 0,
-                    };
+                };
             }
 
             return result;
