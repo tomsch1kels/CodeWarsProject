@@ -76,11 +76,11 @@ internal static class HumanTimeFormat
 
         string GetStringFor(string singularUnitString, int countOfUnits)
          => countOfUnits switch
-        {
-            0 => string.Empty,
-            1 => "1 " + singularUnitString,
-            _ => countOfUnits + " " + singularUnitString + "s",
-        };
+         {
+             0 => string.Empty,
+             1 => "1 " + singularUnitString,
+             _ => countOfUnits + " " + singularUnitString + "s",
+         };
 
         string AddComplicatedInterpunction()
         {
