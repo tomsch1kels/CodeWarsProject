@@ -29,7 +29,7 @@ internal static class HumanTimeFormat
         int nYears;
 
         DetermineAmounts();
-        List<string> substrings = BuildSubStrings()
+        List<string> subStrings = BuildSubStrings()
             .Where(s => !string.IsNullOrEmpty(s))
             .ToList();
 
@@ -62,31 +62,26 @@ internal static class HumanTimeFormat
             GetStringFor("second", nSeconds),
         ];
 
-        string AddInterpunction()
+        string AddInterpunction() => subStrings.Count switch
         {
-            string result = substrings.Count switch
-            {
-                1 => substrings.First(),
-                2 => string.Join(" and ", substrings),
-                _ => AddComplicatedInterpunction(),
-            };
-
-            return result;
-        }
-
-        string GetStringFor(string singularUnitString, int countOfUnits)
-         => countOfUnits switch
-         {
-             0 => string.Empty,
-             1 => "1 " + singularUnitString,
-             _ => countOfUnits + " " + singularUnitString + "s",
-         };
+            1 => subStrings.First(),
+            2 => string.Join(" and ", subStrings),
+            _ => AddComplicatedInterpunction(),
+        };
 
         string AddComplicatedInterpunction()
         {
-            string lastPart = string.Join(" and ", substrings.TakeLast(2));
+            string lastPart = string.Join(" and ", subStrings.TakeLast(2));
 
-            return string.Join(", ", substrings.Take(substrings.Count - 2).Append(lastPart));
+            return string.Join(", ", subStrings.Take(subStrings.Count - 2).Append(lastPart));
         }
+
+        string GetStringFor(string singularUnitString, int countOfUnits)
+        => countOfUnits switch
+        {
+            0 => string.Empty,
+            1 => "1 " + singularUnitString,
+            _ => countOfUnits + " " + singularUnitString + "s",
+        };
     }
 }
