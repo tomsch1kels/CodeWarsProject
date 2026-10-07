@@ -4,12 +4,12 @@
 
 ---
 
-1. **Complexiteit**
-   * **Tijdcomplexiteit:** $\mathcal{O}(n^3)$ door de drie geneste lussen.
-   * **Ruimtecomplexiteit:** $\mathcal{O}(1)$ aangezien er geen extra geheugen wordt gealloceerd.
+1. **Complexiteit**: 
+   - Tijd: $\mathcal{O}(n^3)$
+   - Ruimte: $\mathcal{O}(1)$
 
-2. **Efficiëntst?**
-   * **Nee**, de huidige implementatie is niet optimaal voor dit probleem.
+2. **Efficiëntst?**: 
+   Nee.
 
-3. **Optimalisatiemogelijkheid**
-   * Het probleem betreft het Maximum Subarray Problem. Dit kan optimaal worden opgelost in $\mathcal{O}(n)$ tijd met het **Kadane's Algorithm**. Door in één enkele iteratie door de array te lopen en steeds de maximale som van de huidige subarray bij te houden (en te resetten als deze onder nul duikt), vervalt de noodzaak voor geneste lussen volledig.
+3. **Optimalisatiemogelijkheid**: 
+   De huidige oplossing berekent sommen van subarrays redundant opnieuw. Dit kan worden opgelost met het **Kadane's Algoritme**, waarmee het probleem in een enkele iteratie kan worden opgelost. Dit verlaagt de tijdscomplexiteit naar $\mathcal{O}(n)$ met behoud van een $\mathcal{O}(1)$ ruimtecomplexiteit.

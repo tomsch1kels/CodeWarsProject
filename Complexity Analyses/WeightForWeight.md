@@ -5,13 +5,14 @@
 ---
 
 1. **Complexiteit**: 
-   - Tijd: $\mathcal{O}(N \cdot M \log N)$ (waarbij $N$ het aantal gewichten is en $M$ de maximale lengte van een getalstring, vanwege het parsen van cijfers en de stringvergelijking bij het sorteren).
-   - Ruimte: $\mathcal{O}(N \cdot M)$ voor het opslaan van de tuples en de gesplitste strings.
+   - Tijd: $\mathcal{O}(N \cdot L \log N)$ (waarbij $N$ het aantal getallen is en $L$ de maximale lengte van een getal).
+   - Ruimte: $\mathcal{O}(N \cdot L)$ voor het opslaan van de objecten en de gesplitste strings.
 
 2. **Efficiëntst?**: 
-   Nee. De tijdscomplexiteit kan niet fundamenteel omlaag vanwege de sortering ($\mathcal{O}(N \log N)$), maar de *constante factor* en geheugentoewijzing kunnen aanzienlijk worden verbeterd.
+   Nee. De tijdscomplexiteit kan optimaal $\mathcal{O}(N \cdot L + N \log N \cdot L)$ zijn, maar het geheugengebruik kan fors omlaag.
 
 3. **Optimalisatiemogelijkheid**: 
-   De huidige code maakt veel onnodige objecten aan door `ToList()`, LINQ-methoden en `char.GetNumericValue` binnen een lokale functie. Dit kan efficiënter door:
-   - Het vermijden van LINQ en het direct in-place parsen van de cijfers (bijv. door een `ReadOnlySpan<char>` te loopen en cijferwaardes op te tellen via `c - '0'`).
-   - Het gebruiken van `Array.Sort` i.p.v. LINQ `OrderBy` met een custom `IComparer<(long Weight, string Mass)>` om boxing/unboxing en enumerator-allocaties te elimineren.
+   De huidige code maakt onnodig veel allocaties door `ToList()` en LINQ-methoden (`char.GetNumericValue`, `.Split(' ')`). Dit kan efficiënter door:
+   - `Span<T>` of `ReadOnlyMemory<char>` te gebruiken om string-allocaties tijdens het parsen te vermijden.
+   - Een custom `IComparer<(long Weight, string Mass)>` te schrijven om LINQ-overhead te reduceren.
+   - `Array.Sort` te gebruiken in plaats van LINQ `OrderBy`, wat sneller werkt en minder geheugen kost.
