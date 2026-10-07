@@ -5,11 +5,12 @@
 ---
 
 1. **Complexiteit**: 
-   - Tijd: $\mathcal{O}(n^2)$ in het slechtste geval (door herhaalde string slicing en `.Contains()` aanroepen binnen een lus).
-   - Ruimte: $\mathcal{O}(n)$ (door het genereren van substrings en kopieën bij het converteren naar lower/upper case).
+   - Tijdscomplexiteit: $\mathcal{O}(n^2)$ in het slechtste geval (vanwege het herhaaldelijk doorzoeken van substrings met `.Contains()` binnen de hoofdloop).
+   - Ruimtecomplexiteit: $\mathcal{O}(n)$ vanwege het alloceren van substrings en kopieën bij het converteren naar lowercase/uppercase.
 
 2. **Efficiëntst?**: 
-   Nee.
+   - Nee.
 
 3. **Optimalisatiemogelijkheid**: 
-   De huidige oplossing kan worden geoptimaliseerd naar $\mathcal{O}(n)$ tijd en $\mathcal{O}(n)$ ruimte door gebruik te maken van een `Dictionary<char, int>` (of een frequentietabel) om eerst case-insensitive de voorkomens van alle karakters te tellen. Vervolgens itereer je een tweede maal over de string om het eerste karakter te vinden met een telling van 1. Hierdoor vermijd je dure nested substrings en herhaalde zoekopdrachten.
+   - De oplossing kan worden geoptimaliseerd naar $\mathcal{O}(n)$ tijd en $\mathcal{O}(n)$ ruimte door een `Dictionary<char, int>` (of `Span<int>` voor ASCII) te gebruiken. 
+   - Tel eerst de frequentie van elk teken (waarbij je hoofdlettergevoeligheid negeert door naar lowercase te converteren, maar het originele teken behoudt). Doorloop daarna de string nogmaals om het eerste teken te vinden waarvan de frequentie gelijk is aan 1. Dit reduceert het aantal iteraties aanzienlijk.

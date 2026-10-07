@@ -5,11 +5,11 @@
 ---
 
 1. **Complexiteit**: 
-   - Tijd: $\mathcal{O}(n \log n)$ vanwege de `OrderBy` operatie.
-   - Ruimte: $\mathcal{O}(n)$ voor het opslaan van de geordende array en de collection expression.
+   - Tijd: $\mathcal{O}(n \log n)$ door het gebruik van LINQ `OrderBy`.
+   - Ruimte: $\mathcal{O}(n)$ voor het alloceren van de nieuwe array en de interne sorteerstructuren.
 
 2. **Efficiëntst?**: 
-   - Nee. De optimale tijdscomplexiteit voor dit probleem is $\mathcal{O}(n)$.
+   - Nee. Voor dit probleem is een tijdscomplexiteit van $\mathcal{O}(n)$ mogelijk en wenselijk.
 
 3. **Optimalisatiemogelijkheid**: 
-   - De huidige `OrderBy`-aanpak sorteert de elementen, wat onnodige vergelijkingen en overhead veroorzaakt. Dit kan efficiënter in $\mathcal{O}(n)$ tijd door gebruik te maken van een enkele iteratie: itereer door de input-array, kopieer alle niet-nul elementen naar een nieuwe array van dezelfde grootte, en vul de resterende plekken automatisch aan met nullen.
+   - De huidige oplossing gebruikt een vergelijkingssorteeralgoritme dat trager is dan nodig. Het kan efficiënter door in een enkele iteratie ($\mathcal{O}(n)$ tijd) alle niet-nul elementen naar een nieuwe array te kopiëren (of ter plekke te verschuiven) en de resterende plekken automatisch met nullen te vullen.

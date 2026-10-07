@@ -5,11 +5,11 @@
 ---
 
 1. **Complexiteit**: 
-   - Tijdcomplexiteit: $\mathcal{O}(1)$ (omdat het aantal tijdseenheden en berekeningen constant is en niet groeit met de invoer).
-   - Ruimtecomplexiteit: $\mathcal{O}(1)$ (omdat er maximaal 5 elementen in de lijst worden opgeslagen).
+   - **Tijdcomplexiteit**: $\mathcal{O}(1)$ (omdat de invoer een eindig bereik heeft en de berekeningen een constant aantal operaties vereisen).
+   - **Ruimtecomplexiteit**: $\mathcal{O}(1)$ (er wordt een vaste, kleine hoeveelheid geheugen alocatie gebruikt voor de lijst van sub-strings).
 
 2. **Efficiëntst?**: 
-   - Ja. De tijdscomplexiteit $\mathcal{O}(1)$ is optimaal omdat de uitvoeringstijd begrensd en constant is.
+   - **Ja**, de implementatie heeft de optimale Big O tijdscomplexiteit ($\mathcal{O}(1)$) die voor dit probleem mogelijk is.
 
 3. **Optimalisatiemogelijkheid**: 
-   Hoewel de Big O-complexiteit optimaal is, kan de *micro-optimalisatie* worden verbeterd. De huidige code gebruikt closures en allocaties (zoals `List<string>`, `Where`, `TakeLast`, en `Append`), wat onnodige garbage collection druk oplevert. Dit kan volledig allocations-free worden geschreven door gebruik te maken van `Span<char>`, `ValueStringBuilder` of door direct een `string.Create` / stringinterpolatie te gebruiken met een vaste capaciteit. Voor deze specifieke kata is de prestatiewinst echter te verwaarlozen.
+   - De huidige oplossing is al optimaal qua asymptotische complexiteit. Qua *micro-optimalisatie* zou men het geheugenverbruik (garbage collection druk) kunnen verminderen door geen `List<string>` en LINQ-methoden (`Where`, `TakeLast`, `Append`) te gebruiken, maar in plaats daarvan een `Span<char>` of `ValueStringBuilder` te gebruiken om de string direct op te bouwen. Gezien de schaal van het probleem is dit echter niet nodig voor de leesbaarheid.

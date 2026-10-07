@@ -9,7 +9,7 @@
    - Ruimte: $\mathcal{O}(1)$
 
 2. **Efficiëntst?**: 
-   Nee.
+   - Nee.
 
 3. **Optimalisatiemogelijkheid**: 
-   De huidige oplossing berekent subarrays opnieuw door drie geneste lussen te gebruiken. Dit kan optimaal worden opgelost in $\mathcal{O}(n)$ tijd en $\mathcal{O}(1)$ ruimte met behulp van **Kadane's Algoritme**, door tijdens een enkele iteratie door de array steeds de maximum som van de subarray tot het huidige punt bij te houden.
+   De huidige oplossing berekent overlappende deelverzamelingen steeds opnieuw. Dit kan optimaal worden opgelost in $\mathcal{O}(n)$ tijd met het **Kadane's Algoritme**. Hierbij itereren we slechts één keer door de array, waarbij we per stap de maximale som van de subarray tot dat punt bijhouden en eventueel resetten als deze onder nul duikt.

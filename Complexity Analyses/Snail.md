@@ -4,13 +4,13 @@
 
 ---
 
-1. **Complexiteit**:
-   - **Tijdcomplexiteit**: $\mathcal{O}(N^2)$ (waarbij $N \times N$ de afmeting is van de matrix, omdat elk element exact één keer wordt bezocht).
-   - **Ruimtecomplexiteit**: $\mathcal{O}(N^2)$ vanwege de toewijzing van de `visited`-matrix en de `result`-array.
+### 1. Complexiteit
+* **Tijdskomplexiteit**: $\mathcal{O}(N^2)$ (waarbij $N$ de lengte van de zijde van de matrix is, wat neerkomt op $\mathcal{O}(K)$ totaal aantal elementen $K$).
+* **Ruimtecomplexiteit**: $\mathcal{O}(N^2)$ extra geheugen vanwege de `visited`-matrix en de resultaatarray.
 
-2. **Efficiëntst?**:
-   - **Tijd**: **Ja**, de tijdscomplexiteit van $\mathcal{O}(N^2)$ is optimaal omdat elk element in de matrix minimaal één keer gelezen moet worden.
-   - **Ruimte**: **Nee**, de ruimtecomplexiteit kan worden geoptimaliseerd.
+### 2. Efficiëntst?
+* **Tijd**: **Ja**, elke cel in de matrix moet minstens één keer worden gelezen, waardoor $\mathcal{O}(N^2)$ de theoretisch optimale tijdscomplexiteit is.
+* **Ruimte**: **Nee**, de ruimtecomplexiteit kan worden teruggebracht naar $\mathcal{O}(1)$ extra geheugen (exclusief de resultaatarray).
 
-3. **Optimalisatiemogelijkheid**:
-   De `visited`-matrix van $\mathcal{O}(N^2)$ is overbodig. De slak kan ook worden doorgedrukt door grenzen (`top`, `bottom`, `left`, `right`) bij te houden die na elke voltooide ring krimpen. Dit reduceert de extra geheugenoverhead tot **$\mathcal{O}(1)$** (exclusief de resultaatarray) en verwijdert de dure `AllSurroundingBlocksWereVisited`-controles per stap.
+### 3. Optimalisatiemogelijkheid
+De `visited`-matrix en de hulpfunctie `AllSurroundingBlocksWereVisited` zijn overbodig. Het slakkenhuispatroon kan veel efficiënter worden door grenzen (`top`, `bottom`, `left`, `right`) bij te houden die na elke voltooide ring krimpen. Dit verwijdert de geheugenoverhead van de `visited`-array, elimineert dure conditiecontroles per stap, en vereenvoudigt de code aanzienlijk.
