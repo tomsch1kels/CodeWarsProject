@@ -4,12 +4,12 @@
 
 ---
 
-### 1. Complexiteit
-* **Tijdcomplexiteit:** $\mathcal{O}(N^2)$ in het slechtste geval (waarbij $N$ de lengte van de string is), omdat voor elk karakter de resterende subStrings worden doorzocht met `Contains`.
-* **Ruimtecomplexiteit:** $\mathcal{O}(N)$ vanwege het alloceren van substrings (`s[..i]` en `s[(i + 1)..\]`) en geheugen voor hoofd-/kleine letterconversies.
+1. **Complexiteit**: 
+   - Tijd: $\mathcal{O}(n^2)$ in het slechtste geval (door herhaalde string slicing en `.Contains()` aanroepen binnen een lus).
+   - Ruimte: $\mathcal{O}(n)$ (door het genereren van substrings en kopieën bij het converteren naar lower/upper case).
 
-### 2. Efficiëntst?
-Nee.
+2. **Efficiëntst?**: 
+   Nee.
 
-### 3. Optimalisatiemogelijkheid
-De tijdscomplexiteit kan worden gereduceerd tot $\mathcal{O}(N)$ door gebruik te maken van een frequentietabel (bijvoorbeeld een `Dictionary<char, int>`). In de eerste pass tel je de voorkomens van elk karakter (rekening houdend met hoofd-/kleine letters maar met behoud van originele casing). In de tweede pass over de string return je het eerste karakter waarvan de telling gelijk is aan 1. Dit voorkomt dure herhaalde substring-zoekopdrachten.
+3. **Optimalisatiemogelijkheid**: 
+   De huidige oplossing kan worden geoptimaliseerd naar $\mathcal{O}(n)$ tijd en $\mathcal{O}(n)$ ruimte door gebruik te maken van een `Dictionary<char, int>` (of een frequentietabel) om eerst case-insensitive de voorkomens van alle karakters te tellen. Vervolgens itereer je een tweede maal over de string om het eerste karakter te vinden met een telling van 1. Hierdoor vermijd je dure nested substrings en herhaalde zoekopdrachten.

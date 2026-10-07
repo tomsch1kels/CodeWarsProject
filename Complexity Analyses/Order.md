@@ -5,11 +5,11 @@
 ---
 
 1. **Complexiteit**: 
-   - Tijd: $\mathcal{O}(n \cdot m \log k)$, waarbij $n$ het aantal woorden is, $m$ de gemiddelde lengte van een woord, en $k$ het aantal unieke woorden (vanwege het zoeken naar het cijfer via `Single` en de interne balansering van de `SortedDictionary`).
-   - Ruimte: $\mathcal{O}(n \cdot m)$ voor het opslaan van de woorden in de dictionary en de resulterende array.
+   - **Tijd**: $\mathcal{O}(N \cdot M \log K)$ waar $N$ het aantal woorden is, $M$ de gemiddelde woordlengte (voor `char.IsDigit` en `Single`) en $K$ het aantal unieke woorden (voor de `SortedDictionary`). Omdat $K \le N$, is dit effectief $\mathcal{O}(N \cdot M \log N)$.
+   - **Ruimte**: $\mathcal{O}(N)$ voor de opslag in de `SortedDictionary` en het splitsen van de string.
 
 2. **Efficiëntst?**: 
-   Nee. De tijdscomplexiteit kan worden verbeterd naar $\mathcal{O}(n \cdot m)$ door gebruik te maken van een array of een LINQ `.OrderBy()` op basis van een vooraf berekende index, in plaats van een `SortedDictionary` met `O(log k)` invoegingen per woord. Daarnaast is `word.Single(char.IsDigit)` relatief traag en allocatie-onvriendelijk; het parsen van de char naar een integer (`c - '0'`) is sneller.
+   - **Nee**. Hoewel $\mathcal{O}(N \log N)$ acceptabel is, kan het in $\mathcal{O}(N \cdot M)$ tijd doordat sorteren niet nodig is als de posities direct in een array worden geplaatst.
 
 3. **Optimalisatiemogelijkheid**: 
-   Vervang de `SortedDictionary` door een vaste array van grootte $n$ (gebaseerd op het aantal woorden na `Split()`). Loop door de woorden, vind het cijfer direct via `char.GetNumericValue` of door de karakters te itereren, en plaats het woord direct op de juiste index in de array. Voeg de array daarna samen met `string.Join`. Dit verwijdert de overhead van de boomstructuur van de `SortedDictionary` en LINQ-operaties.
+   De `SortedDictionary` (die een rode-zwartboom gebruikt met $\log K$ overhead per invoeging) kan worden vervangen door een vaste array of een `string[]` op basis van de index (1 t/m 9 volgens de kata-specificatie). Hierdoor sla je de overhead van het boom-algoritme over en bereik je lineaire tijdscomplexiteit ($\mathcal{O}(N \cdot M)$). Daarnaast is `.Single(char.IsDigit)` relatief traag en kan dit worden vereenvoudigd met een snelle karakterzoektocht of LINQ `First(char.IsDigit) - '1'`.

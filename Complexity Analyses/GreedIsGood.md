@@ -5,11 +5,9 @@
 ---
 
 1. **Complexiteit**: 
-   - Tijd: $\mathcal{O}(N)$ (waarbij $N$ het aantal stenen is, vast op $N = 5$).
-   - Ruimte: $\mathcal{O}(1)$ (de arraygrootte is constant).
+   - Tijd: $\mathcal{O}(N)$ waarbij $N$ het aantal dobbelstenen is (in de praktijk $\mathcal{O}(1)$ aangezien $N = 5$ bij deze kata).
+   - Ruimte: $\mathcal{O}(1)$ door de vaste array van grootte 7.
 
-2. **Efficiëntst?**: 
-   - Ja, de tijdscomplexiteit is optimaal omdat elk element minimaal één keer gelezen moet worden om het te tellen.
+2. **Efficiëntst?**: Ja. Een lineaire doorgang is theoretisch het minimum dat nodig is om de frequenties te tellen.
 
-3. **Optimalisatiemogelijkheid**: 
-   - Qua Big O is het optimaal. Micro-optimalisaties (zoals het vervangen van de array door `Span<T>` of losse variabelen om heap/stack-overhead te minimaliseren) zijn voor deze vaste invoergrootte ($5$ dobbelstenen) niet zinvol, aangezien de huidige code al zeer snel en geheugenefficiënt is.
+3. **Optimalisatiemogelijkheid**: De huidige implementatie is qua Big O al optimaal en zeer efficiënt. Micro-optimalisaties (zoals het vermijden van array-allocatie door een `Span<int>` of losse variabelen te gebruiken) zijn voor deze specifieke input($N=5$) niet zinvol en zouden de leesbaarheid alleen maar verminderen.

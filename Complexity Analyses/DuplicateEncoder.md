@@ -4,13 +4,12 @@
 
 ---
 
-1. **Complexiteit**: 
-   - Tijd: $O(N)$
-   - Ruimte: $O(N)$
-   (waarbij $N$ de lengte van de string is).
+### 1. Complexiteit
+* **Tijdcomplexiteit:** $\mathcal{O}(n)$, waarbij $n$ de lengte van de string is (het doorlopen van de string en dictionary-lookups kosten lineaire tijd).
+* **Ruimtecomplexiteit:** $\mathcal{O}(n)$ in het slechtste geval, omdat de dictionary alle unieke karakters van de string opslaat.
 
-2. **Efficiëntst?**: 
-   Nee, hoewel de tijdscomplexiteit $O(N)$ optimaal is, kan de *praktische* efficiëntie (geheugenallocatie en snelheid) flink worden verbeterd door LINQ-overhead te verwijderen.
+### 2. Efficiëntst?
+**Ja**, de implementatie heeft de optimale Big O tijdscomplexiteit van $\mathcal{O}(n)$, omdat elk karakter minimaal gelezen moet worden om te bepalen of het uniek is.
 
-3. **Optimalisatiemogelijkheid**: 
-   Vervang de `LINQ`-methoden (`ToList()`, `ForEach`, `Select`) en het herhaaldelijk doorlopen van de string door een `Span<char>` of een traditionele `for`-lus in combinatie met een `StringBuilder` of `char[]`. Hierdoor worden onnodige objectallocaties op de heap vermeden, wat de Garbage Collector ontlast.
+### 3. Optimalisatiemogelijkheid
+De huidige oplossing kan qua prestaties en geheugenverbruik geoptimaliseerd worden door LINQ-allocaties (`.ToList()`, `.Select()`) te vermijden en de string vooraf te scannen. Door een `Dictionary<char, int>` te vullen via een traditionele `foreach`-loop en het resultaat op te bouwen met een `Span<char>` of `StringBuilder`, vermijd je overhead van enumerators en objectallocaties op de heap.

@@ -8,8 +8,6 @@
    - Tijdcomplexiteit: $\mathcal{O}(\log(\text{prod}))$ (omdat Fibonacci-getallen exponentieel groeien).
    - Ruimtecomplexiteit: $\mathcal{O}(1)$.
 
-2. **Efficiëntst?**: 
-   Ja. De tijdscomplexiteit is optimaal omdat we de Fibonacci-reeks iteratief moeten doorlopen tot we het product bereiken of overschrijden.
+2. **Efficiëntst?**: Ja. De tijdscomplexiteit is optimaal omdat elk opeenvolgend Fibonacci-getal gegenereerd moet worden om het product te vergelijken met de invoer.
 
-3. **Optimalisatiemogelijkheid**: 
-   De huidige implementatie is al optimaal qua Big O en gebruikt geen overbodige geheugenallocaties. Een kleine micro-optimalisatie is het hergebruiken van de vermenigvuldiging `a * b` om dubbele berekeningen in de `if`-voorwaarde te voorkomen, al zal de JIT-compiler dit waarschijnlijk al optimaliseren.
+3. **Optimalisatiemogelijkheid**: De algoritmische complexiteit kan niet verder omlaag. Wel kan de code micro-geoptimaliseerd worden door redundante vermenigvuldigingen te elimineren (`ulong product = a * b;`) om dubbele berekeningen binnen de `if`-voorwaarde te voorkomen.

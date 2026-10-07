@@ -12,4 +12,4 @@
    Nee.
 
 3. **Optimalisatiemogelijkheid**: 
-   De huidige oplossing berekent sommen van subarrays redundant opnieuw. Dit kan worden opgelost met het **Kadane's Algoritme**, waarmee het probleem in een enkele iteratie kan worden opgelost. Dit verlaagt de tijdscomplexiteit naar $\mathcal{O}(n)$ met behoud van een $\mathcal{O}(1)$ ruimtecomplexiteit.
+   De huidige oplossing berekent subarrays opnieuw door drie geneste lussen te gebruiken. Dit kan optimaal worden opgelost in $\mathcal{O}(n)$ tijd en $\mathcal{O}(1)$ ruimte met behulp van **Kadane's Algoritme**, door tijdens een enkele iteratie door de array steeds de maximum som van de subarray tot het huidige punt bij te houden.
