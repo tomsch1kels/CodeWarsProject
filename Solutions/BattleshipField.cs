@@ -126,72 +126,6 @@ internal sealed class BattleshipFieldSolver
         }
 
         return new(FieldValidityAssessment.SetupIsValid, ships);
-
-        // foreach (Position position in this.TraverseFieldPositions())
-        // {
-        //     if (IsVisited(position, visitedCells))
-        //     {
-        //         continue;
-        //     }
-
-        //     MarkAsVisited(position, visitedCells);
-
-        //     if (this.GetValue(position) == PossibleValue.ONE)
-        //     {
-        //         if (TwoOrthogonalsContainShipPart(position))
-        //         {
-        //             return new(FieldValidityAssessment.OrthogonalTouchingShip, []);
-        //         }
-
-        //         if (ADiagonalContainsShipPart(position))
-        //         {
-        //             return new(FieldValidityAssessment.DiagonalTouchingShip, []);
-        //         }
-
-        //         if (this.DoesShipContinueFrom(position))
-        //         {
-        //             visitedCells[position.X, position.Y] = true;
-        //             Position startPosition = position;
-        //             Position currentPosition = new(position.X, position.Y);
-        //             Direction directionInWhichShipContinues = this.InWhatDirectionDoesShipContinue(position);
-        //             while (this.GetValue(currentPosition.GetNeighbour(directionInWhichShipContinues)) == PossibleValue.ONE)
-        //             {
-        //                 currentPosition = currentPosition.GetNeighbour(directionInWhichShipContinues);
-        //                 visitedCells[currentPosition.X, currentPosition.Y] = true;
-
-        //                 if (ADiagonalContainsShipPart(currentPosition))
-        //                 {
-        //                     return new(FieldValidityAssessment.DiagonalTouchingShip, []);
-        //                 }
-        //             }
-
-        //             ships.Add(new(startPosition, currentPosition));
-        //         }
-        //         else
-        //         {
-        //             ships.Add(new Ship(position, position));
-        //         }
-        //     }
-        // }
-
-        // return new(FieldValidityAssessment.SetupIsValid, ships);
-
-        bool ADiagonalContainsShipPart(Position position) => this.GetDiagonals(position).UpRight == PossibleValue.ONE
-            || this.GetDiagonals(position).DownRight == PossibleValue.ONE
-            || this.GetDiagonals(position).DownLeft == PossibleValue.ONE
-            || this.GetDiagonals(position).UpRight == PossibleValue.ONE;
-
-        bool TwoOrthogonalsContainShipPart(Position position)
-        {
-            var orthogonals = this.GetOrthogonals(position);
-
-            int count = 0;
-            count += orthogonals.Up == PossibleValue.ONE ? 1 : 0;
-            count += orthogonals.Right == PossibleValue.ONE ? 1 : 0;
-            count += orthogonals.Down == PossibleValue.ONE ? 1 : 0;
-            count += orthogonals.Left == PossibleValue.ONE ? 1 : 0;
-            return count >= 2;
-        }
     }
 
     internal PossibleValue GetValue(Position position)
@@ -240,6 +174,26 @@ internal sealed class BattleshipFieldSolver
     private static void MarkAsVisited(Position position, bool[,] visited)
     => visited[position.X, position.Y] = true;
 
+    private ShipWithValidation FindShip(Position start, bool[,] visited)
+    {
+        var current = start;
+        var direction = this.InWhatDirectionDoesShipContinue(start);
+
+        while (this.GetValue(current.GetNeighbour(direction)) == PossibleValue.ONE)
+        {
+            current = current.GetNeighbour(direction);
+            MarkAsVisited(current, visited);
+
+            if (this.ADiagonalContainsShipPart(current))
+            {
+                return new ShipWithValidation(null, FieldValidityAssessment.DiagonalTouchingShip);
+            }
+        }
+
+        var ship = new Ship(start, current);
+        return new ShipWithValidation(ship, null);
+    }
+
     private bool TryProcessCell(Position position, bool[,] visited, List<Ship> ships, out FieldValidityAssessment? error)
     {
         error = null;
@@ -256,13 +210,13 @@ internal sealed class BattleshipFieldSolver
             return true;
         }
 
-        if (TwoOrthogonalsContainShipPart(position))
+        if (this.TwoOrthogonalsContainShipPart(position))
         {
             error = FieldValidityAssessment.OrthogonalTouchingShip;
             return false;
         }
 
-        if (ADiagonalContainsShipPart(position))
+        if (this.ADiagonalContainsShipPart(position))
         {
             error = FieldValidityAssessment.DiagonalTouchingShip;
             return false;
@@ -270,23 +224,20 @@ internal sealed class BattleshipFieldSolver
 
         if (this.DoesShipContinueFrom(position))
         {
-            visited[position.X, position.Y] = true;
-            Position startPosition = position;
-            Position currentPosition = new(position.X, position.Y);
-            Direction directionInWhichShipContinues = this.InWhatDirectionDoesShipContinue(position);
-            while (this.GetValue(currentPosition.GetNeighbour(directionInWhichShipContinues)) == PossibleValue.ONE)
-            {
-                currentPosition = currentPosition.GetNeighbour(directionInWhichShipContinues);
-                visited[currentPosition.X, currentPosition.Y] = true;
+            var result = this.FindShip(position, visited);
 
-                if (ADiagonalContainsShipPart(currentPosition))
-                {
-                    error = FieldValidityAssessment.DiagonalTouchingShip;
-                    return false;
-                }
+            if (result.ValidationError.HasValue)
+            {
+                error = result.ValidationError;
+                return false;
             }
 
-            ships.Add(new(startPosition, currentPosition));
+            if (result.Ship is not Ship ship)
+            {
+                throw new InvalidOperationException();
+            }
+
+            ships.Add(ship);
         }
         else
         {
@@ -294,23 +245,6 @@ internal sealed class BattleshipFieldSolver
         }
 
         return true;
-
-        bool ADiagonalContainsShipPart(Position position) => this.GetDiagonals(position).UpRight == PossibleValue.ONE
-            || this.GetDiagonals(position).DownRight == PossibleValue.ONE
-            || this.GetDiagonals(position).DownLeft == PossibleValue.ONE
-            || this.GetDiagonals(position).UpRight == PossibleValue.ONE;
-
-        bool TwoOrthogonalsContainShipPart(Position position)
-        {
-            var orthogonals = this.GetOrthogonals(position);
-
-            int count = 0;
-            count += orthogonals.Up == PossibleValue.ONE ? 1 : 0;
-            count += orthogonals.Right == PossibleValue.ONE ? 1 : 0;
-            count += orthogonals.Down == PossibleValue.ONE ? 1 : 0;
-            count += orthogonals.Left == PossibleValue.ONE ? 1 : 0;
-            return count >= 2;
-        }
     }
 
     private IEnumerable<Position> TraverseFieldPositions()
@@ -333,6 +267,23 @@ internal sealed class BattleshipFieldSolver
         Direction.RIGHT :
         Direction.DOWN;
 
+    private bool ADiagonalContainsShipPart(Position position) => this.GetDiagonals(position).UpRight == PossibleValue.ONE
+        || this.GetDiagonals(position).DownRight == PossibleValue.ONE
+        || this.GetDiagonals(position).DownLeft == PossibleValue.ONE
+        || this.GetDiagonals(position).UpRight == PossibleValue.ONE;
+
+    private bool TwoOrthogonalsContainShipPart(Position position)
+    {
+        var orthogonals = this.GetOrthogonals(position);
+
+        int count = 0;
+        count += orthogonals.Up == PossibleValue.ONE ? 1 : 0;
+        count += orthogonals.Right == PossibleValue.ONE ? 1 : 0;
+        count += orthogonals.Down == PossibleValue.ONE ? 1 : 0;
+        count += orthogonals.Left == PossibleValue.ONE ? 1 : 0;
+        return count >= 2;
+    }
+
     private bool DoesShipContinueFrom(Position position)
     {
         Orthogonals orthogonals = this.GetOrthogonals(position);
@@ -340,6 +291,10 @@ internal sealed class BattleshipFieldSolver
         return orthogonals.Right == PossibleValue.ONE
         || orthogonals.Down == PossibleValue.ONE;
     }
+
+    private readonly record struct ShipWithValidation(
+    Ship? Ship,
+    FieldValidityAssessment? ValidationError);
 }
 
 internal sealed class GetShipsResult(FieldValidityAssessment invalidSetupReason, List<Ship> ships)
