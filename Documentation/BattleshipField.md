@@ -1,5 +1,5 @@
 ## Code Structure
-\\\mermaid
+```mermaid
 graph TD
     subgraph Enums
         E1[PossibleValue]
@@ -36,4 +36,4 @@ graph TD
     
     style C1 fill:#6d4aff,color:#fff
     style S2 fill:#6d4aff,color:#fff
-\\\
+```
