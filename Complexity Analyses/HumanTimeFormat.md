@@ -4,12 +4,12 @@
 
 ---
 
-1. **Complexiteit**
-   * **Tijdcomplexiteit:** $\mathcal{O}(1)$ — Het aantal tijdseenheden (jaren, dagen, etc.) is vast en groeit niet mee met de invoer.
-   * **Ruimtecomplexiteit:** $\mathcal{O}(1)$ — Het aantal gealloceerde variabelen en de lijst met substrings heeft een constante maximale lengte van 5 elementen.
+1. **Complexiteit**: 
+   - **Tijdcomplexiteit**: $O(1)$ (omdat het aantal seconden begrensd is door een vaste reeks tijdseenheden en er geen schaalbare iteraties zijn).
+   - **Ruimtecomplexiteit**: $O(1)$ (er wordt een vaste, kleine hoeveelheid geheugen alocaties gedaan voor de lijsten en strings).
 
-2. **Efficiëntst?**
-   * **Ja**, deze implementatie heeft de optimaal mogelijke Big O tijdscomplexiteit ($\mathcal{O}(1)$) omdat het probleem wiskundig direct wordt opgelost zonder iteratieve lussen die schalen met de invoer.
+2. **Efficiëntst?**: 
+   Ja, de implementatie heeft de optimale Big O tijdscomplexiteit ($O(1)$) omdat de berekeningen via directe wiskundige delingen en modulo-operaties verlopen zonder lussen.
 
-3. **Optimalisatiemogelijkheid**
-   * De huidige oplossing is qua Big O al optimaal. Kleine micro-optimalisaties (zoals het vermijden van LINQ-methoden zoals `Where`, `TakeLast` en `Append` ten gunste van traditionele arrays of `Span<T>`) kunnen de overhead van objectallocaties en garbage collection iets verminderen, maar dit heeft nauwelijks impact op de werkelijke uitvoeringstijd voor dit specifieke probleem.
+3. **Optimalisatiemogelijkheid**: 
+   De huidige oplossing is algoritmisch al optimaal. Qua geheugenallocatie en leesbaarheid kan het echter nog iets strakker door het gebruik van LINQ (`Where`, `TakeLast`, `Take`, `Append`) te vervangen door een `Span<T>` of een traditionele `StringBuilder` om extra objectallocaties (garbage collection pressure) te minimaliseren. Daarnaast kunnen de tijdconstanten als `static readonly` of `const` buiten de methode geplaatst worden om herberekening te voorkomen.

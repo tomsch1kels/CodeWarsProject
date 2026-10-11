@@ -5,15 +5,11 @@
 ---
 
 ### 1. Complexiteit
-* **Tijdcomplexiteit**: $O(N^2)$ in het slechtste geval (waarbij $N$ de lengte van de string is), omdat voor elk karakter substring-operaties en `.Contains()` checks worden uitgevoerd over de resterende en eerdere delen van de string.
-* **Ruimtecomplexiteit**: $O(N)$ vanwege het alloceren van substrings (slices zoals `s[..i]` en `s[(i + 1)..]`) en geheugen voor de lowercase/uppercase conversies.
+* **Tijdskomplexiteit**: $\mathcal{O}(n^2)$ in het slechtste geval (waarbij $n$ de lengte van de string is), omdat voor elk karakter de resterende subStrings worden doorzocht met `Contains`.
+* **Ruimtekomplexiteit**: $\mathcal{O}(n)$ in het slechtste geval, vanwege het alloceren van substrings (`s[..i]` en `s[(i + 1)..]`).
 
 ### 2. Efficiëntst?
-**Nee**. De huidige implementatie heeft een $O(N^2)$ tijdscomplexiteit, terwijl dit probleem in $O(N)$ tijd opgelost kan worden.
+**Nee**.
 
 ### 3. Optimalisatiemogelijkheid
-De efficiëntie kan drastisch worden verbeterd naar $O(N)$ door een frequentietabel (bijv. een `Dictionary<char, int>` of een array voor ASCII) te gebruiken. 
-1. **Pass 1**: Doorloop de string en tel de voorkomens van elk teken, waarbij je hoofdletterongevoeligheid afdwingt door alles naar lowercase (of uppercase) te normaliseren.
-2. **Pass 2**: Doorloop de originele string nogmaals en retourneer het eerste teken waarvan de telling in de frequentietabel gelden is aan `1`. 
-
-Hiermee vervang je de dure nested zoekopdrachten door $O(1)$ dictionary lookups.
+De huidige oplossing kan worden geoptimaliseerd naar een tijdscomplexiteit van $\mathcal{O}(n)$ en een ruimtekomplexiteit van $\mathcal{O}(1)$ (gezien een begrensde tekenset). Dit kan door gebruik te maken van een frequentietabel (bijv. een `Dictionary<char, int>` of een vaste array voor ASCII/Unicode) om eerst alle hoofd-/kleine letterfrequenties te tellen, ongeacht case. Vervolgens itereer je een tweede keer over de originele string om het eerste karakter te vinden waarvan de case-insensitive telling gelijk is aan 1. Dit voorkomt het herhaaldelijk doorzoeken van substrings.

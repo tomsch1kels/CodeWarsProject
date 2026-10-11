@@ -5,11 +5,21 @@
 ---
 
 1. **Complexiteit**: 
-   - Tijdcomplexiteit: $\mathcal{O}(n^3)$ door de drie geneste lussen.
-   - Ruimtecomplexiteit: $\mathcal{O}(1)$ aangezien er geen extra geheugen wordt gealloceerd.
+   - Tijdskomplexiteit: $\mathcal{O}(n^3)$ (door de drie geneste lussen).
+   - Ruimtecomplexiteit: $\mathcal{O}(1)$ (er wordt geen extra geheugen gealloceerd).
 
 2. **Efficiëntst?**: 
    - Nee.
 
 3. **Optimalisatiemogelijkheid**: 
-   - Het probleem (Maximum Subarray Sum) kan optimaal worden opgelost in $\mathcal{O}(n)$ tijd met het **Kadane's Algoritme**. Hierbij itereren we eenmalig door de array en houden we de huidige som bij, waarbij we deze resetten naar 0 (of de waarde zelf) als deze negatief wordt, en tegelijkertijd de maximale som bijhouden.
+   De huidige oplossing herberekent sommen voor subarrays herhaaldelijk. Dit kan worden opgelost met **Kadane's Algorithm**, waarmee het probleem in een enkele iteratie kan worden opgelost. Hierdoor verbetert de tijdscomplexiteit van $\mathcal{O}(n^3)$ naar $\mathcal{O}(n)$, terwijl de ruimtecomplexiteit $\mathcal{O}(1)$ blijft. 
+
+   *Voorbeeld:*
+   ```csharp
+   int maxSoFar = 0, currentSum = 0;
+   foreach (int x in arr) {
+       currentSum = Math.Max(0, currentSum + x);
+       maxSoFar = Math.Max(maxSoFar, currentSum);
+   }
+   return maxSoFar;
+   ```

@@ -5,14 +5,12 @@
 ---
 
 ### 1. Complexiteit
-* **Tijdcomplexiteit**: $\mathcal{O}(N^2)$ (waarbij $N$ de lengte van de zijde van de matrix is, wat neerkomt op $\mathcal{O}(K)$ totaal aantal elementen).
-* **Ruimtecomplexiteit**: $\mathcal{O}(N^2)$ extra geheugen voor de `visited`-matrix.
+* **Tijdcomplexiteit:** $\mathcal{O}(N^2)$, waarbij $N$ de lengte van een zijde van de matrix is (elke cel wordt exact één keer bezocht).
+* **Ruimtecomplexiteit:** $\mathcal{O}(N^2)$ voor de `visited`-array en de resultaatarray.
 
 ### 2. Efficiëntst?
-* **Tijd**: **Ja**, elke cel moet minstens één keer worden gelezen.
-* **Ruimte**: **Nee**, de `visited`-matrix introduceert $\mathcal{O}(N^2)$ extra geheugengebruik.
+* **Tijd:** **Ja**, $\mathcal{O}(N^2)$ is optimaal omdat elk element in de matrix minstens één keer gelezen moet worden.
+* **Ruimte:** **Nee**, de tijdelijke `visited`-matrix is overbodig.
 
 ### 3. Optimalisatiemogelijkheid
-De `visited`-matrix en de methode `AllSurroundingBlocksWereVisited` zijn overbodig en kosten extra geheugen en CPU-cycletjes. 
-
-De oplossing kan efficiënter door **grenzen (boundaries)** bij te houden (`top`, `bottom`, `left`, `right`). Hiermee itereer je in een `while`-lus direct langs de randen van de matrix, waardoor de ruimtecomplexiteit daalt naar **$\mathcal{O}(1)$** (afgezien van de resultaatarray) en de overhead van logische checks per stap verdwijnt.
+De `visited`-matrix en de methode `AllSurroundingBlocksWereVisited` kunnen volledig worden verwijderd. Door gebruik te maken van vier dynamische begrenzingsvariabelen (`top`, `bottom`, `left`, `right`) die inkrimpen na elke afgelegde zijde, kan het slakkenhuis-patroon direct en iteratief worden doorlopen. Dit reduceert de extra geheugencomplexiteit tot $\mathcal{O}(1)$ (exclusief de resultaatarray) en vereenvoudigt de controlflow aanzienlijk.

@@ -4,12 +4,12 @@
 
 ---
 
-1. **Complexiteit**: 
-   - Tijdcomplexiteit: $\mathcal{O}(n)$ (waarbij $n$ het aantal dobbelstenen is, in de praktijk $\mathcal{O}(1)$ aangezien $n$ altijd vast 5 is bij deze kata).
-   - Ruimtecomplexiteit: $\mathcal{O}(1)$ (het `ocurrences` array heeft een vaste grootte van 7).
+1. **Complexiteit**
+   - **Tijdscomplexiteit**: $\mathcal{O}(N)$ (waarbij $N$ het aantal dobbelstenen is, in de praktijk $\mathcal{O}(1)$ omdat de invoer altijd uit 5 dobbelstenen bestaat).
+   - **Ruimtecomplexiteit**: $\mathcal{O}(1)$ (de array van vaste grootte van 7 elementen gebruikt constante extra ruimte).
 
-2. **Efficiëntst?**: 
-   - Ja. De implementatie bereikt de optimaal mogelijke Big O-tijdscomplexiteit ($\mathcal{O}(n)$), omdat elke dobbelsteen minimaal één keer gelezen moet worden om de waarde te bepalen.
+2. **Efficiëntst?**
+   - **Ja**, deze implementatie bereikt de theoretisch optimaal mogelijke tijdscomplexiteit ($\mathcal{O}(N)$), aangezien elke dobbelsteen minstens één keer gelezen moet worden om het totaal te bepalen.
 
-3. **Optimalisatiemogelijkheid**: 
-   - Hoewel de Big O-complexiteit optimaal is, kan micro-optimalisatie worden toegepast door geheugenallocatie van het array (`new int[]`) te vermijding via een `stackalloc int[7]` of vaste variabelen, en door haakjes en integer-delingen te vereenvoudigen. Voor de vaste invoer van 5 dobbelstenen is de huidige code echter al uitstekend leesbaar en snel genoeg.
+3. **Optimalisatiemogelijkheid**
+   - Algoritmisch gezien is het niet mogelijk om de Big O-complexiteit te verbeteren. Wel kan micro-optimalisatie worden toegepast door in plaats van een array een `Span<int>` op de stack te alloceren (`Span<int> ocurrences = stackalloc int[7];`) of een vaste tuple/variabelen-telling te gebruiken. Dit vermijdt heap-allocatie van de array, al is het effect op deze kleine schaal te verwaarlozen.

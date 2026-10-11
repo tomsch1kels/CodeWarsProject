@@ -4,12 +4,24 @@
 
 ---
 
-1. **Complexiteit**: 
-   - Tijd: $\mathcal{O}(N \cdot M \cdot \log K)$ waar $N$ het aantal woorden is, $M$ de lengte van een woord (vanwege `Single(char.IsDigit)` en string manipulatie), en $K$ het aantal unieke woorden.
-   - Ruimte: $\mathcal{O}(N)$ voor de opslag in de `SortedDictionary` en de resulterende string.
+### 1. Complexiteit
+* **Tijdcomplexiteit**: $O(N \cdot M \log K)$ waar $N$ het aantal woorden is, $M$ de gemiddelde lengte van een woord, en $K$ het aantal unieke woorden (vanwege het gebruik van `SortedDictionary`).
+* **Ruimtecomplexiteit**: $O(N \cdot M)$ voor het opslaan van de woorden in de `SortedDictionary` en het resultaat-array.
 
-2. **Efficiëntst?**: 
-   Nee. Hoewel de tijdscomplexiteit acceptabel is, voegt het gebruik van een `SortedDictionary` en LINQ (`Single`, `ToArray`) onnodige overhead toe door boxing (van `char` naar `int` via `sDict[word.Single(...)]`) en boomstructuur-allocaties.
+### 2. Efficiëntst?
+Nee. Hoewel de tijdscomplexiteit $O(N \log N)$ benadert (wat theoretisch optimaal is voor algemeen sorteren), voegt `SortedDictionary` overhead toe door de binaire boomstructuur en zorgt `word.Single(char.IsDigit)` voor onnodige iteraties over elk karakter.
 
-3. **Optimalisatiemogelijkheid**: 
-   Het kan efficiënter door een standaard `string[]` of `KeyValuePair<int, string>[]` te gebruiken in combinatie met `Array.Sort` of LINQ's `OrderBy`. Dit vermijdt de overhead van de `SortedDictionary`. Nog sneller is het parsen van het cijfer tijdens een enkele loop over de woorden en deze direct op de juiste index in een vaste array plaatsen (aangezien de posities 1 t/m $N$ bekend zijn).
+### 3. Optimalisatiemogelijkheid
+De huidige oplossing kan efficiënter door gebruik te maken van een simpel array of een LINQ-query met `OrderBy`. Omdat de getallen altijd bekend en opeenvolgend zijn (van 1 tot $N$), is een `SortedDictionary` (die intern een gebalanceerde boom gebruikt) trager dan het direct plaatsen van elementen op index in een `string[]`. 
+
+Een snellere en meer idiomatische aanpak:
+```csharp
+public static string Solve(string words)
+{
+    if (string.IsNullOrEmpty(words)) return string.Empty;
+
+    return string.Join(" ", words.Split()
+        .OrderBy(w => w.First(char.IsDigit)));
+}
+```
+*Opmerking: Nog sneller kan door de woorden direct op basis van het cijfer in een vast array van grootte $N$ te plaatsen, wat $O(N \cdot M)$ tijd oplevert.*

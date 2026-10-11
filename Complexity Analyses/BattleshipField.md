@@ -5,10 +5,11 @@
 ---
 
 1. **Complexiteit**: 
-   - **Tijdcomplexiteit**: $\mathcal{O}(N \cdot M)$, waarbij $N$ en $M$ de dimensies van het speelveld zijn. Elke cel wordt in de praktijk constant aantal keren bezocht en geëvalueerd.
-   - **Ruimtecomplexiteit**: $\mathcal{O}(N \cdot M)$ vanwege het `visited`-matrix van booleans en het opslaan van de schepen in lijsten.
+   - **Tijdcomplexiteit**: $\mathcal{O}(N \cdot M)$ (waarbij $N$ en $M$ de afmetingen van het veld zijn, aangezien elke cel constant aantal keer wordt bezocht).
+   - **Ruimtecomplexiteit**: $\mathcal{O}(N \cdot M)$ (voor de `visited`-matrix en de opslag van schepen).
 
-2. **Efficiëntst?**: Ja. De tijdscomplexiteit van $\mathcal{O}(N \cdot M)$ is asymptotisch optimaal omdat je elk veld minstens één keer moet bekijken om de geldigheid te garanderen.
+2. **Efficiëntst?**: 
+   - **Ja**. Je moet theoretisch elk veld minstens één keer bekijken om te controleren of het water of een schip is, waardoor een lineaire complexiteit ten opzichte van het aantal cellen optimaal is.
 
 3. **Optimalisatiemogelijkheid**: 
-   De huidige oplossing is qua Big O optimaal, maar kan micro-optimalisaties ondergaan. Het `visited`-matrix gebruikt `[X, Y]` terwijl C#-arrays voor multidimensionale data sneller werken in `[Y, X]` (rij-eerst/row-major volgorde) vanwege betere cache-lokaliteit. Daarnaast kan het toewijzen van heap-allocaties (zoals records en LINQ-methoden) worden verminderd door iteratieve lussen en struct-gebaseerde coördinaten te gebruiken, wat de Garbage Collector belasting verlaagt.
+   - De huidige oplossing is asymptotisch optimaal. Kleine micro-optimalisaties (zoals het vermijden van LINQ/enumerators in hete lussen of het direct in-place markeren van het veld in plaats van een aparte `visited`-boolmatrix) kunnen geheugenallocaties en overhead iets verminderen, maar veranderen de Big O-complexiteit niet.
