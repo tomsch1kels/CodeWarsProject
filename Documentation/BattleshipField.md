@@ -3,9 +3,6 @@
 ## Code Structure
 
 ```mermaid
-## Code Structuur
-
-```mermaid
 classDiagram
     %% ENUMS
     class PossibleValue {
