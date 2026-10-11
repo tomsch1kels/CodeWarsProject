@@ -4,12 +4,15 @@
 
 ---
 
-1. **Complexiteit**
-   * **Tijdcomplexiteit:** $\mathcal{O}(N)$, waarbij $N$ het aantal cellen is in het speelveld (aangezien elke cel maximaal een constante aantal keren wordt bezocht en gecontroleerd).
-   * **Ruimtecomplexiteit:** $\mathcal{O}(N)$ voor het bijhouden van de `visited`-status en het opslaan van de gevonden schepen in lijsten.
+1. **Complexiteit**: 
+   - Tijd: $\mathcal{O}(N \times M)$ (waarbij $N$ en $M$ de dimensies van het veld zijn, omdat elke cel maximaal een constante aantal keren wordt bezocht).
+   - Ruimte: $\mathcal{O}(N \times M)$ (voor het `visited`-matrix en het opslaan van de schepen).
 
-2. **Efficiëntst?**
-   * **Ja**, de tijdscomplexiteit is $\mathcal{O}(N)$, wat optimaal is omdat elk element in de matrix minstens één keer gelezen moet worden om te controleren of er een schip staat.
+2. **Efficiëntst?**: 
+   Ja. Elke cel hoeft in theorie maar één keer geëvalueerd te worden om schepen te detecteren en te valideren, wat de theoretisch minimale tijdscomplexiteit van $\mathcal{O}(V)$ (aantal cellen) bereikt.
 
-3. **Optimalisatiemogelijkheid**
-   * De huidige oplossing maakt gebruik van `bool[,] visited` waarbij de dimensies omgedraaid lijken te zijn ten opzichte van de array-indexering (`visited[position.X, position.Y]` vs `field[position.Y, position.X]`), wat cache-inefficiënties kan veroorzaken. Dit kan worden geoptimaliseerd door de dimensies van de `visited`-matrix exact gelijk te leggen aan het speelveld (`[height, width]`). Daarnaast kunnen objectallocaties (zoals records en LINQ-constructies) in de inner loops verder worden gereduceerd door primitieve datatypes te gebruiken, al heeft dit een verwaarloosbare impact op de Big O-complexiteit.
+3. **Optimalisatiemogelijkheid**: 
+   De huidige oplossing is asymptotisch optimaal. Kleine micro-optimalisaties die de allocatiedruk kunnen verlagen zijn:
+   - Het vermijden van het dynamisch aanmaken van `Direction`- en `Position`-objecten in een tight loop.
+   - Het vervangen van LINQ-constructies (zoals `SequenceEqual`) door simpele `for`-loops.
+   - Het direct retourneren zodra een ongeldig aantal schepen wordt gedetecteerd in plaats van altijd alle schepen volledig uit te lezen.
