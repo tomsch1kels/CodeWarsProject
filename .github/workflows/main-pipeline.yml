@@ -19,12 +19,12 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 2 # you can use 2 for example to only fetch the latest 2 commi
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '8.0.x'
 
@@ -78,7 +78,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -113,7 +113,7 @@ jobs:
 
     steps:
       - name: Checkout Repository (met nieuwste CA rapporten)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: main # Haalt de nieuwste commit op inclusief de door Stap 2 gepushte .md bestanden
 
