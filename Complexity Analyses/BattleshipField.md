@@ -5,14 +5,11 @@
 ---
 
 1. **Complexiteit**: 
-   - Tijd: $\mathcal{O}(N \times M)$ (waarbij $N$ en $M$ de dimensies van het veld zijn, omdat elke cel maximaal een constante aantal keren wordt bezocht).
-   - Ruimte: $\mathcal{O}(N \times M)$ (voor het `visited`-matrix en het opslaan van de schepen).
+   - **Tijdcomplexiteit**: $\mathcal{O}(N \times M)$ (waarbij $N$ en $M$ de dimensies van het veld zijn), omdat elke cel in het speelveld constant aantal keer wordt bezocht en gecontroleerd.
+   - **Ruimtecomplexiteit**: $\mathcal{O}(N \times M)$ vanwege de `visited`-matrix en de opslag van gedetecteerde schepen.
 
 2. **Efficiëntst?**: 
-   Ja. Elke cel hoeft in theorie maar één keer geëvalueerd te worden om schepen te detecteren en te valideren, wat de theoretisch minimale tijdscomplexiteit van $\mathcal{O}(V)$ (aantal cellen) bereikt.
+   - **Ja**, de asymptotische tijdscomplexiteit is optimaal ($\mathcal{O}(V)$ met $V$ het aantal cellen), aangezien elk element minimaal één keer moet worden geïspekteerd om een geldig vlootbestand te garanderen.
 
 3. **Optimalisatiemogelijkheid**: 
-   De huidige oplossing is asymptotisch optimaal. Kleine micro-optimalisaties die de allocatiedruk kunnen verlagen zijn:
-   - Het vermijden van het dynamisch aanmaken van `Direction`- en `Position`-objecten in een tight loop.
-   - Het vervangen van LINQ-constructies (zoals `SequenceEqual`) door simpele `for`-loops.
-   - Het direct retourneren zodra een ongeldig aantal schepen wordt gedetecteerd in plaats van altijd alle schepen volledig uit te lezen.
+   - De huidige oplossing is qua algoritme al optimaal. Kleine micro-optimalisaties zijn mogelijk door overbodige objectallocaties (zoals records en LINQ-aanroepen binnen de inner loops) te verminderen, en de `visited`-matrix direct op het `int[,]`-veld bij te houden (bijv. door cellen te muteren of bitwise flags te gebruiken) om extra geheugenallocatie voor een aparte `bool[,]` te elimineren.
