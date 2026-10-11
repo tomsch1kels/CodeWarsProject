@@ -5,12 +5,12 @@
 ---
 
 1. **Complexiteit**: 
-   - Tijdscomplexiteit: $\mathcal{O}(n^2)$ in het slechtste geval (vanwege het herhaaldelijk doorzoeken van substrings met `.Contains()` binnen de hoofdloop).
-   - Ruimtecomplexiteit: $\mathcal{O}(n)$ vanwege het alloceren van substrings en kopieën bij het converteren naar lowercase/uppercase.
+   - Tijd: $\mathcal{O}(N^2)$ in het slechtste geval (vanwege het herhaaldelijk doorzoeken van substrings met `Contains` voor zowel de onder- als hoofdlettervariant).
+   - Ruimte: $\mathcal{O}(N)$ in het slechtste geval (vanwege het alloceren van geheugen voor sub-strings zoals `s[..i]` en `s[(i + 1)..]` en de lowercase/uppercase conversies).
 
 2. **Efficiëntst?**: 
    - Nee.
 
 3. **Optimalisatiemogelijkheid**: 
-   - De oplossing kan worden geoptimaliseerd naar $\mathcal{O}(n)$ tijd en $\mathcal{O}(n)$ ruimte door een `Dictionary<char, int>` (of `Span<int>` voor ASCII) te gebruiken. 
-   - Tel eerst de frequentie van elk teken (waarbij je hoofdlettergevoeligheid negeert door naar lowercase te converteren, maar het originele teken behoudt). Doorloop daarna de string nogmaals om het eerste teken te vinden waarvan de frequentie gelijk is aan 1. Dit reduceert het aantal iteraties aanzienlijk.
+   - De oplossing kan worden versneld naar een $\mathcal{O}(N)$ tijdscomplexiteit en $\mathcal{O}(N)$ ruimtecomplexiteit door een frequentietabel (bijv. een `Dictionary<char, int>`) te gebruiken. 
+   - Door eerst in één loop alle karakters (case-insensitive, door ze bijvoorbeeld te normaliseren) te tellen, en in een tweede loop het originele woord te doorlopen om het eerste karakter te vinden met een frequentie van 1, vermijd je het nested doorzoeken van substrings.

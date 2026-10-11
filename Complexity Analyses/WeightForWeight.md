@@ -5,13 +5,11 @@
 ---
 
 1. **Complexiteit**: 
-   - Tijd: $\mathcal{O}(N \cdot M \log N)$ waarbij $N$ het aantal gewichten is en $M$ de maximale lengte van een getal (vanwege de stringvergelijking bij het sorteren).
-   - Ruimte: $\mathcal{O}(N \cdot M)$ voor het opslaan van de objecten en de gesplitste strings in geheugen.
+   - Tijd: $O(N \cdot M \log N)$, waarbij $N$ het aantal gewichten is en $M$ de maximale lengte van een getal (vanwege de stringvergelijking bij het sorteren).
+   - Ruimte: $O(N \cdot M)$ voor het opslaan van de objecten en de gesplitste strings in geheugen.
 
 2. **Efficiëntst?**: 
    Nee.
 
 3. **Optimalisatiemogelijkheid**: 
-   De huidige code gebruikt onnodige LINQ-allocaties zoals `.ToList()`, `mass.ToList()` en het creëren van tuples. Dit kan geoptimaliseerd worden door:
-   - `string.Split(' ')` direct te sorteren met een `Comparison<string>` of een custom `IComparer<string>` i.p.v. tuples te maken.
-   - Het gewicht direct te berekenen via een simpele `foreach`-loop over de karakters van de string zonder LINQ of `.ToList()`, om `dotnet` garbage collection druk te minimaliseren.
+   De efficiëntie kan worden verbeterd door LINQ-allocaties ($.ToList()$, anonieme tuples) te verminderen en direct te sorteren op een custom `IComparer<(long Weight, string Mass)>` of een dedicated struct. Daarnaast kan de sommatie van de cijfers geoptimaliseerd worden door direct over de stringkarakters te itereren in plaats van `.ToList().Sum(char.GetNumericValue)`.

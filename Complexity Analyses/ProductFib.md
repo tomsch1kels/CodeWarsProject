@@ -5,11 +5,11 @@
 ---
 
 1. **Complexiteit**: 
-   - Tijdcomplexiteit: $\mathcal{O}(\log(\text{prod}))$ (omdat de Fibonacci-getallen exponentieel groeien).
-   - Ruimtecomplexiteit: $\mathcal{O}(1)$ (constante extra geheugenruimte).
+   - Tijdcomplexiteit: $\mathcal{O}(\log(\text{prod}))$ (omdat Fibonacci-getallen exponentieel groeien).
+   - Ruimtecomplexiteit: $\mathcal{O}(1)$.
 
-2. **Efficiëntst?**: 
-   - Ja. De iteratieve aanpak heeft de optimale Big O tijdscomplexiteit ($\mathcal{O}(\log n)$ t.o.v. de waarde van `prod`) en behoeft geen verdere optimalisatie voor het genereren van de reeks.
+2. **Efficiëntst?**: Ja. 
+   De huidige oplossing heeft de optimale Big O tijdscomplexiteit ($\mathcal{O}(\log n)$ in verhouding tot de waarde van de invoer), aangezien we de reeks iteratief moeten genereren om het product te controleren.
 
 3. **Optimalisatiemogelijkheid**: 
-   - De logica kan micro-geoptimaliseerd worden door herhaalde vermenigvuldigingen (`a * b`) te beperken, en de toewijzing van de `success`-vlag directer in de array-initialisatie te verwerken (bijv. `return [a, b, (ulong)(a * b == prod ? 1 : 0)];`). Algoritmisch is dit echter al de maximale haalbaarheid.
+   De algoritmische complexiteit is al optimaal, maar de code kan micro-geoptimaliseerd worden. Het herhaaldelijk berekenen van `a * b` in de `if`-voorwaarde kan worden vermeden door het product één keer per iteratie op te slaan in een lokale variabele om redundante vermenigvuldigingen te elimineren.

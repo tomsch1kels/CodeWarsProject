@@ -5,12 +5,13 @@
 ---
 
 ### 1. Complexiteit
-* **Tijdskomplexiteit**: $\mathcal{O}(N^2)$ (waarbij $N$ de lengte van de zijde van de matrix is, wat neerkomt op $\mathcal{O}(K)$ totaal aantal elementen $K$).
-* **Ruimtecomplexiteit**: $\mathcal{O}(N^2)$ extra geheugen vanwege de `visited`-matrix en de resultaatarray.
+* **Tijdcomplexiteit**: $\mathcal{O}(N^2)$ (waarbij $N$ de lengte van de zijde van de matrix is, oftewel totaal aantal elementen $M = N^2$).
+* **Ruimtecomplexiteit**: $\mathcal{O}(N^2)$ extra geheugen voor de `visited`-matrix en het resultaat-array.
 
 ### 2. Efficiëntst?
-* **Tijd**: **Ja**, elke cel in de matrix moet minstens één keer worden gelezen, waardoor $\mathcal{O}(N^2)$ de theoretisch optimale tijdscomplexiteit is.
-* **Ruimte**: **Nee**, de ruimtecomplexiteit kan worden teruggebracht naar $\mathcal{O}(1)$ extra geheugen (exclusief de resultaatarray).
+* **Ja**, de tijdscomplexiteit is optimaal ($\mathcal{O}(M)$) omdat elk element in de matrix exact één keer bezocht moet worden. 
 
 ### 3. Optimalisatiemogelijkheid
-De `visited`-matrix en de hulpfunctie `AllSurroundingBlocksWereVisited` zijn overbodig. Het slakkenhuispatroon kan veel efficiënter worden door grenzen (`top`, `bottom`, `left`, `right`) bij te houden die na elke voltooide ring krimpen. Dit verwijdert de geheugenoverhead van de `visited`-array, elimineert dure conditiecontroles per stap, en vereenvoudigt de code aanzienlijk.
+De huidige oplossing kan qua **geheugenruimte** en **overhead** worden geoptimaliseerd. 
+* **Geen `visited`-array nodig**: Door gebruik te maken van vier dynamische grenzen (`top`, `bottom`, `left`, `right`) die naar binnen krimpen na elke voltooide rand, is de `visited`-matrix overbodig. Dit reduceert de ruimtecomplexiteit tot $\mathcal{O}(1)$ (exclusief het resultaat-array).
+* **Geen helperfuncties**: Het bijhouden van grenzen verwijdert ook de dure `AllSurroundingBlocksWereVisited`-controles per stap, wat de constante factor in de uitvoeringstijd significant verlaagt.

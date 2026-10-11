@@ -8,6 +8,8 @@
    - Tijdcomplexiteit: $\mathcal{O}(1)$
    - Ruimtecomplexiteit: $\mathcal{O}(1)$
 
-2. **Efficiëntst?**: Ja. De oplossing maakt gebruik van een wiskundige eigenschap (de som van oneven getallen in rij $n$ is gelijk aan $n^3$) waardoor er geen iteraties nodig zijn.
+2. **Efficiëntst?**: 
+   - Ja, de implementatie heeft de optimaal mogelijke Big O tijdscomplexiteit ($\mathcal{O}(1)$).
 
-3. **Optimalisatiemogelijkheid**: De huidige oplossing is al optimaal qua Big O. Wel kan een kleine micro-optimalisatie worden toegepast door `Math.Pow` (die `double` gebruikt en daardoor afrondingsfouten of conversieoverhead kan geven) te vervangen door een directe vermenigvuldiging: `n * n * n`.
+3. **Optimalisatiemogelijkheid**: 
+   - De huidige oplossing is al optimaal qua asymptotische complexiteit. Wel kan `Math.Pow(n, 3)` (wat `double` als input neemt en een `double` retourneert) in C# optioneel worden vervangen door eenvoudige integer-vermenigvuldiging (`n * n * n`) om afrondingsfouten bij zeer grote getallen en overhead van de math-library te vermijden.
