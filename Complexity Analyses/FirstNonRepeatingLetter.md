@@ -4,13 +4,12 @@
 
 ---
 
-1. **Complexiteit**: 
-   - Tijd: $\mathcal{O}(N^2)$ in het slechtste geval (vanwege het herhaaldelijk doorzoeken van substrings met `Contains` voor zowel de onder- als hoofdlettervariant).
-   - Ruimte: $\mathcal{O}(N)$ in het slechtste geval (vanwege het alloceren van geheugen voor sub-strings zoals `s[..i]` en `s[(i + 1)..]` en de lowercase/uppercase conversies).
+1. **Complexiteit**:
+   - **Tijdcomplexiteit**: $O(N^2)$ in het slechtste geval, omdat voor elk karakter substrings worden gekopieerd (`s[..i]` en `s[(i + 1)..]`) en doorzocht.
+   - **Ruimtecomplexiteit**: $O(N)$ vanwege het alloceren van substrings en het converteren naar kleine/grote letters.
 
-2. **Efficiëntst?**: 
+2. **Efficiëntst?**:
    - Nee.
 
-3. **Optimalisatiemogelijkheid**: 
-   - De oplossing kan worden versneld naar een $\mathcal{O}(N)$ tijdscomplexiteit en $\mathcal{O}(N)$ ruimtecomplexiteit door een frequentietabel (bijv. een `Dictionary<char, int>`) te gebruiken. 
-   - Door eerst in één loop alle karakters (case-insensitive, door ze bijvoorbeeld te normaliseren) te tellen, en in een tweede loop het originele woord te doorlopen om het eerste karakter te vinden met een frequentie van 1, vermijd je het nested doorzoeken van substrings.
+3. **Optimalisatiemogelijkheid**:
+   - De tijdscomplexiteit kan worden teruggebracht naar **$O(N)$** door een `Dictionary<char, int>` (of een frequentietabel voor ASCII/Unicode) te gebruiken om de teltotalen van hoofd- en kleine letters in één enkele iteratie over de string op te slaan. In een tweede, snelle iteratie kan dan het eerste karakter worden gevonden waarvan de hoofd-/kleine letter variant een frequentie van 1 heeft, zonder dure substring-allocaties.

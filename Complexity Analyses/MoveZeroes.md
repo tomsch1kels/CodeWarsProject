@@ -5,12 +5,11 @@
 ---
 
 1. **Complexiteit**: 
-   - Tijd: $\mathcal{O}(N \log N)$ door het gebruik van `OrderBy`.
-   - Ruimte: $\mathcal{O}(N)$ voor het opslaan van de gesorteerde array.
+   - Tijd: $\mathcal{O}(n \log n)$ vanwege de `OrderBy` operatie.
+   - Ruimte: $\mathcal{O}(n)$ voor het opslaan van de nieuwe array en de tussentijdse resultaten.
 
 2. **Efficiëntst?**: 
-   - Nee. De optimale tijdscomplexiteit voor dit probleem is $\mathcal{O}(N)$.
+   Nee. De optimale tijdscomplexiteit voor dit probleem is $\mathcal{O}(n)$.
 
 3. **Optimalisatiemogelijkheid**: 
-   - De huidige oplossing gebruikt LINQ sorteren, wat traag is en de oorspronkelijke volgorde van niet-nul elementen potentieel kan verstoren (hoewel `OrderBy` stabiel is, is het overkill). 
-   - Het kan efficiënter in $\mathcal{O}(N)$ tijd en $\mathcal{O}(N)$ ruimte door een nieuwe array te vullen: itereer door de invoer, plaats alle elementen unaniem in een nieuwe array (of `Span<T>`) en vul de resterende plekken aan met nullen, of gebruik een tweepunter-strategie die in één pass de elementen verplaatst.
+   De huidige `LINQ`-aanpak gebruikt een vergelijkingssortering die trager is dan nodig. Het kan efficiënter door in een enkele iteratie ($\mathcal{O}(n)$ tijd) alle non-zero elementen naar een nieuwe array (of in-place) te kopiëren en de resterende plekken met nullen te vullen, bijvoorbeeld met een twee-pointer benadering of door gebruik te maken van `Array.Copy`.

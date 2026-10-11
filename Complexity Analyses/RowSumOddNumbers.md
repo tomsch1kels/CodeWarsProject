@@ -4,12 +4,11 @@
 
 ---
 
-1. **Complexiteit**: 
+1. **Complexiteit**:
    - Tijdcomplexiteit: $\mathcal{O}(1)$
    - Ruimtecomplexiteit: $\mathcal{O}(1)$
 
-2. **Efficiëntst?**: 
-   - Ja, de implementatie heeft de optimaal mogelijke Big O tijdscomplexiteit ($\mathcal{O}(1)$).
+2. **Efficiëntst?**: Ja.
 
 3. **Optimalisatiemogelijkheid**: 
-   - De huidige oplossing is al optimaal qua asymptotische complexiteit. Wel kan `Math.Pow(n, 3)` (wat `double` als input neemt en een `double` retourneert) in C# optioneel worden vervangen door eenvoudige integer-vermenigvuldiging (`n * n * n`) om afrondingsfouten bij zeer grote getallen en overhead van de math-library te vermijden.
+   De huidige oplossing maakt gebruik van `Math.Pow`, wat doubles gebruikt en interne afrondings- of conversie-overhead kan hebben. Dit kan directer en efficiënter worden geschreven door pure vermenigvuldiging te gebruiken: `n * n * n`.

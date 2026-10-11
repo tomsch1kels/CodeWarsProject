@@ -5,11 +5,11 @@
 ---
 
 ### 1. Complexiteit
-* **Tijdcomplexiteit:** $\mathcal{O}(N \cdot M \log N)$ — waarbij $N$ het aantal woorden is en $M$ de gemiddelde lengte van een woord. Het opzoeken en invoegen in een `SortedDictionary` kost $\mathcal{O}(\log N)$ per woord, en `char.IsDigit` doorloopt het woord in $\mathcal{O}(M)$.
-* **Ruimtecomplexiteit:** $\mathcal{O}(N \cdot M)$ — voor het opslaan van de woorden in de `SortedDictionary` en het resultaat-array.
+* **Tijdcomplexiteit:** $\mathcal{O}(N \cdot M \log N)$ — waarbij $N$ het aantal woorden is en $M$ de gemiddelde lengte van een woord. De $\log N$ komt door het invoegen in de `SortedDictionary`, en het zoeken naar het cijfer via `word.Single(char.IsDigit)` kost $\mathcal{O}(M)$ per woord.
+* **Ruimtecomplexiteit:** $\mathcal{O}(N \cdot M)$ — voor het opslaan van de woorden in de `SortedDictionary` en het resultaat van `Split()`.
 
 ### 2. Efficiëntst?
-* **Nee**, de tijdscomplexiteit kan optimaler. Een `SortedDictionary` gebruikt een binaire zoekboom (RB-tree) met $\mathcal{O}(\log N)$ inserties. Dit kan in $\mathcal{O}(N)$ (lineaire tijd) door een simpel array te gebruiken, aangezien de posities vooraf bekend zijn (1 tot $N$).
+* **Nee**, hoewel de tijdscomplexiteit voor een vergelijkingsgebaseerde sorteermethode optimaal is ($\mathcal{O}(N \log N)$), kan het sneller in $\mathcal{O}(N)$ doordat de posities (1 t/m $N$) direct bekend zijn.
 
 ### 3. Optimalisatiemogelijkheid
-Vervang de `SortedDictionary<int, string>` door een vast array van grootte $N$ (`string[]`). Verdeel de woorden via `words.Split()`, bepaal het cijfer om de juiste index (`digit - '1'`) te vinden, en plaats het woord direct op die index in het array. Roep ten slotte `string.Join(" ", result)` aan. Dit verwijdert de overhead van de boomstructuur en zorgt voor een optimale $\mathcal{O}(N \cdot M)$ tijdscomplexiteit.
+De huidige `SortedDictionary` en LINQ-operaties (`Single(char.IsDigit)`) overhead introduceren. Dit kan efficiënter door een standaard array van vaste grootte te gebruiken. Omdat de posities genummerd zijn van 1 tot $N$, kun je direct op basis van het gevonden cijfer (minus 1) het woord op de juiste index in een array plaatsen. Dit verwijdert de $\log N$ sorteer-overhead en LINQ-allocaties, wat resulteert in een $\mathcal{O}(N)$ tijdscomplexiteit en minder geheugenallocatie.

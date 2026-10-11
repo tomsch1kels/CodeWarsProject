@@ -5,11 +5,14 @@
 ---
 
 1. **Complexiteit**: 
-   - Tijd: $O(N \cdot M \log N)$, waarbij $N$ het aantal gewichten is en $M$ de maximale lengte van een getal (vanwege de stringvergelijking bij het sorteren).
-   - Ruimte: $O(N \cdot M)$ voor het opslaan van de objecten en de gesplitste strings in geheugen.
+   - Tijd: $\mathcal{O}(N \cdot L \log N)$ waarin $N$ het aantal gewichten is en $L$ de maximale lengte van een getalsignatuur (vanwege het sorteren van strings bij gelijke gewichten).
+   - Ruimte: $\mathcal{O}(N \cdot L)$ voor het opslaan van de tuples en de gesplitste strings.
 
 2. **Efficiëntst?**: 
-   Nee.
+   - Ja, de asymptotische tijdscomplexiteit ($\mathcal{O}(N \log N)$ vergelijkingen) is optimaal voor een vergelijkingsgebaseerd sorteerprobleem.
 
 3. **Optimalisatiemogelijkheid**: 
-   De efficiëntie kan worden verbeterd door LINQ-allocaties ($.ToList()$, anonieme tuples) te verminderen en direct te sorteren op een custom `IComparer<(long Weight, string Mass)>` of een dedicated struct. Daarnaast kan de sommatie van de cijfers geoptimaliseerd worden door direct over de stringkarakters te itereren in plaats van `.ToList().Sum(char.GetNumericValue)`.
+   De huidige code bevat overbodige allocaties en conversies. Dit kan efficiënter door:
+   - `string.Split(' ')` te vermijden via een handmatige iteratie over de string of `Memory<char>` / `ReadOnlySpan<char>`.
+   - `mass.ToList()` binnen de sommatie te elimineren (direct itereren over `string` of `ReadOnlySpan<char>`).
+   - Het gebruik van `double` voor de gewichtsberekening te vervangen door `int` (som van cijfers past ruimschoots in een integer), wat snellere vergelijkingen oplevert.

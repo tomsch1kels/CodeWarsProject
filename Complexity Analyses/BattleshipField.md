@@ -5,11 +5,13 @@
 ---
 
 1. **Complexiteit**: 
-   - Tijd: $\mathcal{O}(N \times M)$ waarbij $N$ en $M$ de dimensies van het veld zijn (elke cel wordt maximaal een constante aantal keren bezocht).
-   - Ruimte: $\mathcal{O}(N \times M)$ voor het `visited`-matrix en de opslag van de gevonden schepen.
+   - **Tijdcomplexiteit**: $\mathcal{O}(N \times M)$ (waarbij $N$ en $M$ de dimensies van het speelveld zijn), omdat elke cel maximaal een constante aantal keren wordt bezocht en gecontroleerd op buren.
+   - **Ruimtecomplexiteit**: $\mathcal{O}(N \times M)$ vanwege de `visited` boolean matrix en de opslag van gevonden schepen in een lijst.
 
 2. **Efficiëntst?**: 
-   - **Ja**, de tijdscomplexiteit van $\mathcal{O}(N \times M)$ is optimaal omdat elk element in het bord minimaal één keer gelezen moet worden om de geldigheid te garanderen.
+   - **Ja**, de asymptotische tijdscomplexiteit is optimaal ($\mathcal{O}(N \times M)$), aangezien elk veld en elke cel minstens één keer gelezen moet worden om een geldig antwoord te garanderen.
 
 3. **Optimalisatiemogelijkheid**: 
-   - Hoewel de Big O-complexiteit optimaal is, kan de *constante factor* en het geheugenverbruik worden verbeterd door de `visited`-matrix weg te laten. Omdat schepen lineair worden afgegaan en ongeldige configuraties direct falen, kan het bijhouden van bezochte cellen worden overbodig gemaakt door gedetecteerde schepen direct op een kopie van het veld of in-place te markeren (bijv. waardes `1` naar `0` of `-1` veranderen), wat ook `List<Ship>` allocaties vermindert.
+   - Hoewel de Big O-complexiteit optimaal is, kan de *constante factor* en geheugenallocatie worden verbeterd. De huidige code maakt intensief gebruik van LINQ (`SequenceEqual`), extra objecten (`Position`, `Ship`, records voor `Orthogonals`/`Diagonals`) en toekenningslogica per cel. Dit kan worden geoptimaliseerd door:
+     - Het vermijden van `record` allocaties voor orthogonale en diagonale checks door primitieve arrays of bitwise operaties te gebruiken.
+     - Het in-place markeren/verwerken van schepen tijdens de iteratie, waardoor de `visited`-matrix of zelfs de gehele lijst van `Ship`-objecten kan worden vermeden; alleen het direct bijhouden en valideren van de tellingen per lengte is voldoende.

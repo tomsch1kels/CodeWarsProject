@@ -5,13 +5,17 @@
 ---
 
 ### 1. Complexiteit
-* **Tijdcomplexiteit**: $\mathcal{O}(N^2)$ (waarbij $N$ de lengte van de zijde van de matrix is, oftewel totaal aantal elementen $M = N^2$).
-* **Ruimtecomplexiteit**: $\mathcal{O}(N^2)$ extra geheugen voor de `visited`-matrix en het resultaat-array.
+* **Tijdcomplexiteit**: $\mathcal{O}(N^2)$ (waarbij $N$ de lengte van de zijde van de matrix is, wat neerkomt op $\mathcal{O}(M$ elementen totaal).
+* **Ruimtecomplexiteit**: $\mathcal{O}(N^2)$ extra geheugen voor het `visited`-matrix en de resultaatarray.
 
 ### 2. Efficiëntst?
-* **Ja**, de tijdscomplexiteit is optimaal ($\mathcal{O}(M)$) omdat elk element in de matrix exact één keer bezocht moet worden. 
+* **Tijd**: **Ja**, elke cel wordt exact één keer bezocht en weggeschreven, wat de theoretisch minimale tijdscomplexiteit is voor dit probleem.
+* **Ruimte**: **Nee**, de tijds- en ruimtecomplexiteit qua asymptotische groei zijn optimaal ($\mathcal{O}(N^2)$), maar de geheugenallocatie kan const-factor geoptimaliseerd worden.
 
 ### 3. Optimalisatiemogelijkheid
-De huidige oplossing kan qua **geheugenruimte** en **overhead** worden geoptimaliseerd. 
-* **Geen `visited`-array nodig**: Door gebruik te maken van vier dynamische grenzen (`top`, `bottom`, `left`, `right`) die naar binnen krimpen na elke voltooide rand, is de `visited`-matrix overbodig. Dit reduceert de ruimtecomplexiteit tot $\mathcal{O}(1)$ (exclusief het resultaat-array).
-* **Geen helperfuncties**: Het bijhouden van grenzen verwijdert ook de dure `AllSurroundingBlocksWereVisited`-controles per stap, wat de constante factor in de uitvoeringstijd significant verlaagt.
+De huidige oplossing gebruikt een `visited`-matrix van $\mathcal{O}(N^2)$ geheugen en doet per stap dure `AllSurroundingBlocksWereVisited`-controles. Dit kan efficiënter door **grenzen (boundaries)** bij te houden (`top`, `bottom`, `left`, `right`) in plaats van een `visited`-array. 
+
+Hierdoor:
+* Elimineer je de geheugenallocatie en overhead van de `visited`-matrix ($\mathcal{O}(1)$ extra ruimte).
+* Vermijd je de complexe conditie-controles per stap.
+* Verlaag je de constante factor (faster execution time) aanzienlijk.
