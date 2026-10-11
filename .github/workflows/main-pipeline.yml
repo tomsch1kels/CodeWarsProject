@@ -43,7 +43,7 @@ jobs:
         run: |
           # Haal lijst van gewijzigde bestanden in deze push
           if [ "${{ github.event_name }}" == "push" ]; then
-            CHANGED_CS=$(git diff --name-only HEAD~1..HEAD | grep '\.cs$' || true)
+            CHANGED_CS=$(git diff --name-only HEAD~1 HEAD | grep '\.cs$' || true)
           else
             # Voor workflow_dispatch, scan alle bestanden
             CHANGED_CS=""
