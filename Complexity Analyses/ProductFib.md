@@ -5,9 +5,11 @@
 ---
 
 1. **Complexiteit**:
-   - Tijdcomplexiteit: $O(\log \text{prod})$ in termen van het aantal iteraties, aangezien Fibonacci-getallen exponentieel groeien, maar $O(\sqrt{\text{prod}})$ in verhouding tot de waarde van `prod`.
-   - Ruimtecomplexiteit: $O(1)$ (constante ruimte).
+   - **Tijdscomplexiteit**: $O(\log \text{prod})$ in termen van de waarde van de input (aangezien de Fibonacci-getallen exponentieel groeien, is het aantal iteraties evenredig met $\log_{\phi}(\text{prod})$).
+   - **Ruimtecomplexiteit**: $O(1)$ (constante extra geheugenruimte).
 
-2. **Efficiëntst?**: Ja. Het is onmogelijk om een betere asymptotische tijdscomplexiteit te bereiken voor dit specifieke probleem, omdat we de reeks sequensmatig moeten genereren tot het product is bereikt of overschreden.
+2. **Efficiëntst?**:
+   Ja. Dit is de optimale benadering voor dit probleem. Het genereren van de Fibonacci-reeks tot het product gelijk is aan of groter dan `prod` vereist lineaire generatie ten opzichte van het aantal benodigde stappen, wat fundamenteel niet sneller kan in termen van asymptotische tijdscomplexiteit voor een willekeurige `ulong` waarde.
 
-3. **Optimalisatiemogelijkheid**: De huidige implementatie berekent het product `a * b` tweemaal per iteratie (één keer in de `if`-voorwaarde en één keer in de ternaire operator). Dit kan licht geoptimaliseerd worden door het product eenmalig per iteratie in een lokale variabele op te slaan, wat overbodige vermenigvuldigingen voorkomt.
+3. **Optimalisatiemogelijkheid**:
+   De huidige implementatie berekent `a * b` tweemaal in de `if`-voorwaarde. Dit kan micro-geoptimaliseerd worden door het product één keer in een lokale variabele op te slaan om overbodige vermenigvuldigingen te voorkomen. De code is echter al dusdanig lichtgewicht dat dit nauwelijks merkbaar is in de praktijk.

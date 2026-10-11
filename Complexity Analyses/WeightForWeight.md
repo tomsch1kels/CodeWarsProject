@@ -5,14 +5,12 @@
 ---
 
 1. **Complexiteit**: 
-   - Tijd: $\mathcal{O}(N \cdot L \log N)$ waarin $N$ het aantal gewichten is en $L$ de maximale lengte van een getalsignatuur (vanwege het sorteren van strings bij gelijke gewichten).
-   - Ruimte: $\mathcal{O}(N \cdot L)$ voor het opslaan van de tuples en de gesplitste strings.
+   - Tijd: $O(N \cdot M \log N)$, waarbij $N$ het aantal gewichten is en $M$ de maximale lengte van een gewicht (vanwege de stringvergelijking bij het sorteren).
+   - Ruimte: $O(N \cdot M)$ voor het opslaan van de objecten en strings in geheugen.
 
 2. **Efficiëntst?**: 
-   - Ja, de asymptotische tijdscomplexiteit ($\mathcal{O}(N \log N)$ vergelijkingen) is optimaal voor een vergelijkingsgebaseerd sorteerprobleem.
+   - Nee. Hoewel de tijdscomplexiteit $O(N \log N)$ optimaal is voor vergelijking-gebaseerd sorteren, veroorzaakt het gebruik van `ToList()`, LINQ en tuple-allocaties onnodige garbage collection overhead.
 
 3. **Optimalisatiemogelijkheid**: 
-   De huidige code bevat overbodige allocaties en conversies. Dit kan efficiënter door:
-   - `string.Split(' ')` te vermijden via een handmatige iteratie over de string of `Memory<char>` / `ReadOnlySpan<char>`.
-   - `mass.ToList()` binnen de sommatie te elimineren (direct itereren over `string` of `ReadOnlySpan<char>`).
-   - Het gebruik van `double` voor de gewichtsberekening te vervangen door `int` (som van cijfers past ruimschoots in een integer), wat snellere vergelijkingen oplevert.
+   - Vermijd LINQ en objectallocaties door de invoer direct te parsen naar een `Span<T>` of array van structs met de numerieke som en de originele string. 
+   - Gebruik een `Array.Sort` of een custom `IComparer<string>` die de som berekent en bij een gelijke som een alfagenerieke `StringComparer.Ordinal` vergelijking uitvoert, zonder extra geheugentoewijzingen per element.

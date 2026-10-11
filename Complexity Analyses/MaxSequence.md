@@ -12,4 +12,4 @@
    - Nee.
 
 3. **Optimalisatiemogelijkheid**: 
-   - De huidige oplossing herberekent sommen van deelverzamelingen herhaaldelijk. Dit kan optimaal worden opgelost in $\mathcal{O}(n)$ tijd en $\mathcal{O}(1)$ ruimte met het **Kadane's Algoritme**. Hierbij houdt je tijdens één enkele iteratie over de array steeds de maximum som tot het huidige element bij (`currentSum = Math.max(item, currentSum + item)`).
+   - Het probleem (Maximum Subarray Sum) kan optimaal worden opgelost in $\mathcal{O}(n)$ tijd met het **Kadane's Algoritme**. Hierbij itereren we eenmalig door de array en houden we de huidige som bij, waarbij we deze resetten naar 0 (of de waarde zelf) als deze negatief wordt, en tegelijkertijd de maximale som bijhouden.

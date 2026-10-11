@@ -5,11 +5,11 @@
 ---
 
 1. **Complexiteit**: 
-   - Tijd: $\mathcal{O}(N)$ (waarbij $N$ het aantal dobbelstenen is, in de praktijk constant $\mathcal{O}(1)$ aangezien $N = 5$).
-   - Ruimte: $\mathcal{O}(1)$ (vaste array van grootte 7).
+   - Tijdcomplexiteit: $\mathcal{O}(n)$ (waarbij $n$ het aantal dobbelstenen is, in de praktijk $\mathcal{O}(1)$ aangezien $n$ altijd vast 5 is bij deze kata).
+   - Ruimtecomplexiteit: $\mathcal{O}(1)$ (het `ocurrences` array heeft een vaste grootte van 7).
 
 2. **Efficiëntst?**: 
-   - Ja. De asymptotische tijds- en ruimtecomplexiteit is optimaal.
+   - Ja. De implementatie bereikt de optimaal mogelijke Big O-tijdscomplexiteit ($\mathcal{O}(n)$), omdat elke dobbelsteen minimaal één keer gelezen moet worden om de waarde te bepalen.
 
 3. **Optimalisatiemogelijkheid**: 
-   - De huidige implementatie is qua Big O al optimaal. Kleine micro-optimalisaties (zoals het vermplenigvuldigen van array-allocaties door een vaste array of stackalloc te gebruiken) zijn op deze schaal ($N=5$) echter overbodig en verminderen slechts de leesbaarheid. De code is reeds uitstekend en idiomatisch.
+   - Hoewel de Big O-complexiteit optimaal is, kan micro-optimalisatie worden toegepast door geheugenallocatie van het array (`new int[]`) te vermijding via een `stackalloc int[7]` of vaste variabelen, en door haakjes en integer-delingen te vereenvoudigen. Voor de vaste invoer van 5 dobbelstenen is de huidige code echter al uitstekend leesbaar en snel genoeg.
