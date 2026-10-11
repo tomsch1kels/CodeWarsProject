@@ -4,12 +4,12 @@
 
 ---
 
-1. **Complexiteit**: 
-   - **Tijdcomplexiteit**: $\mathcal{O}(N \cdot M)$ (waarbij $N$ en $M$ de afmetingen van het veld zijn, aangezien elke cel constant aantal keer wordt bezocht).
-   - **Ruimtecomplexiteit**: $\mathcal{O}(N \cdot M)$ (voor de `visited`-matrix en de opslag van schepen).
+1. **Complexiteit**
+   * **Tijdcomplexiteit:** $\mathcal{O}(N)$, waarbij $N$ het aantal cellen is in het speelveld (aangezien elke cel maximaal een constante aantal keren wordt bezocht en gecontroleerd).
+   * **Ruimtecomplexiteit:** $\mathcal{O}(N)$ voor het bijhouden van de `visited`-status en het opslaan van de gevonden schepen in lijsten.
 
-2. **Efficiëntst?**: 
-   - **Ja**. Je moet theoretisch elk veld minstens één keer bekijken om te controleren of het water of een schip is, waardoor een lineaire complexiteit ten opzichte van het aantal cellen optimaal is.
+2. **Efficiëntst?**
+   * **Ja**, de tijdscomplexiteit is $\mathcal{O}(N)$, wat optimaal is omdat elk element in de matrix minstens één keer gelezen moet worden om te controleren of er een schip staat.
 
-3. **Optimalisatiemogelijkheid**: 
-   - De huidige oplossing is asymptotisch optimaal. Kleine micro-optimalisaties (zoals het vermijden van LINQ/enumerators in hete lussen of het direct in-place markeren van het veld in plaats van een aparte `visited`-boolmatrix) kunnen geheugenallocaties en overhead iets verminderen, maar veranderen de Big O-complexiteit niet.
+3. **Optimalisatiemogelijkheid**
+   * De huidige oplossing maakt gebruik van `bool[,] visited` waarbij de dimensies omgedraaid lijken te zijn ten opzichte van de array-indexering (`visited[position.X, position.Y]` vs `field[position.Y, position.X]`), wat cache-inefficiënties kan veroorzaken. Dit kan worden geoptimaliseerd door de dimensies van de `visited`-matrix exact gelijk te leggen aan het speelveld (`[height, width]`). Daarnaast kunnen objectallocaties (zoals records en LINQ-constructies) in de inner loops verder worden gereduceerd door primitieve datatypes te gebruiken, al heeft dit een verwaarloosbare impact op de Big O-complexiteit.
