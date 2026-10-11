@@ -4,12 +4,14 @@
 
 ---
 
-1. **Complexiteit**: 
-   - **Tijdcomplexiteit**: $\mathcal{O}(N \times M)$ (waarbij $N$ en $M$ de dimensies van het veld zijn), omdat elke cel in het speelveld constant aantal keer wordt bezocht en gecontroleerd.
-   - **Ruimtecomplexiteit**: $\mathcal{O}(N \times M)$ vanwege de `visited`-matrix en de opslag van gedetecteerde schepen.
+1. **Complexiteit**:
+   - **Tijdscomplexiteit**: $\mathcal{O}(N)$ waarbij $N$ het aantal cellen in het speelveld is ($10 \times 10 = 100$). Elke cel wordt constant aantal keren bezocht en gecontroleerd.
+   - **Ruimtecomplexiteit**: $\mathcal{O}(N)$ vanwege de `visited`-matrix van $10 \times 10$ en de lijst van gevonden schepen.
 
-2. **Efficiëntst?**: 
-   - **Ja**, de asymptotische tijdscomplexiteit is optimaal ($\mathcal{O}(V)$ met $V$ het aantal cellen), aangezien elk element minimaal één keer moet worden geïspekteerd om een geldig vlootbestand te garanderen.
+2. **Efficiëntst?**: Ja. 
+   Omdat elk veld minimaal één keer gelezen moet worden om te controleren of er een schip staat, is een tijdscomplexiteit van $\mathcal{O}(N)$ asymptotisch optimaal.
 
-3. **Optimalisatiemogelijkheid**: 
-   - De huidige oplossing is qua algoritme al optimaal. Kleine micro-optimalisaties zijn mogelijk door overbodige objectallocaties (zoals records en LINQ-aanroepen binnen de inner loops) te verminderen, en de `visited`-matrix direct op het `int[,]`-veld bij te houden (bijv. door cellen te muteren of bitwise flags te gebruiken) om extra geheugenallocatie voor een aparte `bool[,]` te elimineren.
+3. **Optimalisatiemogelijkheid**:
+   De huidige oplossing is qua Big O-notatie optimaal en gezien de vaste, zeer kleine invoer (een $10 \times 10$ speelveld bij Battleship) is micro-optimalisatie niet nodig. Wel kan de code iets efficiënter en geheugenbewuster worden gemaakt door:
+   - Het vermijden van LINQ (`SequenceEqual`) en collectie-allocaties (`List<Ship>`) in de hete lus door gebruik te maken van `Span<T>` of simpele `for`-loops.
+   - Het vervangen van objectallocaties zoals `Position` records door value types (`readonly struct`) of simpele `int`-coördinaten om de Garbage Collector te ontlasten (hoewel dit op een schaal van 100 cellen verwaarloosbaar is).
