@@ -9,7 +9,7 @@ Automatisch gegenereerd overzicht van opgeloste Codewars kata's met geïntegreer
 
 | Profiel | Rank | Honor | Leaderboard | Totaal Opgelost op Codewars |
 | :--- | :---: | :---: | :---: | :---: |
-| **[flhjwer672423](https://www.codewars.com/users/flhjwer672423)** | `5 kyu` | `321` | `#273826` | `24` |
+| **[flhjwer672423](https://www.codewars.com/users/flhjwer672423)** | `5 kyu` | `353` | `#232113` | `25` |
 
 <br/>
 
@@ -24,10 +24,11 @@ Automatisch gegenereerd overzicht van opgeloste Codewars kata's met geïntegreer
 
 | Totaal Opgelost in Repo | Totaal Tests |
 | :---: | :---: |
-| **12** | **37** |
+| **13** | **43** |
 
 | Rank / Kyu | Kata Probleem | Tests | Efficiëntst? | Analyse | Bronbestand |
 | :--- | :--- | :---: | :---: | :---: | :--- |
+| `3 kyu` | **[Battleship Field](https://www.codewars.com/kata/52bb6539a4cf1b12d90005b7)** | `6` | ✅ | [📊 Bekijk Analyse](Complexity%20Analyses/BattleshipField.md) | [Bekijk Code](./Solutions/BattleshipField.cs) |
 | `4 kyu` | **[Snail](https://www.codewars.com/kata/521c2db8ddc89b9b7a0000c1)** | `2` | ✅ | [📊 Bekijk Analyse](Complexity%20Analyses/Snail.md) | [Bekijk Code](./Solutions/Snail.cs) |
 | `4 kyu` | **[Human Time Format](https://www.codewars.com/kata/52742f58faf5485cae000b9a)** | `13` | ✅ | [📊 Bekijk Analyse](Complexity%20Analyses/HumanTimeFormat.md) | [Bekijk Code](./Solutions/HumanTimeFormat.cs) |
 | `5 kyu` | **[Move Zeroes](https://www.codewars.com/kata/52597aa56021e91c93000cb0)** | `1` | ❌ | [📊 Bekijk Analyse](Complexity%20Analyses/MoveZeroes.md) | [Bekijk Code](./Solutions/MoveZeroes.cs) |
