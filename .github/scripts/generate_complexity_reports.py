@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 import time
 from google import genai
 
@@ -60,6 +61,18 @@ def analyze_code_with_gemini(code, filename):
 
 
 def main():
+    # Haal de lijst van gewijzigde bestanden uit de omgevingsvariabele
+    changed_files_raw = os.environ.get("CHANGED_FILES", "")
+    
+    if not changed_files_raw:
+        print("⚠️ Geen CHANGED_FILES omgevingsvariabele gevonden. Scan alle bestanden (fallback).")
+        changed_file_list = []
+    else:
+        # Parse newline-gescheiden lijst van bestanden
+        changed_file_list = [f.strip() for f in changed_files_raw.split('\n') if f.strip()]
+    
+    print(f"📋 Gewijzigde bestanden om te verwerken: {len(changed_file_list)}")
+    
     if not os.path.exists(SOLUTIONS_DIR):
         print(f"Map '{SOLUTIONS_DIR}' niet gevonden. Niets om te verwerken.")
         return
@@ -67,7 +80,10 @@ def main():
     # Zorg dat de uitvoermap bestaat
     os.makedirs(ANALYSIS_DIR, exist_ok=True)
 
-    # Scan alle C# bestanden in the Solutions map (inclusief submappen)
+    files_processed = 0
+    files_skipped = 0
+    
+    # Scan alle C# bestanden in de Solutions map (inclusief submappen)
     for root, dirs, files in os.walk(SOLUTIONS_DIR):
         for file in files:
             # Negeer niet-C# bestanden en unit test bestanden
@@ -75,10 +91,18 @@ def main():
                 continue
 
             file_path = os.path.join(root, file)
+            relative_path = os.path.relpath(file_path, start=".").replace("\\", "/")
+            
+            # Als er een specifieke lijst is, sla over als bestand niet daarin staat
+            if changed_file_list and relative_path not in changed_file_list:
+                print(f"⏭️ Overslaan: {file_path} (niet gewijzigd)")
+                files_skipped += 1
+                continue
+
             base_name = file.replace(".cs", "")
             report_path = os.path.join(ANALYSIS_DIR, f"{base_name}.md")
 
-            print(f"\n🔍 Verwerken van nieuw bestand: {file_path}")
+            print(f"\n🔍 Verwerken van gewijzigd bestand: {file_path}")
 
             with open(file_path, "r", encoding="utf-8") as f:
                 code = f.read()
@@ -97,6 +121,11 @@ def main():
                     f.write(final_content)
 
                 print(f"✅ Rapport succesvol opgeslagen in: {report_path}")
+                files_processed += 1
+            else:
+                print(f"❌ Analyse mislukt voor: {file_path}")
+
+    print(f"\n📊 Samenvatting: {files_processed} verwerkt, {files_skipped} overgeslagen")
 
 
 if __name__ == "__main__":
