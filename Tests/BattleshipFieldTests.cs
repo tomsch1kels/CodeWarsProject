@@ -150,10 +150,10 @@ internal sealed class BattleshipFieldTests
 
         using (Assert.EnterMultipleScope())
         {
-            Assert.That(solver.GetValue(new(0, 0)), Is.EqualTo(PossibleValue.NIL));
-            Assert.That(solver.GetValue(new(0, 1)), Is.EqualTo(PossibleValue.ONE));
-            Assert.That(solver.GetValue(new(1, 0)), Is.EqualTo(PossibleValue.NIL));
-            Assert.That(solver.GetValue(new(1, 1)), Is.EqualTo(PossibleValue.NIL));
+            Assert.That(new Position(0, 0).GetValue(input), Is.EqualTo(PossibleValue.NIL));
+            Assert.That(new Position(0, 1).GetValue(input), Is.EqualTo(PossibleValue.ONE));
+            Assert.That(new Position(1, 0).GetValue(input), Is.EqualTo(PossibleValue.NIL));
+            Assert.That(new Position(1, 1).GetValue(input), Is.EqualTo(PossibleValue.NIL));
         }
     }
 
@@ -171,7 +171,7 @@ internal sealed class BattleshipFieldTests
         };
         var solver = new BattleshipFieldSolver(input);
 
-        Assert.That(solver.GetValue(new(x, y)), Is.EqualTo(expected));
+        Assert.That(new Position(x, y).GetValue(input), Is.EqualTo(expected));
     }
 
     [Test]
