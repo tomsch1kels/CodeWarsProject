@@ -1,7 +1,5 @@
 /bin
 /obj
 .DS_Store
-CodeWarsProject.Tests/bin/Debug/net10.0/.msCoverageSourceRootsMapping_CodeWarsProject.Tests
-CodeWarsProject.Tests/bin/Debug/net10.0/CoverletSourceRootsMapping_CodeWarsProject.Tests
-CodeWarsProject.Tests/obj/Debug/net10.0/CodeWarsProject.Tests.AssemblyInfo.cs
-CodeWarsProject.Tests/obj/Debug/net10.0/CodeWarsProject.Tests.AssemblyInfoInputs.cache
+CodeWarsProject.Tests/bin
+CodeWarsProject.Tests/obj
