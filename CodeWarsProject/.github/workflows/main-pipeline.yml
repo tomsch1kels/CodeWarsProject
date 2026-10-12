@@ -1,0 +1,233 @@
+name: CI/CD & Portfolio Automation Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+# Garandeert dat er max 1 pipeline tegelijk draait op de main branch
+concurrency:
+  group: main-pipeline-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  # =======================================================
+  # STAP 1: .NET CI (Build, Formatting, Roslyn & Tests)
+  # =======================================================
+  build-and-test:
+    runs-on: ubuntu-26.04
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore Dependencies
+        run: dotnet restore
+
+      - name: Check Code Formatting (dotnet format)
+        run: dotnet format --verify-no-changes --verbosity diagnostic
+
+      - name: Build & Analyze Code Quality
+        run: dotnet build --no-restore -c Release
+
+      - name: Run Tests
+        run: dotnet test --no-build -c Release --verbosity normal
+
+      - name: Detect Changed .CS Files
+        id: changed-files
+        run: |
+          if [ "${{ github.event_name }}" == "push" ]; then
+            CHANGED_CS=$(git diff --name-only HEAD~1 HEAD | grep '\.cs$' || true)
+          else
+            CHANGED_CS=""
+          fi
+          
+          echo "has_changed_cs=false" >> $GITHUB_OUTPUT
+          
+          if [ -n "$CHANGED_CS" ]; then
+            echo "has_changed_cs=true" >> $GITHUB_OUTPUT
+            echo "changed_files<<EOF" >> $GITHUB_OUTPUT
+            echo "$CHANGED_CS" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          fi
+
+    outputs:
+      has_changed_cs: ${{ steps.changed-files.outputs.has_changed_cs }}
+      changed_files: ${{ steps.changed-files.outputs.changed_files }}
+
+  # =======================================================
+  # STAP 2: SonarQube Scan (Blokkerend)
+  # =======================================================
+  sonarqube-scan:
+    needs: build-and-test
+    runs-on: windows-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: write
+    
+    steps:
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: 'zulu'
+      
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '8.0.x'
+      
+      - name: Cache SonarQube Cloud packages
+        uses: actions/cache@v4
+        with:
+          path: ~\sonar\cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      
+      - name: Cache SonarQube Cloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v4
+        with:
+          path: ${{ runner.temp }}\scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+      
+      - name: Install SonarQube Cloud scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          New-Item -Path ${{ runner.temp }}\scanner -ItemType Directory
+          dotnet tool update dotnet-sonarscanner --tool-path ${{ runner.temp }}\scanner
+      
+      - name: Restore NuGet Packages
+        run: dotnet restore
+      
+      - name: SonarQube Begin
+        shell: powershell
+        run: |
+          ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"tomsch1kels_CodeWarsProject" /o:"tomsch1kels" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+      
+      - name: Build for SonarQube
+        run: dotnet build -c Release
+      
+      - name: SonarQube End
+        shell: powershell
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          ${{ runner.temp }}\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+
+  # =======================================================
+  # STAP 2b: SonarQube Quality Gate Check (BLOKKEREND!)
+  # =======================================================
+  sonarqube-quality-gate-check:
+    needs: sonarqube-scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for Analysis Processing
+        run: sleep 30
+
+      - name: Check Quality Gate Status
+        id: quality-gate
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          # Get quality gate status from SonarCloud API
+          RESPONSE=$(curl -s -w "\n%{http_code}" -X GET \
+            "https://sonarcloud.io/api/qualitygates/project_status?projectKey=tomsch1kels_CodeWarsProject" \
+            -H "Authorization: Bearer $SONAR_TOKEN")
+          
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          BODY=$(echo "$RESPONSE" | sed '$d')
+          
+          STATUS=$(echo "$BODY" | jq -r '.projectStatus.status')
+          
+          echo "status=$STATUS" >> $GITHUB_OUTPUT
+          echo "🔍 SonarQube Quality Gate Status: $STATUS"
+
+      - name: Fail if Quality Gate Failed
+        if: steps.quality-gate.outputs.status != 'OK'
+        run: |
+          echo "❌ SonarQube Quality Gate FAILED!"
+          echo "Your code did not meet quality standards."
+          echo "Check: https://sonarcloud.io/dashboard?id=tomsch1kels_CodeWarsProject"
+          exit 1
+
+  # =======================================================
+  # STAP 3: AI Complexity Analysis (Gemini) - ALLEEN bij .cs wijzigingen
+  # =======================================================
+  ai-complexity-analysis:
+    needs: [build-and-test, sonarqube-scan, sonarqube-quality-gate-check]
+    if: needs.build-and-test.outputs.has_changed_cs == 'true'
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: "python -m pip install --upgrade pip google-genai==0.5.0 --only-binary=:all:"
+
+      - name: Run Gemini Complexity Analysis
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          CHANGED_FILES: ${{ needs.build-and-test.outputs.changed_files }}
+        run: python .github/scripts/generate_complexity_reports.py
+
+      - name: Commit and Push Complexity Reports
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add "Complexity Analyses/"
+          git diff --quiet && git diff --staged --quiet || (git commit -m "docs: 🤖 add AI complexity analysis report [skip ci]" && git push)
+
+  # =======================================================
+  # STAP 4: Update README & Status Table
+  # =======================================================
+  update-readme:
+    needs: [build-and-test, sonarqube-scan, sonarqube-quality-gate-check, ai-complexity-analysis]
+    if: needs.build-and-test.outputs.has_changed_cs == 'true'
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository (met nieuwste CA rapporten)
+        uses: actions/checkout@v5
+        with:
+          ref: main
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.10'
+
+      - name: Generate README with CA Links
+        run: python .github/scripts/update_readme.py
+
+      - name: Commit and Push README Changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add README.md
+          git diff --quiet && git diff --staged --quiet || (git commit -m "docs: 🤖 update README status table [skip ci]" && git push)

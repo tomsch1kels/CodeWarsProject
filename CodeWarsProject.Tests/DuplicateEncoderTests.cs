@@ -1,0 +1,16 @@
+namespace CodeWarsProject.Tests;
+
+using CodeWarsProject.Solutions;
+
+[TestFixture]
+public sealed class DuplicateEncoderTests
+{
+    [Test]
+    public void BasicTests()
+    {
+        Assert.That(DuplicateEncoder.DuplicateEncode("din"), Is.EqualTo("((("));
+        Assert.That(DuplicateEncoder.DuplicateEncode("recede"), Is.EqualTo("()()()"));
+        Assert.That(DuplicateEncoder.DuplicateEncode("Success"), Is.EqualTo(")())())"), "should ignore case");
+        Assert.That(DuplicateEncoder.DuplicateEncode("(( @"), Is.EqualTo("))(("));
+    }
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CodeWarsProject</name>
+    </assembly>
+    <members>
+        <member name="F:CodeWarsProject.Solutions.PossibleValue.OutOfBounds">
+            <summary>
+            Out of bounds.
+            </summary>
+        </member>
+        <member name="F:CodeWarsProject.Solutions.PossibleValue.Nil">
+            <summary>
+            Zero, water.
+            </summary>
+        </member>
+        <member name="F:CodeWarsProject.Solutions.PossibleValue.One">
+            <summary>
+            One, a ship.
+            </summary>
+        </member>
+    </members>
+</doc>

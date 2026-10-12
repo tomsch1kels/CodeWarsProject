@@ -1,0 +1,35 @@
+// https://www.codewars.com/kata/52bc74d4ac05d0945d00054e
+// 5 kyu
+namespace CodeWarsProject.Solutions;
+
+using System.Globalization;
+
+public static class FirstNonRepeatingLetter
+{
+    public static string Solve(string s)
+    {
+        ArgumentNullException.ThrowIfNull(s);
+
+        for (int i = 0; i < s.Length; i++)
+        {
+            if (!LetterIsInRemainderOfString(s, i) && !LetterIsInBeginningOfString(s, i))
+            {
+                return s[i].ToString();
+            }
+        }
+
+        return string.Empty;
+
+        static bool LetterIsInBeginningOfString(string s, int i)
+        => i != 0 && (CharIsInBeginningOfString(s, i, s.ToLower(System.Globalization.CultureInfo.CurrentCulture)[i]) || CharIsInBeginningOfString(s, i, s.ToUpper(CultureInfo.CurrentCulture)[i]));
+
+        static bool LetterIsInRemainderOfString(string s, int i)
+        => CharIsInRemainderOfString(s, i, s.ToLower(System.Globalization.CultureInfo.CurrentCulture)[i]) || CharIsInRemainderOfString(s, i, s.ToUpper(CultureInfo.CurrentCulture)[i]);
+
+        static bool CharIsInBeginningOfString(string s, int i, char c)
+        => s[..i].Contains(c, StringComparison.CurrentCulture);
+
+        static bool CharIsInRemainderOfString(string s, int i, char c)
+        => s[(i + 1)..].Contains(c, StringComparison.CurrentCulture);
+    }
+}
