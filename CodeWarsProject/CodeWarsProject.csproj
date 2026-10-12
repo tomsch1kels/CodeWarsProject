@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
+    <SonarQubeTestProject>false</SonarQubeTestProject>
+
     <!-- Behandel analyzer waarschuwingen optioneel als fouten tijdens CI -->
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 
