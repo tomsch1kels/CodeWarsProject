@@ -123,7 +123,7 @@ jobs:
             /o:"tomsch1kels" `
             /d:sonar.token="${{ secrets.SONAR_TOKEN }}" `
             /d:sonar.host.url="https://sonarcloud.io" `
-            /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
+            /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml"
       
       - name: Build Solution
         run: dotnet build -c Release --no-restore
@@ -132,6 +132,10 @@ jobs:
         run: |
           dotnet test -c Release --no-build --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
       
+      - name: Find Coverage Files
+        shell: pwsh
+        run: Get-ChildItem -Recurse -Filter "coverage.opencover.xml"
+
       - name: SonarQube End
         shell: powershell
         env:
