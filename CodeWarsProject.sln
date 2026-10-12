@@ -5,8 +5,6 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeWarsProject", "CodeWarsProject\CodeWarsProject.csproj", "{0BC0832B-6B5F-4224-9027-F01FF61211D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kruskal", "..\Kruskal\Kruskal\Kruskal.csproj", "{97B5B582-311D-47E4-B9B9-DDE464451465}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeWarsProject.Tests", "CodeWarsProject.Tests\CodeWarsProject.Tests.csproj", "{4A04D845-270B-43CB-8F65-737911C3029A}"
 EndProject
 Global
