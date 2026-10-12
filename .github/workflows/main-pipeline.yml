@@ -37,8 +37,8 @@ jobs:
       - name: Build & Analyze Code Quality
         run: dotnet build --no-restore -c Release
 
-      - name: Run Tests
-        run: dotnet test --no-build -c Release --verbosity normal
+      - name: Run Tests with Coverage
+        run: dotnet test --no-build -c Release --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
       - name: Detect Changed .CS Files
         id: changed-files
@@ -118,7 +118,7 @@ jobs:
       - name: SonarQube Begin
         shell: powershell
         run: |
-          ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"tomsch1kels_CodeWarsProject" /o:"tomsch1kels" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"tomsch1kels_CodeWarsProject" /o:"tomsch1kels" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
       
       - name: Build for SonarQube
         run: dotnet build -c Release
@@ -145,7 +145,6 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          # Get quality gate status from SonarCloud API
           RESPONSE=$(curl -s -w "\n%{http_code}" -X GET \
             "https://sonarcloud.io/api/qualitygates/project_status?projectKey=tomsch1kels_CodeWarsProject" \
             -H "Authorization: Bearer $SONAR_TOKEN")
