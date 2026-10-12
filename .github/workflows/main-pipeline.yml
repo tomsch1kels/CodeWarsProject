@@ -124,7 +124,8 @@ jobs:
             /d:sonar.token="${{ secrets.SONAR_TOKEN }}" `
             /d:sonar.host.url="https://sonarcloud.io" `
             /d:sonar.dotnet.excludeTestProjects=true `
-            /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml"
+            /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" `
+            /d:sonar.exclusions=".github/scripts/**/*"
       
       - name: Build Solution
         run: dotnet build -c Release --no-restore
