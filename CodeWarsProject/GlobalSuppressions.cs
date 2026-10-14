@@ -10,3 +10,4 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1602:Enumeration items should be documented", Justification = "Too Muh ork", Scope = "module")]
 [assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Static extension class created", Scope = "module")]
 [assembly: SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "Doesnt work for tests", Scope = "module")]
+[assembly: SuppressMessage("Design", "CA1002:Do not expose generic lists", Justification = "Only for external APIs", Scope = "module")]
