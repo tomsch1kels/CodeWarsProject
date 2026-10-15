@@ -7,7 +7,7 @@ public static class Kata
     public static int CountPatternsFrom(char firstDot, int length)
     => new UnlockSolver(Map.CreateMap()).Solve(GetIntFromLetter(firstDot), length);
 
-    private static int GetIntFromLetter(char letter)
+    public static int GetIntFromLetter(char letter)
     => letter switch
     {
         'A' => 1,

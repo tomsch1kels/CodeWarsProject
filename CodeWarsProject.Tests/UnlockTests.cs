@@ -98,4 +98,14 @@ public sealed class UnlockTests
         map,
         Is.Not.Null);
     }
+
+    [Test]
+    public void TestCharFromLetter()
+    {
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(Kata.GetIntFromLetter('A'), Is.EqualTo(1));
+            Assert.That(Kata.GetIntFromLetter('I'), Is.EqualTo(9));
+        }
+    }
 }
