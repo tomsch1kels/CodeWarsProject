@@ -10,8 +10,8 @@ public sealed class UnlockTests
     public void TestUnlockNode()
     {
         UnlockNode node = new([], []);
-        
-        UnlockNode n2 = new([1],[]);
+
+        UnlockNode n2 = new([1], []);
         using (Assert.EnterMultipleScope())
         {
             Assert.That(n2.GetDirectlyReachableNodes([]), Is.EqualTo([1]));
@@ -20,11 +20,11 @@ public sealed class UnlockTests
             Assert.That(n2.GetDirectlyReachableNodes([]), Is.EqualTo([1]));
         }
     }
-    
+
     [Test]
     public void TestUnlockNode_IndirectlyReachableNodes()
     {
-        UnlockNode n3 = new([], [(3,2)]);
+        UnlockNode n3 = new([], [(3, 2)]);
         using (Assert.EnterMultipleScope())
         {
             Assert.That(n3.GetDirectlyReachableNodes([]), Is.EqualTo(new Collection<int>()));
@@ -48,7 +48,7 @@ public sealed class UnlockTests
 
             Assert.That(map.GetReachableNodes(1, []), Is.EqualTo([2]));
             Assert.That(map.GetReachableNodes(1, [2]), Is.EqualTo([3]));
-            Assert.That(map.GetReachableNodes(2, [2]), Is.EqualTo([1,3]));
+            Assert.That(map.GetReachableNodes(2, [2]), Is.EqualTo([1, 3]));
             Assert.That(map.GetReachableNodes(3, [2]), Is.EqualTo([1]));
         }
     }
@@ -63,11 +63,11 @@ public sealed class UnlockTests
     => Assert.That(
         new UnlockSolver(Map.CreateSimpleMap()).Solve(startingNode, numberOfNodesToVisit),
         Is.EqualTo(expectedNumberOfRoutes));
-    
+
     [Test]
 
-        // 1 2 3
-        // 4 5
+    // 1 2 3
+    // 4 5
     [TestCase(2, 2, 4)]
     [TestCase(1, 3, 9)]
     [TestCase(1, 6, 0)]
