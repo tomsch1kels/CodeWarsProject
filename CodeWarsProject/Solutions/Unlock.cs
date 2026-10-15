@@ -72,17 +72,20 @@ public class Map(Dictionary<int, UnlockNode> nodes)
         return new Map(nodesDict);
     }
 
-    public static Map CreateSimple9Map()
+    public static Map CreateMap()
     {
-        UnlockNode n1 = new([2, 4, 5, 6, 8], [(3, 2), (7, 1)]);
-        UnlockNode n2 = new([1, 3, 4, 5, 6, 7], []);
-        UnlockNode n3 = new([2, 4, 5, 6, 8], [(1, 2), (9, 3)]);
-        UnlockNode n4 = new([1, 2, 3, 5, 7, 8], []);
-        UnlockNode n5 = new([1, 2, 3, 4, 6, 9], []);
-        UnlockNode n6 = new([1, 2, 4, 5, 7, 8, 9], []);
-        UnlockNode n7 = new([2, 3, 4, 6, 8], [(1, 2)]);
-        UnlockNode n8 = new([1, 3, 4, 6, 7, 9], []);
-        UnlockNode n9 = new([3, 5, 6, 8], [(7, 2)]);
+        // 1 2 3
+        // 4 5 6
+        // 7 8 9
+        UnlockNode n1 = new([2, 4, 5, 6, 8], [(3, 2), (7, 4), (9, 5)]);
+        UnlockNode n2 = new([1, 3, 4, 5, 6, 7, 9], [(8, 5)]);
+        UnlockNode n3 = new([2, 4, 5, 6, 8], [(1, 2), (7, 5), (9, 6)]);
+        UnlockNode n4 = new([1, 2, 3, 5, 7, 8, 9], [(6, 5)]);
+        UnlockNode n5 = new([1, 2, 3, 4, 6, 7, 8, 9], []);
+        UnlockNode n6 = new([1, 2, 3, 5, 7, 8, 9], [(4, 5)]);
+        UnlockNode n7 = new([2, 4, 5, 6, 8], [(1, 4), (3, 5), (9, 8)]);
+        UnlockNode n8 = new([1, 3, 4, 5, 6, 7, 9], [(2, 5)]);
+        UnlockNode n9 = new([2, 4, 5, 6, 8], [(1, 5), (3, 6), (7, 8)]);
 
         Dictionary<int, UnlockNode> nodesDict = new()
         {
@@ -96,10 +99,9 @@ public class Map(Dictionary<int, UnlockNode> nodes)
             { 8, n8 },
             { 9, n9 },
         };
+
         return new Map(nodesDict);
     }
-
-    public static Map CreateMap() => throw new NotImplementedException();
 
     public UnlockNode GetNode(int nodeNumber) => this.nodes[nodeNumber];
 
