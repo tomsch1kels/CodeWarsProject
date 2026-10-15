@@ -3,6 +3,8 @@ name: CI/CD & Portfolio Automation Pipeline
 on:
   push:
     branches: [ "main" ]
+  pull_request:
+    branches: [main, master]
   workflow_dispatch:
 
 # Garandeert dat er max 1 pipeline tegelijk draait op de main branch
@@ -185,7 +187,7 @@ jobs:
   # =======================================================
   ai-complexity-analysis:
     needs: [build-and-test, sonarqube-scan, sonarqube-quality-gate-check]
-    if: needs.build-and-test.outputs.has_changed_cs == 'true'
+    if: github.event_name == 'push' && needs.build-and-test.outputs.has_changed_cs == 'true'
     runs-on: ubuntu-26.04
     permissions:
       contents: write
@@ -220,7 +222,7 @@ jobs:
   # =======================================================
   update-readme:
     needs: [build-and-test, sonarqube-scan, sonarqube-quality-gate-check, ai-complexity-analysis]
-    if: needs.build-and-test.outputs.has_changed_cs == 'true'
+    if: github.event_name == 'push' && needs.build-and-test.outputs.has_changed_cs == 'true'
     runs-on: ubuntu-26.04
     permissions:
       contents: write
