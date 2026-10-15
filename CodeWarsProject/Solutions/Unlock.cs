@@ -5,11 +5,22 @@ namespace CodeWarsProject.Solutions;
 public static class Kata
 {
     public static int CountPatternsFrom(char firstDot, int length)
-    => new UnlockSolver(Map.CreateMap()).Solve(firstDot, length);
-}
+    => new UnlockSolver(Map.CreateMap()).Solve(GetIntFromLetter(firstDot), length);
 
-public static class Unlock
-{
+    private static int GetIntFromLetter(char letter)
+    => letter switch
+    {
+        'A'=>1,
+        'B'=>2,
+        'C'=>3,
+        'D'=>4,
+        'E'=>5,
+        'F'=>6,
+        'G'=>7,
+        'H'=>8,
+        'I'=>9,
+        _=>throw new ArgumentException($"Onbekende letter: {letter}"),
+    };
 }
 
 public class UnlockNode(List<int> directlyReachableNodes,
@@ -19,19 +30,16 @@ public class UnlockNode(List<int> directlyReachableNodes,
     private readonly List<(int ReachableNode, int BlockerNode)> indirectlyReachableNodes = indirectlyReachableNodes;
 
     public List<int> GetDirectlyReachableNodes(List<int> visited)
-    => this.directlyReachableNodes.Where(i => !visited.Contains(i)).ToList();
+    => [.. this.directlyReachableNodes.Where(i => !visited.Contains(i))];
 
     public List<int> GetIndirectlyReachableNodes(List<int> visited)
-    {
-        return this.indirectlyReachableNodes
+    => [.. this.indirectlyReachableNodes
             .Where(t => visited.Contains(t.BlockerNode))
             .Select(t => t.ReachableNode)
-            .Where(i => !visited.Contains(i))
-            .ToList();
-    }
+            .Where(i => !visited.Contains(i))];
 
     public List<int> GetReachableNodes(List<int> visited)
-    => this.GetDirectlyReachableNodes(visited).Concat(this.GetIndirectlyReachableNodes(visited)).ToList();
+    => [.. this.GetDirectlyReachableNodes(visited), .. this.GetIndirectlyReachableNodes(visited)];
 }
 
 public class Map(Dictionary<int, UnlockNode> nodes)
@@ -127,29 +135,20 @@ public class UnlockSolver(Map map)
         visitedNodes.Add(currentNode);
         numberOfNodesStillToVisit--;
 
-        // DebugPrint(visitedNodes);
-
         // Stopcondition
         if (numberOfNodesStillToVisit == 0 && visitedNodes.Count == numberOfNodesToVisit)
         {
-            // string output = " " + visitedNodes[0] + visitedNodes[1] + visitedNodes[2] + visitedNodes[3] + visitedNodes[4];
-            // Console.Out.WriteLine(output);
-            // TestContext.Out.WriteLine(output);
-            // TestContext.Progress.WriteLine(output);
-            // System.Diagnostics.Debug.WriteLine(output);
             visitedNodes.Remove(currentNode);
             return 1;
         }
 
         int result = 0;
-        List<int> reachableNodes = this.map.GetReachableNodes(currentNode, visitedNodes);
-        foreach (int node in reachableNodes)
+        foreach (int node in this.map.GetReachableNodes(currentNode, visitedNodes))
         {
             result += this.SolveRecursive(node, numberOfNodesStillToVisit, visitedNodes, numberOfNodesToVisit);
         }
 
         visitedNodes.Remove(currentNode);
-        numberOfNodesStillToVisit++;
 
         return result;
     }
@@ -161,30 +160,6 @@ public class UnlockSolver(Map map)
             return 0;
         }
 
-        return this.SolveRecursive(startingNode, numberOfNodesToVisit, new List<int>(), numberOfNodesToVisit);
+        return this.SolveRecursive(startingNode, numberOfNodesToVisit, [], numberOfNodesToVisit);
     }
-
-    // private static void DebugPrint(List<int> visitedNodes)
-    // {
-    //     string output = string.Empty;
-    //     char letter = 'A';
-    //     char[] letterPerNode = ['x', 'x', 'x', 'x', 'x', 'x'];
-    //     for (int i = 0; i < visitedNodes.Count; i++)
-    //     {
-    //         int nodeNumber = visitedNodes[i];
-    //         letterPerNode[nodeNumber] = letter;
-    //         letter++;
-    //     }
-    //     char n1 = letterPerNode[1] == 'x' ? '1' : letterPerNode[1];
-    //     char n2 = letterPerNode[2] == 'x' ? '2' : letterPerNode[2];
-    //     char n3 = letterPerNode[3] == 'x' ? '3' : letterPerNode[3];
-    //     char n4 = letterPerNode[4] == 'x' ? '4' : letterPerNode[4];
-    //     char n5 = letterPerNode[5] == 'x' ? '5' : letterPerNode[5];
-    //     output = n1 + " " + n2 + " " + n3 + System.Environment.NewLine + n4 + " " + n5;
-    //     // Console.Out.WriteLine(DateTime.Now.Ticks);
-    //     // Console.Out.WriteLine(output);
-    //     TestContext.Out.WriteLine(output);
-    //     TestContext.Progress.WriteLine(output);
-    //     System.Diagnostics.Debug.WriteLine(output);
-    // }
 }
