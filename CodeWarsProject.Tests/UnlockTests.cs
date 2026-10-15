@@ -89,4 +89,13 @@ public sealed class UnlockTests
     => Assert.That(
         new UnlockSolver(Map.CreateSimple5Map()).Solve(startingNode, numberOfNodesToVisit),
         Is.EqualTo(expectedNumberOfRoutes));
+
+    [Test]
+    public void TestCompleteMap()
+    {
+        Map map = Map.CreateMap();
+        Assert.That(
+        map,
+        Is.Not.Null);
+    }
 }
