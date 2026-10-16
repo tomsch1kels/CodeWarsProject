@@ -5,7 +5,8 @@ import time
 from google import genai
 
 # Initialiseer de Gemini client met de API key uit de environment
-client = genai.Client() if os.environ.get("GEMINI_API_KEY") else None
+api_key = os.environ.get("GEMINI_API_KEY")
+client = genai.Client(api_key=api_key) if api_key else None
 
 SOLUTIONS_DIR = "./Solutions"
 ANALYSIS_DIR = "./Complexity Analyses"
