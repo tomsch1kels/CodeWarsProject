@@ -6,8 +6,8 @@ import json
 github_repo = os.environ.get("GITHUB_REPOSITORY", "tomsch1kels/CodeWarsProject")
 CODEWARS_USERNAME = "flhjwer672423"
 
-SOLUTIONS_DIR = "./Solutions"
-TESTS_DIR = "./Tests"
+SOLUTIONS_DIR = "./CodeWarsProject/Solutions"
+TESTS_DIR = "./CodeWarsProject.Tests"
 ANALYSIS_DIR = "./Complexity Analyses"
 
 def get_codewars_profile(username):

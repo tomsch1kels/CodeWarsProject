@@ -1,6 +1,6 @@
 // https://www.codewars.com/kata/585894545a8a07255e0002f1
 // 3 kyu
-// workflow trigger 14u00
+// workflow trigger 14u10
 namespace CodeWarsProject.Solutions;
 
 public static class Kata

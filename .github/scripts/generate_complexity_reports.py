@@ -8,7 +8,7 @@ from google import genai
 api_key = os.environ.get("GEMINI_API_KEY")
 client = genai.Client(api_key=api_key) if api_key else None
 
-SOLUTIONS_DIR = "./Solutions"
+SOLUTIONS_DIR = "./CodeWarsProject/Solutions"
 ANALYSIS_DIR = "./Complexity Analyses"
 MODEL_NAME = "gemini-3.5-flash-lite"
 MAX_RETRIES = 3
