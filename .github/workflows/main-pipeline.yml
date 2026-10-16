@@ -208,7 +208,9 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           CHANGED_FILES: ${{ needs.build-and-test.outputs.changed_files }}
-        run: python .github/scripts/generate_complexity_reports.py
+        run: |
+          echo "Lengte van GEMINI_API_KEY is: ${#GEMINI_API_KEY}"
+          python .github/scripts/generate_complexity_reports.py
 
       - name: Commit and Push Complexity Reports
         run: |
